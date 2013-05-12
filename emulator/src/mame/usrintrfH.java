@@ -16,8 +16,8 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
- *
- * ported to v0.28
+ * unchanged for 0.29
+ * ported to v0.27
  *
  *
  *

@@ -1,0 +1,477 @@
+
+
+v0.29todo
+
+cheat.dat      
+CHEAT.DOC      
+makefile
+mamelist.txt   
+mov.bat        
+readme.txt     
+whatsnew.txt   
+             
+
+src
+
+0license.txt   
+cheat.c        
+cheat.h
+common.c       
+common.h       
+cpuintrf.c     
+cpuintrf.h     
+driver.c
+driver.h       	| DONE  |
+inptport.c    	| DONE  |
+inptport.h    	| DONE  |
+mame.c         
+mame.h         
+memory.c       
+memory.h       
+osdepend.h          
+types.h        
+usrintrf.c     
+usrintrf.h         --same as mame v0.28
+
+
+src\drivers
+
+1942.c       
+1943.c       
+3stooges.c   
+amidar.c
+arabian.c    
+asteroid.c   
+bagman.c     
+bankp.c      
+berzerk.c     
+blktiger.c    
+blueprnt.c   
+bombjack.c   
+bosco.c      
+btime.c      
+bublbobl.c   
+bwidow.c
+bzone.c      
+capbowl.c    
+carnival.c   
+ccastles.c   
+cclimber.c   
+centiped.c
+champbas.c   
+ckongs.c     
+cloak.c      
+commando.c   
+congo.c      
+digdug.c
+dkong.c      	| DONE  |   
+docastle.c   
+dowild.c     
+eggs.c       
+espial.c     
+exedexes.c
+frogger.c    
+galaga.c     
+galaxian.c   
+gberet.c     
+gng.c        
+gunsmoke.c    
+gyruss.c     
+invaders.c   
+jrcrypt.c    
+jrpacman.c   
+jumpbug.c    
+kangaroo.c
+krull.c      
+kungfum.c    
+ladybug.c    
+locomotn.c   
+lwings.c     
+mappy.c
+mario.c      
+mcr1.c       
+mcr2.c       
+mcr3.c       
+milliped.c   
+missile.c
+mooncrst.c   
+moonqsr.c    
+mpatrol.c    
+mplanets.c   
+mrdo.c       
+mtrap.c     	DONE
+mystston.c   
+naughtyb.c   
+nibbler.c    
+omegrace.c   
+pacman.c     
+panic.c
+pengo.c      
+pepper2.c       DONE
+phoenix.c    
+pooyan.c     
+popeye.c     
+punchout.c
+qbert.c      
+qbertqub.c   
+qix.c        
+rallyx.c     
+rastan.c     
+reactor.c
+sbasketb.c   
+scobra.c     
+scramble.c   
+sega.c       
+seicross.c   
+sidearms.c      
+silkworm.c      
+sonson.c        
+spacefb.c    
+starforc.c   
+starwars.c   
+superpac.c
+taito.c      
+tempest.c    
+timeplt.c       
+tp84.c       
+tutankhm.c   
+vanguard.c
+venture.c       DONE
+vulgus.c     
+warlord.c    
+warpwarp.c   
+williams.c   
+wow.c
+xevious.c    
+yard.c       
+yiear.c      
+zaxxon.c     
+zookeep.c    
+
+
+src\I86
+
+ea.h         
+host.h       
+I86.c        
+I86.h
+I86intrf.h   
+instr.h      
+modrm.h      
+              
+src\M6502
+
+Codes.h    
+Dasm.c     
+Debug.c    
+M6502.c    
+M6502.h
+Tables.h   
+               
+src\M68000
+
+cpudefs.h    
+cpufunc.c    
+cputbl.h     
+M68000.H
+mc68kmem.c   
+opcode0.c    
+opcode1.c    
+opcode2.c    
+opcode3.c    
+opcode4.c
+opcode5.c    
+opcode6.c    
+opcode7.c    
+opcode8.c    
+opcode9.c    
+opcodeb.c
+opcodec.c    
+opcoded.c    
+opcodee.c    
+readcpu.h    
+
+
+src\M6808
+
+m6808.c   
+m6808.h   
+            
+
+src\M6809
+
+6809ops.c   
+m6809.c     
+m6809.h     
+             
+src\machine
+
+1942.c         --same as mame v0.28
+1943.c         
+arabian.c      --same as mame v0.28
+asteroid.c
+atari_vg.c   
+atari_vg.h   
+bagman.c       --same as mame v0.28   
+berzerk.c      
+blktiger.c     
+bosco.c
+bublbobl.c   
+bwidow.c     
+bzone.c      
+capbowl.c    
+carnival.c    --same as mame v0.28
+ccastles.c
+centiped.c    --same as mame v0.28
+cloak.c      
+digdug.c     
+docastle.c   
+espial.c     
+galaga.c
+gberet.c     --same as mame v0.28
+gng.c        
+gottlieb.c   
+gunsmoke.c   
+invaders.c   --same as mame v0.28
+jrpacman.c
+kangaroo.c   --same as mame v0.28
+lwings.c     
+mappy.c      
+mathbox.c    --same as mame v0.28
+mathbox.h    --same as mame v0.28
+mcr.c        
+milliped.c   
+missile.c    
+mpatrol.c    --same as mame v0.28
+mrdo.c       --same as mame v0.28
+mystston.c   --same as mame v0.28
+omegrace.c
+pacman.c     --same as mame v0.28
+panic.c      --same as mame v0.28
+phoenix.c    --same as mame v0.28
+qix.c        
+scramble.c   --same as mame v0.28
+sega.c
+seicross.c   --same as mame v0.28
+SIDEARMS.C   
+silkworm.c   
+spacefb.c    --same as mame v0.28
+starforc.c   
+starwars.c
+starwars.h   
+superpac.c   
+swmathbx.c   
+swmathbx.h   
+taito.c      
+tempest.c
+tp84.c       
+tutankhm.c   
+vanguard.c   
+vulgus.c     --same as mame v0.28
+warlord.c    
+warpwarp.c   --same as mame v0.28
+williams.c   
+wow.c        
+xevious.c    
+yiear.c      
+z80fmly.c    
+z80fmly.h
+zookeep.c    
+
+
+src\msdos
+
+msdos.c     
+twkuser.c   
+twkuser.h   
+ym2203.h
+            
+
+src\sndhrdw
+
+8910intf.c   
+8910intf.h   
+adpcm.c      
+adpcm.h
+amidar.c     
+arabian.c    --same as mame v0.28
+asteroid.c   
+bagman.c     --same as mame v0.28
+bankp.c      
+blueprnt.c  --same as mame v0.28
+bombjack.c   
+bosco.c      
+btime.c      
+bublbobl.c   
+bzone.c      
+capbowl.c
+capcom.c     
+carnival.c    --same as mame v0.28
+cclimber.c   
+champbas.c   
+congo.c      
+dkong.c        --same as mame v0.28
+docastle.c   --same as mame v0.28
+eggs.c       
+frogger.c    
+gberet.c     --same as mame v0.28
+generic.c    	|DONE  |
+generic.h    	|DONE  |
+gottlieb.c   
+gyruss.c     --same as mame v0.28
+invaders.c   --same as mame v0.28
+jumpbug.c    --same as mame v0.28
+kangaroo.c   --same as mame v0.28
+ladybug.c    --same as mame v0.28
+mappy.c      --same as mame v0.28
+mario.c      
+mcr.c        
+mooncrst.c   
+mpatrol.c    
+omegrace.c
+pengo.c      --same as mame v0.28
+phoenix.c    --same as mame v0.28
+pleiads.c    --same as mame v0.28
+pokey.c      
+pokey.h      
+pokey.txt
+pokyintf.c   
+pokyintf.h   
+pooyan.c     
+popeye.c    --same as mame v0.28 
+psg.c        
+psg.h
+psg.txt      
+rastan.c     
+redbaron.c   
+scramble.c   
+sega.c       
+seicross.c  --same as mame v0.28
+sn76496.c    
+sn76496.h    
+starforc.c   
+starwars.c   
+starwars.h   
+taito.c
+timeplt.c    
+tp84.c       
+tutankhm.c   
+vanguard.c   
+votrax.c     
+vulgus.c   --same as mame v0.28
+williams.c   
+wow.c        
+              
+
+src\vidhrdw
+
+1942.c       
+1943.c       
+amidar.c     
+arabian.c    --same as mame v0.28
+avgdvg.c     
+avgdvg.h     
+bagman.c     
+bankp.c      
+berzerk.c    
+blktiger.c   
+blueprnt.c   --same as mame v0.28 
+bombjack.c   
+bosco.c      --same as mame v0.28
+btime.c      
+bublbobl.c   
+capbowl.c
+carnival.c   
+ccastles.c   
+cclimber.c   
+centiped.c   
+champbas.c   
+cloak.c
+commando.c   --same as mame v0.28
+congo.c      
+digdug.c     --same as mame v0.28
+dkong.c         | DONE  |  
+docastle.c   
+eggs.c
+espial.c     
+exedexes.c   
+exidy.c         
+frogger.c    --same as mame v0.28 
+galaga.c     
+galaxian.c
+gberet.c     --same as mame v0.28  
+generic.c      | DONE   |--same as mame v0.28  
+generic.h      | DONE   |--same as mame v0.28 
+gng.c        
+gottlieb.c   
+gunsmoke.c   
+gyruss.c     
+invaders.c   --same as mame v0.28
+jrpacman.c   --same as mame v0.28
+jumpbug.c    --same as mame v0.28 
+kangaroo.c   --same as mame v0.28
+kungfum.c    --same as mame v0.28
+ladybug.c     --same as mame v0.28
+locomotn.c    --same as mame v0.28
+lwings.c     
+mappy.c      
+mario.c      
+mcr1.c
+mcr2.c       
+mcr3.c         
+milliped.c   --same as mame v0.28 
+missile.c    --same as mame v0.28
+mpatrol.c    
+mrdo.c       --same as mame v0.28
+mystston.c   
+naughtyb.c   
+nibbler.c    --same as mame v0.28 
+panic.c      
+pengo.c      --same as mame v0.28
+phoenix.c
+pooyan.c     
+popeye.c     
+punchout.c   
+qix.c        --same as mame v0.28  
+rallyx.c     
+rastan.c
+sbasketb.c   
+sega.c       
+seicross.c   
+sidearms.c   
+silkworm.c   
+sonson.c     --same as mame v0.28
+spacefb.c    
+starforc.c   --same as mame v0.28
+starwars.h   
+superpac.c   --same as mame v0.28
+taito.c      
+timeplt.c    
+tp84.c       
+tutankhm.c   
+vanguard.c   
+vulgus.c    --same as mame v0.28 
+warlord.c    
+warpwarp.c  --same as mame v0.28
+williams.c   
+wow.c        
+xevious.c    
+yard.c       
+yiear.c      
+zaxxon.c
+           
+
+src\Z80
+
+makefile     
+readme.txt   
+Z80.c        
+Z80.h
+Z80CDx86.h   
+Z80Codes.h   
+Z80DAA.h     
+Z80Dasm.c    
+Z80Dasm.h    
+Z80Debug.c
+Z80IO.h      
+

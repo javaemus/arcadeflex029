@@ -15,7 +15,6 @@ You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package arcadeflex;
 
 import java.awt.Image;
@@ -32,6 +31,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
+import static arcadeflex.osdepend.*;
 
 public class software_gfx extends java.awt.Frame implements Runnable, ImageProducer, KeyListener, MouseListener, MouseMotionListener
 {
@@ -55,6 +55,8 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
 	public software_gfx(String title)
 	{
 		super(title);
+                addMouseListener(this);
+                addMouseMotionListener(this);
 	}
 
 	public synchronized void blit()
@@ -219,31 +221,33 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
     }
 
     public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void mouseDragged(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void mouseMoved(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        mouse_x=e.getX();
+        mouse_y=e.getY();
+      
     }
 
 }

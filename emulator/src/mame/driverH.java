@@ -15,7 +15,10 @@ You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
+
 /*
+ * ported to v0.29
  * ported to v0.28
  * ported to v0.27
  *
@@ -26,7 +29,7 @@ package mame;
 import static mame.osdependH.*;
 import static mame.commonH.*;
 import static arcadeflex.libc.*;
-import static mame.inptport.*;
+import static mame.memoryH.*;
 /**
  *
  * @author shadow
@@ -47,100 +50,12 @@ public class driverH
 	public static abstract interface ShStopPtr { public abstract void handler(); }
 	public static abstract interface ShUpdatePtr { public abstract void handler(); }
 	public static abstract interface DecodePtr {  public abstract void handler();}
-	public static abstract interface HiscoreLoadPtr { public abstract int handler(String gamename); }
-	public static abstract interface HiscoreSavePtr { public abstract void handler(String gamename); }
+	public static abstract interface HiscoreLoadPtr { public abstract int handler(); }
+	public static abstract interface HiscoreSavePtr { public abstract void handler(); }
         public static abstract interface ConversionPtr{ public abstract int handler(int data);}
         public static abstract interface RomLoadPtr { public abstract void handler();}
         public static abstract interface InputPortPtr { public abstract void handler();}
 
-        /***************************************************************************
-	Note that the memory hooks are not passed the actual memory address where
-	the operation takes place, but the offset from the beginning of the block
-	they are assigned to. This makes handling of mirror addresses easier, and
-	makes the handlers a bit more "object oriented". If you handler needs to
-	read/write the main memory area, provide a "base" pointer: it will be
-	initialized by the main engine to point to the beginning of the memory block
-	assigned to the handler. You may also provided a pointer to "size": it
-        will be set to the length of the memory area processed by the handler.
-
-	***************************************************************************/
-        public static class MemoryReadAddress
-	{
-                public MemoryReadAddress(int s, int e, int h, CharPtr b, int[] size){ this.start = s; this.end = e; this.handler = h; this.base = b; this.size = size; }
-                public MemoryReadAddress(int s, int e, ReadHandlerPtr rhp, CharPtr b, int[] size) { this.start = s; this.end = e; this.handler = 1; this._handler = rhp; this.base = b; this.size = size; }
-		public MemoryReadAddress(int s, int e, int h, CharPtr b) { start = s; end = e; handler = h; base = b; };
-		public MemoryReadAddress(int s, int e, int h) { this(s, e, h, null); };
-		public MemoryReadAddress(int s, int e, ReadHandlerPtr rhp, CharPtr b) { start = s; end = e; handler = 1; _handler = rhp; base = b; };
-		public MemoryReadAddress(int s, int e, ReadHandlerPtr rhp) { this(s, e, rhp, null); };
-		public MemoryReadAddress(int s) { this(s, -1, null); };
-		public int start,end;
-		public int handler;
-		public ReadHandlerPtr _handler;	/* see special values below */
-		public CharPtr base;
-                public int[] size;
-	};
-
-	public static final int MRA_NOP = 0;	/* don't care, return 0 */
-	public static final int MRA_RAM = -1;	/* plain RAM location (return its contents) */
-	public static final int MRA_ROM = -2;	/* plain ROM location (return its contents) */
-
-
-	public static class MemoryWriteAddress
-	{
-                public MemoryWriteAddress(int s, int e, int h, CharPtr b, int[] size){this.start = s; this.end = e; this.handler = h; this.base = b; this.size = size; }
-		public MemoryWriteAddress(int s, int e, WriteHandlerPtr whp, CharPtr b, int[] size) { this.start = s; this.end = e; this.handler = 1; this._handler = whp; this.base = b; this.size = size; }
-                public MemoryWriteAddress(int s, int e, int h, CharPtr b) { start = s; end = e; handler = h; base = b; };
-		public MemoryWriteAddress(int s, int e, int h) { this(s, e, h, null); };
-		public MemoryWriteAddress(int s, int e, WriteHandlerPtr whp, CharPtr b) { start = s; end = e; handler = 1; _handler = whp; base = b; };
-		public MemoryWriteAddress(int s, int e, WriteHandlerPtr whp) { this(s, e, whp, null); };
-		public MemoryWriteAddress(int s) { this(s, -1, null); };
-		public int start,end;
-		public int handler;
-		public WriteHandlerPtr _handler;	/* see special values below */
-		public CharPtr base;
-                public int[] size;
-	};
-
-	public static final int MWA_NOP = 0;	/* do nothing */
-	public static final int MWA_RAM = -1;	/* plain RAM location (store the value) */
-	public static final int MWA_ROM = -2;	/* plain ROM location (do nothing) */
-        /* RAM[] and ROM[] are usually the same, but they aren't if the CPU opcodes are */
-        /* encrypted. In such a case, opcodes are fetched from ROM[], and arguments from */
-        /* RAM[]. If the program dynamically creates code in RAM and executes it, it */
-        /* won't work unless writes to RAM affects both RAM[] and ROM[]. */
-         public static final int MWA_RAMROM = -3;
-
-         	/***************************************************************************
-
-	IN and OUT ports are handled like memory accesses, the hook template is the
-	same so you can interchange them. Of course there is no 'base' pointer for
-	IO ports.
-
-	***************************************************************************/
-	public static class IOReadPort
-	{
-		public IOReadPort(int s, int e, int h) { start = s; end = e; handler = h; };
-		public IOReadPort(int s, int e, ReadHandlerPtr rhp) {  start = s; end = e; handler = 1; _handler = rhp; };
-		public IOReadPort(int s) { this(s, -1, null); };
-		public int start,end;
-		public int handler;
-		public ReadHandlerPtr _handler;	/* see special values below */
-	};
-
-	public static final int IORP_NOP = 0;	/* don't care, return 0 */
-
-
-	public static class IOWritePort
-	{
-		public IOWritePort(int s, int e, int h) { start = s; end = e; handler = h; };
-		public IOWritePort(int s, int e, WriteHandlerPtr whp) {  start = s; end = e; handler = 1; _handler = whp; };
-		public IOWritePort(int s) { this(s, -1, null); };
-		public int start,end;
-		public int handler;
-		public WriteHandlerPtr _handler;	/* see special values below */
-	};
-
-	public static final int IOWP_NOP = 0;	/* do nothing */
 
 	/***************************************************************************
 
@@ -245,22 +160,24 @@ public class driverH
             public static final int IPT_DIAL=23;
             public static final int IPT_TRACKBALL_X=24;
             public static final int IPT_TRACKBALL_Y=25;
+            public static final int IPT_AD_STICK_X=26;
+            public static final int IPT_AD_STICK_Y=27;
             /* coin slots */
-            public static final int IPT_COIN1=26;
-            public static final int IPT_COIN2=27;
-            public static final int IPT_COIN3=28;
-            public static final int IPT_COIN4=29;
+            public static final int IPT_COIN1=28;
+            public static final int IPT_COIN2=29;
+            public static final int IPT_COIN3=30;
+            public static final int IPT_COIN4=31;
             /* start buttons */
-            public static final int IPT_START1=30;
-            public static final int IPT_START2=31;
-            public static final int IPT_START3=32;
-            public static final int IPT_START4=33;
-            public static final int IPT_SERVICE=34;
-            public static final int IPT_TILT=35;
-            public static final int IPT_DIPSWITCH_NAME=36;
-            public static final int IPT_DIPSWITCH_SETTING=37;
-            public static final int IPT_VBLANK=38;
-            public static final int IPT_UNKNOWN=39;
+            public static final int IPT_START1=32;
+            public static final int IPT_START2=33;
+            public static final int IPT_START3=34;
+            public static final int IPT_START4=35;
+            public static final int IPT_SERVICE=36;
+            public static final int IPT_TILT=37;
+            public static final int IPT_DIPSWITCH_NAME=38;
+            public static final int IPT_DIPSWITCH_SETTING=39;
+            public static final int IPT_VBLANK=40;
+            public static final int IPT_UNKNOWN=41;
             
             
 
@@ -303,13 +220,25 @@ public class driverH
             public static final int IPF_REVERSE=    0x00400000;	/* By default, analog inputs like IPT_TRACKBALL increase */
                                                                                     /* when going right/up. This flag inverts them. */
             
+            public static final int IPF_CENTER     =0x00800000;	/* always preload in->default, autocentering the STICK/TRACKBALL */
+
+/* LBO - These 4 byte values are packed into the arg field and are typically used with analog ports */
+/* Since the sensivity is only one byte, we want to have 100% = 2^16, */
+/* 50% = 2^8, 200% = 2^32 and so on. BW	*/
+        public static  int IPF_SENSITIVITY(int percent)	{ return (((percent*16)/100)&0xff);}
+        public static  int IPF_CLIP(int clip)		{ return	((clip&0xff) << 8  );}
+        public static  int IPF_MIN(int min)		{ return	((min&0xff)  << 16 );}
+        public static  int IPF_MAX(int max)		{ return	((max&0xff)  << 24 );}
+            
            public static final String IP_NAME_DEFAULT="-1";
 
             public static final int IP_KEY_DEFAULT= -1;
             public static final int IP_KEY_NONE= -2;
+            public static final int IP_KEY_PREVIOUS= -3;	/* use the same key as the previous input bit */
 
             public static final int IP_JOY_DEFAULT= -1;
             public static final int IP_JOY_NONE= -2;
+            public static final int IP_JOY_PREVIOUS= -3;	/* use the same joy as the previous input bit */
             
             
             
@@ -348,10 +277,11 @@ public class driverH
                 temp_inputport[inputport_curpos]= new NewInputPort(mask, default_value, type, name, key, joy, arg);
                 inputport_curpos++;
             }
-            public static void PORT_ANALOG(int mask,int default_value,int type,int arg)
+            /* LBO - analog input */
+            public static void PORT_ANALOG(int mask,int default_value,int type,int sensitivity,int clip,int min,int max)
             {
-                //mask, default, type, IP_NAME_DEFAULT, 0, 0, sensitivity
-                temp_inputport[inputport_curpos]= new NewInputPort(mask, default_value, type, IP_NAME_DEFAULT, 0, 0, arg);
+                //mask, default, type, IP_NAME_DEFAULT, 0, 0, IPF_SENSITIVITY(sensitivity) | IPF_CLIP(clip) | IPF_MIN(min) | IPF_MAX(max)
+                temp_inputport[inputport_curpos]= new NewInputPort(mask, default_value, type, IP_NAME_DEFAULT, 0, 0, IPF_SENSITIVITY(sensitivity) | IPF_CLIP(clip) | IPF_MIN(min) | IPF_MAX(max));
                 inputport_curpos++;
             }
             public static void INPUT_PORTS_END()
@@ -476,8 +406,10 @@ public class driverH
         public static final int CPU_Z80 = 1;
         public static final int CPU_M6502 = 2;
         public static final int CPU_I86 = 3;
-        public static final int CPU_M6809=4;
-        public static final int CPU_M68000=6;
+        public static final int CPU_M6803=  4;
+        public static final int CPU_M6808=  CPU_M6803;
+        public static final int CPU_M6809=  5;
+        public static final int CPU_M68000= 6;
 
 	/* set this if the CPU is used as a slave for audio. It will not be emulated if */
 	/* play_sound == 0, therefore speeding up a lot the emulation. */
@@ -486,7 +418,8 @@ public class driverH
 	public static final int CPU_FLAGS_MASK = 0xff00;
 
 
-	static final int MAX_CPU = 5;
+	static final int MAX_CPU = 4;	/* MAX_CPU is the maximum number of CPUs which cpuintrf.c */
+					/* can run at the same time. Currently, 4 is enough. */
 
         /* ASG 081897 -- added these flags for the video hardware */
 
@@ -500,18 +433,28 @@ public class driverH
         /* bit 2 of the video attributes indicates whether or not the driver modifies the palette */
         public static final int VIDEO_MODIFIES_PALETTE=	0x0004;
  	public static class MachineDriver
-	{
-		public MachineDriver(MachineCPU []mcp, int fps, InitMachinePtr im, int sw, int sh, rectangle va, GfxDecodeInfo []gdi, int tc, int ctl, VhConvertColorPromPtr vccp,int vattr, VhInitPtr vi, VhStartPtr vsta, VhStopPtr vsto, VhUpdatePtr vup, char []sa, ShInitPtr si, ShStartPtr ssta, ShStopPtr ssto, ShUpdatePtr sup)
+	{               
+                //new defination for 0.29 , all other drivers should be moved here...
+		public MachineDriver(MachineCPU []mcp, int fps,int slices, InitMachinePtr im, int sw, int sh, rectangle va, GfxDecodeInfo []gdi, int tc, int ctl, VhConvertColorPromPtr vccp,int vattr, VhInitPtr vi, VhStartPtr vsta, VhStopPtr vsto, VhUpdatePtr vup, char []sa, ShInitPtr si, ShStartPtr ssta, ShStopPtr ssto, ShUpdatePtr sup)
 		{
-			CopyArray(cpu, mcp); frames_per_second = fps;	init_machine = im;
+			CopyArray(cpu, mcp); 
+                        frames_per_second = fps;
+                        cpu_slices_per_frame=slices;
+                        init_machine = im;
 			screen_width = sw; screen_height = sh; visible_area = va; gfxdecodeinfo = gdi; total_colors = tc; color_table_len = ctl; vh_convert_color_prom = vccp;
 			video_attributes=vattr; vh_init = vi; vh_start = vsta; vh_stop = vsto; vh_update = vup;
 			samples = sa; sh_init = si; sh_start = ssta; sh_stop = ssto; sh_update = sup;
 		}
-
 		/* basic machine hardware */
 		public MachineCPU cpu[] = MachineCPU.create(MAX_CPU);
 		public int frames_per_second;
+                public int cpu_slices_per_frame;	/* for multicpu games. 1 is the minimum, meaning */
+								/* that each CPU runs for the whole video frame */
+								/* before giving control to the others. The higher */
+								/* this setting, the more closely CPUs are interleaved */
+								/* and therefore the more accurate the emulation is. */
+								/* However, an higher setting also means slower */
+								/* performance. */
 		public InitMachinePtr init_machine;
 
 		/* video hardware */

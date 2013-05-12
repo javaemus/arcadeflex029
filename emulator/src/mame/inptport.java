@@ -15,8 +15,9 @@ You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 /*
- *
+ * ported to v0.29
  * ported to v0.28
  *
  *   readtrakport is partially implemented
@@ -39,17 +40,23 @@ import static arcadeflex.osdepend.*;
 import static mame.cpuintrf.*;
 
 public class inptport {
-    static final int MAX_INPUT_PORTS=8;//from inptport.h
+    static final int MAX_INPUT_PORTS=16;//from inptport.h
     
     static int[] input_port_value=new int[MAX_INPUT_PORTS];
     static int[] input_vblank=new int[MAX_INPUT_PORTS];
     
+    /* Assuming a maxium of one analog input device per port BW 101297 */
+    static NewInputPort[] input_analog=new NewInputPort[MAX_INPUT_PORTS];
+    static int[] input_analog_value=new int[MAX_INPUT_PORTS];
+    static int[] input_analog_delta=new int[MAX_INPUT_PORTS];
+   
+    static int newgame = 1; /* LBO */
     /***************************************************************************
 
       Obsolete functions which will eventually be removed
 
     ***************************************************************************/
-    static void old_load_input_port_settings(String name)
+    static void old_load_input_port_settings()
     {
             FILE f;
             char buf[] =new char[100];
@@ -71,7 +78,7 @@ public class inptport {
                                     }
 
                                     /* find the configuration file */
-                                    if ((f = fopen(name,"rb")) != null)
+                                    if ((f = fopen("cfg/"+Machine.gamedrv.name+".cfg","rb")) != null)
                                     {
                                       for (j=0; j < 4; j++)
                                       {
@@ -116,7 +123,7 @@ public class inptport {
                                       fclose(f);
                                     }
     }
-    static void old_save_input_port_settings(String name)
+    static void old_save_input_port_settings()
     {
             FILE f;
             char buf[]=new char[100];
@@ -137,7 +144,7 @@ public class inptport {
                                     }
 
                                     /* write the configuration file */
-                                    if ((f = fopen(name,"wb")) != null)
+                                    if ((f = fopen("cfg/"+Machine.gamedrv.name+".cfg","wb")) != null)
                                     {
                                                     sprintf(buf, "dsw ", new Object[0]);
                                                     buf[3] = (char)incount;
@@ -218,64 +225,32 @@ public class inptport {
     }
         public static int readtrakport(int port)
         {
-            int axis;
-            int read;
-            TrakPort in = Machine.gamedrv.trak_ports[port];
-            axis = in.axis;
+              int axis;
+              int read;
+              
+              TrakPort in = Machine.gamedrv.trak_ports[port];
+              axis = in.axis;
 
-            read = osd_trak_read(axis);
+              read = osd_trak_read(axis);
+              
 
-            if (read == NO_TRAK)
-            {
-              return NO_TRAK;
-            }
-        /*  //TODO!!!
+              if(in.conversion!=null) {
+                  return in.conversion.handler((int)(read*in.scale));//TODO probably correct
+               // return((*in->conversion)(read*in->scale));
+              }
 
-          if(in.centered) {
-            switch(axis) {
-            case X_AXIS:
-              osd_trak_center_x();
-              break;
-            case Y_AXIS:
-              osd_trak_center_y();
-              break;
-            }
-          }
-
-          if(in.conversion) {
-            return((*in.conversion)(read*in.scale));
-          }*/
-          return (int)(read * in.scale);
+              return (int)(read * in.scale);
         }
 
-        public static ReadHandlerPtr input_trak_0_r = new ReadHandlerPtr() {
-            public int handler(int paramInt) {
-              return readtrakport(0);
-            }
-          };
-
-          public static ReadHandlerPtr input_trak_1_r = new ReadHandlerPtr() {
-            public int handler(int paramInt) {
-              return readtrakport(1);
-            }
-          };
-
-          public static ReadHandlerPtr input_trak_2_r = new ReadHandlerPtr() {
-            public int handler(int paramInt) {
-              return readtrakport(2);
-            }
-          };
-
-          public static ReadHandlerPtr input_trak_3_r = new ReadHandlerPtr() {
-            public int handler(int paramInt) {
-              return readtrakport(3);
-            }
-          };
-          /***************************************************************************
+        public static ReadHandlerPtr input_trak_0_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readtrakport(0);}};
+        public static ReadHandlerPtr input_trak_1_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readtrakport(1);}};
+        public static ReadHandlerPtr input_trak_2_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readtrakport(2);}};
+        public static ReadHandlerPtr input_trak_3_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readtrakport(3);}};
+        /***************************************************************************
 
               End of obsolete functions
 
-            ***************************************************************************/
+        ***************************************************************************/
           
           public static class ipd
           {
@@ -317,7 +292,7 @@ public class inptport {
                 new ipd( IPT_JOYSTICKLEFT_DOWN,   "Left/Down",       OSD_KEY_D,        0 /*OSD_JOY_DOWN*/ ),
                 new ipd( IPT_JOYSTICKLEFT_LEFT,   "Left/Left",       OSD_KEY_S,        0 /*OSD_JOY_LEFT*/ ),
                 new ipd( IPT_JOYSTICKLEFT_RIGHT,  "Left/Right",      OSD_KEY_F,        0 /*OSD_JOY_RIGHT*/ ),
-                new ipd( IPT_BUTTON1,             "Button 1",        OSD_KEY_CONTROL,  0 /*OSD_JOY_FIRE1*/ ),
+                new ipd( IPT_BUTTON1,             "Button 1",        OSD_KEY_CONTROL,  0 /*OSD_JOY_FIRE1*/ ),  //TODO OSD_KEY_LCONTROL 
                 new ipd( IPT_BUTTON2,             "Button 2",        OSD_KEY_ALT,      0 /*OSD_JOY_FIRE2*/ ),
                 new ipd( IPT_BUTTON3,             "Button 3",        OSD_KEY_SPACE,    0 /*OSD_JOY_FIRE3*/ ),
                 new ipd( IPT_BUTTON4,             "Button 4",        OSD_KEY_LSHIFT,   0 /*OSD_JOY_FIRE4*/ ),
@@ -362,7 +337,7 @@ public class inptport {
             {
                     int i;
 
-
+                    //if (in->keyboard == IP_KEY_PREVIOUS) in--;  //TODO required???
                     if (in.keyboard != IP_KEY_DEFAULT) return in.keyboard;
 
                     i = 0;
@@ -371,6 +346,132 @@ public class inptport {
                             i++;
 
                     return inputport_defaults[i].keyboard;
+            }
+            /* NS, LBO 100397, BW 101297 */
+            static void update_analog_port(int port)
+            {
+                    NewInputPort in;
+                    int current, delta, scaled_delta, type, sensitivity, clip, min, max;
+                    int axis, inckey, deckey, is_stick;
+
+                    /* get input definition */
+                    in=input_analog[port];
+                    type=(in.type & ~IPF_MASK);
+
+                    switch (type) {
+                            case IPT_DIAL:
+                                    axis = X_AXIS;
+                                    deckey = OSD_KEY_Z;
+                                    inckey = OSD_KEY_X;
+                                    is_stick = 0;
+                                    break;
+                            case IPT_TRACKBALL_X:
+                                    axis = X_AXIS;
+                                    deckey = OSD_KEY_LEFT;
+                                    inckey = OSD_KEY_RIGHT;
+                                    is_stick = 0;
+                                    break;
+                            case IPT_TRACKBALL_Y:
+                                    axis = Y_AXIS;
+                                    deckey = OSD_KEY_UP;
+                                    inckey = OSD_KEY_DOWN;
+                                    is_stick = 0;
+                                    break;
+                            case IPT_AD_STICK_X:
+                                    axis = X_AXIS;
+                                    deckey = OSD_KEY_LEFT;
+                                    inckey = OSD_KEY_RIGHT;
+                                    is_stick = 1;
+                                    break;
+                            case IPT_AD_STICK_Y:
+                                    axis = Y_AXIS;
+                                    deckey = OSD_KEY_UP;
+                                    inckey = OSD_KEY_DOWN;
+                                    is_stick = 1;
+                                    break;
+                            default:
+                                    /* Use some defaults to prevent crash */
+                                    axis = X_AXIS;
+                                    deckey = OSD_KEY_Z;
+                                    inckey = OSD_KEY_Y;
+                                    is_stick = 0;
+                                    if (errorlog!=null)
+                                            fprintf (errorlog,"Oops, polling non analog device in update_analog_port()????\n");
+                    }
+
+
+                    if (newgame!=0 || (((in.type & IPF_CENTER)!=0) && (is_stick==0)))
+                            input_analog_value[port] = in.default_value;
+
+                    current = input_analog_value[port];
+
+                    delta = osd_trak_read(axis);
+
+                    if (osd_key_pressed(deckey))
+                    {
+                            delta -= 4;
+                    }
+                    if (osd_key_pressed(inckey))
+                    {
+                            delta += 4;     
+                    }
+
+                    sensitivity = in.arg & 0x000000ff;
+                    clip = (in.arg & 0x0000ff00) >> 8;
+
+                    /* Internally, we use 16=2^4 as default sensivity. 32 is twice as */
+                    /* sensitive, 8 half, and so on. The macro in driver.h translates */
+                    /* this to the old "percent" semantics, so there's no need to     */
+                    /* change the drivers. 101297 BW */
+
+                    scaled_delta = (delta * sensitivity) / 16;
+
+                    if (clip != 0) {
+                            if (scaled_delta < -clip)
+                                    scaled_delta = -clip;
+                            else if (scaled_delta > clip)
+                                    scaled_delta = clip;
+                    }
+
+                    if ((in.type & IPF_REVERSE)!=0) scaled_delta = -scaled_delta;
+
+                    if ((is_stick)!=0)
+                    {
+                            if (axis == Y_AXIS) scaled_delta = -scaled_delta;
+                            if ((delta == 0) && ((in.type & IPF_CENTER)!=0))
+                            {
+                                    if ((current+scaled_delta)>in.default_value)
+                                    scaled_delta-=1;
+                                    if ((current+scaled_delta)<in.default_value)
+                                    scaled_delta+=1;
+                            }
+
+                            min = (in.arg & 0x00ff0000) >> 16;
+                            max = (in.arg & 0xff000000) >> 24;
+                            if (current+scaled_delta <= min)
+                                    scaled_delta=min-current;
+                            if (current+scaled_delta >= max)
+                                    scaled_delta=max-current;
+                    }
+
+                    current += scaled_delta;
+                    current &= in.mask;
+
+                    input_analog_value[port]=current;
+
+                    input_port_value[port] &= ~in.mask;
+                    input_port_value[port] |= current;
+            }
+
+            static void update_analog_ports()
+            {
+                    int port;
+
+                    for (port = 0;port < MAX_INPUT_PORTS;port++)
+                    {
+                            if (input_analog[port]!=null)
+                                    update_analog_port(port);
+                    }
             }
           static final int MAX_INPUT_BITS= 1024;
           static final int MAX_JOYSTICKS= 3;
@@ -393,6 +494,8 @@ public class inptport {
             {
                     input_port_value[port] = 0;
                     input_vblank[port] = 0;
+                    input_analog[port] = null;
+                    input_analog_delta[port] = 0;
             }
 
             for (i = 0;i < 4*MAX_JOYSTICKS*MAX_PLAYERS;i++)
@@ -456,72 +559,15 @@ public class inptport {
                                                 input_vblank[port] ^= in[in_ptr].mask;
                                                 input_port_value[port] ^= in[in_ptr].mask;
                                         }
-                                        else if ((in[in_ptr].type & ~IPF_MASK) == IPT_DIAL)
-                                        {
-                                                int curr;
-
-
-                                                curr = osd_trak_read(X_AXIS);
-                                                osd_trak_center_x();
-
-                                                if (curr != NO_TRAK)
-                                                        trackball[ib] += curr;
-
-                                                if (osd_key_pressed(OSD_KEY_Z))
-                                                        trackball[ib] -= 4;
-                                                if (osd_key_pressed(OSD_KEY_X))
-                                                        trackball[ib] += 4;
-
-                                                curr = trackball[ib] * in[in_ptr].arg / 100;
-
-                                                if ((in[in_ptr].type & IPF_REVERSE)!=0) curr = -curr;
-
-                                                input_port_value[port] = curr & in[in_ptr].mask;
-                                        }
-                                        else if ((in[in_ptr].type & ~IPF_MASK) == IPT_TRACKBALL_X)
-                                        {
-                                                int curr;
-
-
-                                                curr = osd_trak_read(X_AXIS);
-                                                osd_trak_center_x();
-
-                                                if (curr != NO_TRAK)
-                                                        trackball[ib] += curr;
-
-                                                if (osd_key_pressed(OSD_KEY_LEFT))
-                                                        trackball[ib] -= 4;
-                                                if (osd_key_pressed(OSD_KEY_RIGHT))
-                                                        trackball[ib] += 4;
-
-                                                curr = trackball[ib] * in[in_ptr].arg / 100;
-
-                                                if ((in[in_ptr].type & IPF_REVERSE)!=0) curr = -curr;
-
-                                                input_port_value[port] = curr & in[in_ptr].mask;
-                                        }
-                                        else if ((in[in_ptr].type & ~IPF_MASK) == IPT_TRACKBALL_Y)
-                                        {
-                                                int curr;
-
-
-                                                curr = osd_trak_read(Y_AXIS);
-                                                osd_trak_center_y();
-
-                                                if (curr != NO_TRAK)
-                                                        trackball[ib] += curr;
-
-                                                if (osd_key_pressed(OSD_KEY_DOWN))
-                                                        trackball[ib] -= 4;
-                                                if (osd_key_pressed(OSD_KEY_UP))
-                                                        trackball[ib] += 4;
-
-                                                curr = trackball[ib] * in[in_ptr].arg / 100;
-
-                                                if ((in[in_ptr].type & IPF_REVERSE)!=0) curr = -curr;
-
-                                                input_port_value[port] = curr & in[in_ptr].mask;
-                                        }
+                                        else if (((in[in_ptr].type & ~IPF_MASK) == IPT_DIAL)
+					|| ((in[in_ptr].type & ~IPF_MASK) == IPT_TRACKBALL_X)
+					|| ((in[in_ptr].type & ~IPF_MASK) == IPT_TRACKBALL_Y)
+					|| ((in[in_ptr].type& ~IPF_MASK) == IPT_AD_STICK_X)
+					|| ((in[in_ptr].type & ~IPF_MASK) == IPT_AD_STICK_Y))
+					{
+						input_analog[port]=in[in_ptr];
+						update_analog_port(port);
+					}
                                         else
                                         {
                                                 int key,joy;
@@ -611,16 +657,17 @@ public class inptport {
                         port++;
                         if (in[in_ptr].type == IPT_PORT) in_ptr++;             
                 }   
+                newgame = 0; /* LBO */
          }
         //load and save functions have been rewritten using mostly java style
-        public static void load_input_port_settings(String name) throws IOException
+        public static void load_input_port_settings() throws IOException
         {
             if (Machine.input_ports == null)
             {
-             old_load_input_port_settings(name);
+             old_load_input_port_settings();
              return;
             }
-                File file = new File(name);
+                File file = new File("cfg/"+Machine.gamedrv.name+".cfg");
                 if(file.exists())
                 {
                         if(file.length()==0) return;
@@ -693,7 +740,7 @@ public class inptport {
                         in_ptr=0;
                         in=null;
                         in = Machine.input_ports;
-                                          
+                        newgame = 1; /* LBO */      
                         while (in[in_ptr].type != IPT_END)
                         {
                                 in[in_ptr].mask = raf.readInt();
@@ -710,14 +757,14 @@ public class inptport {
                 
  
         }
-        public static void save_input_port_settings(String name) throws FileNotFoundException, IOException
+        public static void save_input_port_settings() throws FileNotFoundException, IOException
         {
             if (Machine.input_ports == null)
             {
-                old_save_input_port_settings(name);
+                old_save_input_port_settings();
                 return;
             }
-                File file = new File(name);
+                File file = new File("cfg/"+Machine.gamedrv.name+".cfg");
                 RandomAccessFile raf=new RandomAccessFile(file, "rw");
                 int int_ptr=0;
             	if (raf != null)
@@ -790,51 +837,21 @@ public class inptport {
 
                 return input_port_value[port];
         }
-      public static ReadHandlerPtr input_port_0_r = new ReadHandlerPtr() {
-        public int handler(int paramInt) {
-          return readinputport(0);
-        }
-      };
-
-      public static ReadHandlerPtr input_port_1_r = new ReadHandlerPtr() {
-        public int handler(int paramInt) {
-          return readinputport(1);
-        }
-      };
-
-      public static ReadHandlerPtr input_port_2_r = new ReadHandlerPtr() {
-        public int handler(int paramInt) {
-          return readinputport(2);
-        }
-      };
-
-      public static ReadHandlerPtr input_port_3_r = new ReadHandlerPtr() {
-        public int handler(int paramInt) {
-          return readinputport(3);
-        }
-      };
-
-      public static ReadHandlerPtr input_port_4_r = new ReadHandlerPtr() {
-        public int handler(int paramInt) {
-          return readinputport(4);
-        }
-      };
-
-      public static ReadHandlerPtr input_port_5_r = new ReadHandlerPtr() {
-        public int handler(int paramInt) {
-          return readinputport(5);
-        }
-      };
-
-      public static ReadHandlerPtr input_port_6_r = new ReadHandlerPtr() {
-        public int handler(int paramInt) {
-          return readinputport(6);
-        }
-      };
-
-      public static ReadHandlerPtr input_port_7_r = new ReadHandlerPtr() {
-        public int handler(int paramInt) {
-          return readinputport(7);
-        }
-      };
+      public static ReadHandlerPtr input_port_0_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readinputport(0);}};
+      public static ReadHandlerPtr input_port_1_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readinputport(1);}};
+      public static ReadHandlerPtr input_port_2_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readinputport(2);}};
+      public static ReadHandlerPtr input_port_3_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readinputport(3);}};
+      public static ReadHandlerPtr input_port_4_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readinputport(4);}};
+      public static ReadHandlerPtr input_port_5_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readinputport(5);}};
+      public static ReadHandlerPtr input_port_6_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readinputport(6);}};
+      public static ReadHandlerPtr input_port_7_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readinputport(7);}};
+      public static ReadHandlerPtr input_port_8_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readinputport(8);}};
+      public static ReadHandlerPtr input_port_9_r = new ReadHandlerPtr() { public int handler(int paramInt) {return readinputport(9);}};
+      public static ReadHandlerPtr input_port_10_r = new ReadHandlerPtr(){ public int handler(int paramInt) {return readinputport(10);}};
+      public static ReadHandlerPtr input_port_11_r = new ReadHandlerPtr(){ public int handler(int paramInt) {return readinputport(11);}};
+      public static ReadHandlerPtr input_port_12_r = new ReadHandlerPtr(){ public int handler(int paramInt) {return readinputport(12);}};
+      public static ReadHandlerPtr input_port_13_r = new ReadHandlerPtr(){ public int handler(int paramInt) {return readinputport(13);}};
+      public static ReadHandlerPtr input_port_14_r = new ReadHandlerPtr(){ public int handler(int paramInt) {return readinputport(14);}};
+      public static ReadHandlerPtr input_port_15_r = new ReadHandlerPtr(){ public int handler(int paramInt) {return readinputport(15);}};
+                                                
 }

@@ -14,8 +14,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
+/* 
+ * ported to v0.29
  * ported to v0.28
  * ported to v0.27
  *
@@ -43,8 +43,8 @@ import static mame.mame.*;
 
 ***************************************************************************/
 public class generic {
+    
 	static final int QUEUE_LENGTH = 10;	/* hopefully enough! */
-
 	static int command_queue[] = new int[QUEUE_LENGTH];
 	public static int pending_commands;
 
@@ -107,4 +107,20 @@ public class generic {
             if (pending_commands > 0) return 0xff;
             else return 0;
     }};
+    
+    static int latch,read_debug;
+    
+    public static WriteHandlerPtr soundlatch_w = new WriteHandlerPtr() {	public void handler(int offset, int data)
+    {
+        if (errorlog!=null && read_debug == 0)
+            fprintf(errorlog,"Warning: sound latch written before being read. Previous: %02x, new: %02x\n",latch,data);
+            latch = data;
+            read_debug = 0;
+    }};
+    public static ReadHandlerPtr soundlatch_r = new ReadHandlerPtr() { public int handler(int offset)
+    {
+            read_debug = 1;
+            return latch;
+    }};
+
 }

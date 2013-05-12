@@ -14,7 +14,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package arcadeflex;
 
 import java.io.File;
@@ -340,7 +339,10 @@ public class libc {
         public InputStream is;
         public String Name;
     }
-
+    public static FILE fopen(char[] name,String format) {
+        String nameS=new String(name);
+        return fopen(nameS,format);
+    }
     public static FILE fopen(String name, String format) {
         FILE file;
         mame.mame.dlprogress.setFileName("fetching file: "+name);
@@ -582,6 +584,14 @@ public class libc {
         public void inc(int count)
         {
             this.base+=count;
+        }
+        public char[] getSubArray(int start, int end) 
+        {
+            char[] b = new char[end - start + 1];
+            for (int i = start; i <= end; i++) {
+              b[(i - start)] = memory[i];
+            }
+            return b;
         }
         public char[] memory;
         public int base;

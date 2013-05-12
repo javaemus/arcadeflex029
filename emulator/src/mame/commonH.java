@@ -15,6 +15,8 @@ You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//TODO finish porting to 0.29
+
 /*
  * ported to v0.28
  * ported to v0.27
@@ -91,7 +93,7 @@ public class commonH
                 public int smpfreq;
                 public int resolution;
                 public int volume;
-		public byte data[];	/* extendable */
+		public char data[];	/* extendable */
 	};
 
 	public static class GameSamples
@@ -100,7 +102,6 @@ public class commonH
 		public int total;	/* total number of samples */
 		public GameSample sample[];	/* extendable */
 	};
-
 
 	public static class GfxLayout
 	{

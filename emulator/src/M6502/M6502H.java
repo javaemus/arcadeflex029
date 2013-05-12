@@ -20,6 +20,8 @@ package M6502;
 
 import static mame.cpuintrf.*;
 import static mame.mame.*;
+import static mame.memory.*;
+
 /**
  *
  * @author shadow
@@ -41,8 +43,8 @@ public class M6502H {
 
   public static final void Wr6502(int paramInt1, int paramInt2)
   {
-    cpu_writemem(paramInt1, (char)paramInt2); }
-  public static final int Rd6502(int paramInt) { return cpu_readmem(paramInt); }
+    cpu_writemem16(paramInt1, (char)paramInt2); }
+  public static final int Rd6502(int paramInt) { return cpu_readmem16(paramInt); }
   public static final int Op6502(int paramInt) { return RAM[paramInt]; }
   public static final int Op6502_1(int paramInt) { return ROM[paramInt];
   }

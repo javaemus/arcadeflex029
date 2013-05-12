@@ -14,8 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-/*
+/* ported to v0.29
  * ported to v0.28
  * 
  *
@@ -53,7 +52,7 @@ public class exidy
 	{
                 if (exidy_characterram.read(offset) != data)
                 {
-                        exidy_dirtycharacter[offset / 8] = 1;
+                        exidy_dirtycharacter[offset / 8% 256] = 1;
 
                         exidy_characterram.write(offset,data);
                 }

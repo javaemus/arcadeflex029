@@ -15,8 +15,10 @@ You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//TODO finish porting to 0.29
+
 /*
- * ported to v0.28
+ *
  * ported to v0.27
  *
  *
@@ -43,6 +45,8 @@ import static arcadeflex.osdepend.*;
 import static mame.cpuintrf.*;
 import static mame.commonH.*;
 import static mame.inptport.*;
+import static mame.memory.*;
+import static mame.memoryH.*;
 
 
 /**
@@ -51,7 +55,7 @@ import static mame.inptport.*;
  */
 public class mame {
 
-    public static String mameversion = "0.28";
+    public static String mameversion = "0.29";
     static RunningMachine machine = new RunningMachine();
     public static RunningMachine Machine = machine;
     static GameDriver gamedrv;
@@ -364,7 +368,7 @@ public class mame {
             /* first of all initialize the memory handlers, which could be used by the */
             /* other initialization routines */
             cpu_init();
-
+            initmemoryhandlers();//TODO checking the new memory handlers
             if (drv.vh_init != null && drv.vh_init.handler(gamename) != 0) {
                 /* TODO: should also free the resources allocated before */
                 return 1;
@@ -489,7 +493,7 @@ public class mame {
      {
         /* read hi scores from disk */
         if ((hiscoreloaded == 0) && (gamedrv.hiscore_load != null)) {
-            hiscoreloaded = gamedrv.hiscore_load.handler(hiscorename);
+            hiscoreloaded = gamedrv.hiscore_load.handler();
         }
 
         /* if the user pressed ESC, stop the emulation */
@@ -770,7 +774,7 @@ public class mame {
                                 cfgname = sprintf("roms/%s/%s.cfg", new Object[]{gamename, gamename});
                                 try {
                                     /* load input ports settings (keys, dip switches, and so on) */
-                                    load_input_port_settings(cfgname);
+                                    load_input_port_settings();
                                 } catch (IOException ex) {
                                     Logger.getLogger(mame.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -792,11 +796,11 @@ public class mame {
 
 				/* write hi scores to disk */
                                 if ((hiscoreloaded != 0) && (gamedrv.hiscore_save != null)) {
-                                    gamedrv.hiscore_save.handler(hiscorename);
+                                    gamedrv.hiscore_save.handler();
                                 }
                                 try {
                                     /* save input ports settings */
-                                    save_input_port_settings(cfgname);
+                                    save_input_port_settings();
                                 } catch (FileNotFoundException ex) {
                                     Logger.getLogger(mame.class.getName()).log(Level.SEVERE, null, ex);
                                 } catch (IOException ex) {
