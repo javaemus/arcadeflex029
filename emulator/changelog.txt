@@ -1,3 +1,8 @@
+12/05/2013
+----------
+-Almost finished common.c,h for 0.29 (only sample support is missing)
+-Updated to libc and osdepend relative to common.c changes
+
 22/10/2011
 ----------
 -Rewrote memory system to use ptr's instead of tables . It's still buggy..

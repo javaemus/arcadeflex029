@@ -14,6 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 /*
  *
  * this file is a test and probably needs serious rewrite
@@ -56,10 +57,6 @@ public class osdepend
     static CharPtr[] pixel;
     static int p_index;
 
-    //mouse variables;
-    static int mouse_x;
-    static int mouse_y;
-    static boolean use_mouse=false;//todo added a command line switch also enable it once you fix it :p
 
     /* put here anything you need to do when the program is started. Return 0 if */
     /* initialization was successful, nonzero otherwise. */
@@ -256,6 +253,16 @@ public class osdepend
         screen.blit();
     }
 
+    public static void osd_mark_dirty(int x1, int y1, int x2, int y2, int ui)
+    {
+        
+    }
+    public static void clearbitmap(osd_bitmap bitmap) {
+        int i;
+        for (i = 0; i < bitmap.height; i++) {
+            memset(bitmap.line[i], 0, bitmap.width);
+        }
+    }
     /*********************
      *
      *
@@ -305,7 +312,19 @@ public class osdepend
         }
     }
 
+    public static int osd_trak_read(int paramInt) {
 
+        return 1000000;
+
+    }
+    public static void osd_trak_center_x()
+    {
+        //TODO
+    }
+    public static void osd_trak_center_y()
+    {
+        //TODO
+    }
     public static String osd_key_name(int paramInt) {
         if (paramInt < 1024) {
             return keynames[paramInt];
@@ -407,6 +426,12 @@ public class osdepend
         soundPlayer.playSample(channel, data, offset, datalength, freq, volume,loop);
     }
     public static void osd_play_sample(int channel, char[] data, int datalength, int freq, int volume, int loop) {
+        if (play_sound == 0) {
+            return;
+        }
+        soundPlayer.playSample(channel, data, datalength, freq, volume, loop);
+    }
+    public static void osd_play_sample(int channel, byte[] data, int datalength, int freq, int volume, int loop) {
         if (play_sound == 0) {
             return;
         }
@@ -619,59 +644,7 @@ public class osdepend
 	y1 = temp_y;
 	
     }*/
-    
-    //new stuff for v0.29
-    static int oldx,oldy;
-    //Tried to emulate get_mouse_mickeys from allegro lib but doesn't seem to work....
-    public static int[] get_mouse_mickeys()
-    {
-        int[] mickeys=new int[2];
-        mickeys[0]=mouse_x-oldx;
-        mickeys[1]=mouse_y-oldy;
-        System.out.println("m1 " +mickeys[0]);
-        System.out.println("m2 " +mickeys[1]);
-        oldx=mouse_x;
-        oldy=mouse_y;
-        return mickeys;
-    }
-    static int deltax;
-    static int deltay;
-    public static int osd_trak_read(int axis) {
-
-        
-	int mickeyx=0, mickeyy=0;
-	int ret;
-
-	if (!use_mouse)
-		return(0);
-
-	int[] mick =get_mouse_mickeys();
-        mick[0]=mickeyx;
-        mick[1]=mickeyy;
-
-	deltax+=mickeyx;
-	deltay+=mickeyy;
-
-	switch(axis) {
-		case X_AXIS:
-			ret=deltax;
-			deltax=0;
-			break;
-		case Y_AXIS:
-			ret=deltay;
-			deltay=0;
-			break;
-		default:
-			ret=0;
-			if (errorlog!=null)
-				fprintf (errorlog, "Error: no axis in osd_track_read\n");
-	}
-
-	return ret;
-
-    } 
-    
-    /* file handling routines */
+        /* file handling routines */
 
         /* gamename holds the driver name, filename is only used for ROMs and samples. */
         /* if 'write' is not 0, the file is opened for write. Otherwise it is opened */
@@ -732,10 +705,13 @@ public class osdepend
 
 
 
-        /*public static int osd_fseek(FILE file,int offset,int whence) //TODO
+        public static void osd_fseek(FILE file,int offset,int whence) 
         {
-                return fseek(file,offset,whence);
-        }*/
+            if(whence==SEEK_SET)
+                fseek(file,offset);
+            else
+                System.out.println("ERROR seek command other than SEEK_SET is not supported");
+        }
 
 
 

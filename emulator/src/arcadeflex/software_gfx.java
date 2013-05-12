@@ -245,9 +245,6 @@ public class software_gfx extends java.awt.Frame implements Runnable, ImageProdu
     }
 
     public void mouseMoved(MouseEvent e) {
-        mouse_x=e.getX();
-        mouse_y=e.getY();
-      
     }
 
 }

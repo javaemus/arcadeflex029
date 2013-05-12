@@ -15,9 +15,8 @@ You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//TODO finish porting to 0.29
-
 /*
+ * ported to v0.29
  * ported to v0.28
  * ported to v0.27
  * 
@@ -74,6 +73,18 @@ public class commonH
             tempmodule[curpos]=new RomModule( "-1",offset,length);
             curpos++;
         }
+        /* load the ROM at even/odd addresses. Useful with 16 bit games */
+        
+        public static void ROM_LOAD_EVEN(String name,int offset,int length,int checksum) 
+        { 
+            tempmodule[curpos]=new RomModule(name, offset & ~1, length | 0x80000000, checksum);
+            curpos++;
+        }
+        public static void ROM_LOAD_ODD(String name,int offset,int length,int checksum) 
+        { 
+            tempmodule[curpos]=new RomModule(name, offset |  1, length | 0x80000000, checksum);
+            curpos++;
+        }
         /* end of table */
         public static void ROM_END()
         {
@@ -93,7 +104,7 @@ public class commonH
                 public int smpfreq;
                 public int resolution;
                 public int volume;
-		public char data[];	/* extendable */
+		public byte data[];	/* extendable */
 	};
 
 	public static class GameSamples
@@ -102,6 +113,7 @@ public class commonH
 		public int total;	/* total number of samples */
 		public GameSample sample[];	/* extendable */
 	};
+
 
 	public static class GfxLayout
 	{

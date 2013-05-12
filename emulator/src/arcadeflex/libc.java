@@ -14,6 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package arcadeflex;
 
 import java.io.File;
@@ -30,6 +31,10 @@ import java.util.Random;
  * @author shadow
  */
 public class libc {
+    
+    public static final int SEEK_SET=0;
+    public static final int SEEK_CUR=1;
+    public static final int SEEK_END=2;
 
     public static int argc;
     public static String[] argv;
@@ -585,6 +590,7 @@ public class libc {
         {
             this.base+=count;
         }
+        //untested really needs check
         public char[] getSubArray(int start, int end) 
         {
             char[] b = new char[end - start + 1];
