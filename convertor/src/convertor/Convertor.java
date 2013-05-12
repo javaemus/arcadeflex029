@@ -14,8 +14,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-
 package convertor;
 
 import java.io.File;
@@ -30,8 +28,8 @@ import java.util.Calendar;
  */
 public class Convertor {
 
-    static final String mameversion = "0.28";
-    static final String convertorversion="0.03";
+    static final String mameversion = "0.29";
+    static final String convertorversion="0.04";
     static FileInputStream fInput; //input 
     static FileOutputStream fOutput;//output streams
     

@@ -1,3 +1,25 @@
+
+18/10/2011
+----------
+-osd_fread and osd_fwrite conversion for hiscore
+-partially fixed memcmp for hiload
+-v0.04 released!
+
+17/10/2011
+----------
+-Fixed the issue with the convertor for single cpus
+-Added some work for hiscore-load and save convertion
+-Skip lines that starts with "extern"
+
+16/10/2011
+----------
+-started v0.04 for mame 0.29
+-Now there is a ConvertorThread for not freezing GUI while converting
+-Change for machinedriver definations so it can now translate to the 0.29 format correctly
+-replace HiscoreLoadPtr and HiscoreSavePtr to new format
+-fixed rectangle definations in single cpus machinedriver definations
+-Hackish way to fix machine_driver for single cpus , now it's 99% complete
+
 16/10/2011
 ----------
 Released convertor under GPL3 license 
@@ -26,6 +48,7 @@ Released convertor under GPL3 license
   - v0.02 for use!
   - Started v0.03
   - Fixed a bug in machine conversion (machineInitptr function)
+  - v0.03 for use (0.28)
 
 23/08/2011
 ----------

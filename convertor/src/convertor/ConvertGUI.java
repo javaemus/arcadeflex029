@@ -1,18 +1,12 @@
 /*
-This file is part of Arcadeflex.
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-Arcadeflex is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Arcadeflex is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
+/*
+ * ConvertGUI.java
+ *
+ * Created on 24 Αυγ 2011, 12:33:21 μμ
  */
 package convertor;
 
@@ -148,7 +142,7 @@ public class ConvertGUI extends javax.swing.JFrame {
                     allvideos=true;
         if(jCheckBox4.isSelected()) 
                     allsounds=true;
-        new Convertor();
+        new ConvertorThread().start();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
