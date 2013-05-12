@@ -1,0 +1,87 @@
+16/10/2011
+----------
+Released convertor under GPL3 license 
+
+24/08/2011
+----------
+  
+-driver convertor can now recognize
+  -TrakPort tables
+  -KeySet  tables
+  -convertion of enums
+  -Gamedriver now converts 0 to null
+  -'&' is also been removed from Gamedriver. 
+  - Now GameDriver convertion is 100% ,MemoryRead , Memorywrite,IOREAD,IOWRITE tables should also be 100% done
+  - GfxDecodeInfo also converts 100% now
+  - Added GUI for conversion
+  - GFXLayout conversion is now 100%
+  - old input port have issues in converting :(
+  - DSW defination converts 100%
+  - Old Inputports defination converts 100%
+  - Machinedriver is now converted more than 80% (missing conversion of 0 to null )
+  - "->" is now convert to "."
+  - Machinedriver now converts 100%
+  - Fixed a bug that was removing static keyword when it shouldn't
+  - Hisaveptr and hiloadptr
+  - v0.02 for use!
+  - Started v0.03
+  - Fixed a bug in machine conversion (machineInitptr function)
+
+23/08/2011
+----------
+-v0.01 for use
+-Added convertion to ROM defination
+-Finished inputports conversion
+-Now all converted drivers have comment info on top about mameversion , convertor version, and converted time
+-Partial convert for the new InputPorts defination
+-driver converter can now parse
+     -MemoryReadAddress
+     -MemoryWriteAddress
+     -MemoryIOREAD
+     -MemoryIOWrite
+
+-drivers converter lotta work on converting headers of functions 
+
+
+-vidhrdw converter can now recognize
+    - "->" is not transform to "."
+    - if(...) then it becomes if(...!=0)
+    - ReadHandlerPtr
+    - WriteHandlerPtr
+    - vh_stop
+    - vh_start
+    - vh_screenrefresh 
+    - vh_convert_color_prom
+   
+22/08/2011
+----------
+-machine converter can now recognize:
+    - "->" is not transform to "."
+    - if(...) then it becomes if(...!=0)
+    - ReadHandlerPtr
+    - InterruptPtr
+    - WriteHandlerPtr
+    - init_machinePtr
+    
+
+-snd converter can now recognize:
+    -WriteHandlerPtr
+    -ShUpdatePtr
+    -sh_stop
+    -sh_start
+    -sh_interrupt
+    -ReadHandlerPtr
+    -if(...) then it becomes if(...!=0)
+    - "->" is not transform to "."
+
+19/08/2011
+----------
+-Some startup code for sndconvert
+  -Now it add the package and public class <drivername>
+  -It also removes all includes
+
+-Fixed reading if .svn exists 
+-Added code so now everything from c_code is copied as it is in java file. (like renaming the file to .java atm)
+-Added code for reading c files and writting java files .Atm it's writting null files
+-Added fileutil class for reading and writing streams
+-Start working on my idea of converting mame c code to relative java code as more as possible

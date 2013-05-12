@@ -1,0 +1,13 @@
+18/10/2011
+----------
+-UI is now intialaze to the Native OS UI.
+
+16/10/2011
+----------
+-Released under GPL3
+
+08/07/2011
+----------
+[Shadow]
+   -Added support for changelogs view
+   -Added cheat command line option for v0.28

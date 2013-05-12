@@ -1,0 +1,6 @@
+v0.02 issues
+------------
+
+-qix machinedriver conversion was bad
+-machinedriver converts to "static const static MachineDriver" instead of "static MachineDriver"
+-Inputports on 3stooges didn't convert well
