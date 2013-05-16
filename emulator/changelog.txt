@@ -1,3 +1,10 @@
+16/05/2013
+----------
+-Update Common.c , common.h to mame 0.29
+-Added OSD_fread,write,open,seek functions. Now hi , cfg and roms are loaded/saved from different folders
+-Update inputports.c and driver.h to 0.29
+
+
 16/10/2011
 ----------
 -Released under GPL3

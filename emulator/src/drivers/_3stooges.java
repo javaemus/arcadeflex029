@@ -16,6 +16,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
+ * ported to v0.29 (manually)
  * ported to v0.28
  * using automatic conversion tool v0.02
  * converted at : 24-08-2011 22:25:36
@@ -26,6 +27,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */ 
 package drivers;
 import static arcadeflex.libc.*;
+import static arcadeflex.osdepend.*;
 import static mame.commonH.*;
 import static mame.cpuintrf.*;
 import static mame.driverH.*;
@@ -203,6 +205,7 @@ public class _3stooges
 			),
 	},
 		60,     /* frames / second */
+                1,	/* single CPU, no need for interleaving */
 		null,      /* init machine */
 	
 		/* video hardware */
@@ -245,26 +248,26 @@ public class _3stooges
 	//      ROM_RELOAD(0x6000, 0x2000);/* A15 not decoded ?? */
 	ROM_END(); }}; 
 	
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name) 
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler() 
 	{
-		FILE f=fopen(name,"rb");
+		FILE f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0);
                 char[] RAM = Machine.memory_region[0];
 
                 if (f!=null) {
-                        fread(RAM,0x485,22,7,f); /* 21 hiscore entries + 1 (?) */
-                        fclose(f);
+                        osd_fread(f,RAM,0x485,22*7); /* 21 hiscore entries + 1 (?) */
+                        osd_fclose(f);
                 }
                 return 1;
 	} };
 	
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name) 
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler() 
 	{
-		FILE f=fopen(name,"wb");
+		FILE f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1);
                 char[] RAM = Machine.memory_region[0];
 
                 if (f!=null) {
-                        fwrite(RAM,0x485,22,7,f); /* hiscore entries */
-                        fclose(f);
+                        osd_fwrite(f,RAM,0x485,22*7); /* hiscore entries */
+                        osd_fclose(f);
                 }
 	} };
 	
@@ -278,7 +281,7 @@ public class _3stooges
 	
 		stooges_rom,
 		null, null,   /* rom decode and opcode decode functions */
-		gottlieb_sample_names,
+		null,
 	
 		input_ports, null, trak_ports, dsw, keys,
 	

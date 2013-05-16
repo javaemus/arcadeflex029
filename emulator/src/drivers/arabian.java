@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
+/* ported to v0.29
  * ported to v0.28
  * ported to v0.27
  *
@@ -26,6 +26,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 package drivers;
 
 import static arcadeflex.libc.*;
+import static arcadeflex.osdepend.*;
 import static mame.commonH.*;
 import static mame.cpuintrf.*;
 import static mame.driverH.*;
@@ -209,6 +210,7 @@ public class arabian
 			)
 		},
 		60,
+                1,	/* single CPU, no need for interleaving */
 		null,
 
 		/* video hardware */
@@ -258,20 +260,20 @@ public class arabian
 
           static HiscoreLoadPtr arabian_hiload = new HiscoreLoadPtr()
           {
-                public int handler(String name)
+                public int handler()
                 {
                       char[] RAM = Machine.memory_region[0];
-                       FILE localFILE;
+                       FILE f;
 
                       /* Wait for hiscore table initialization to be done. */
                       if (memcmp(RAM,0xd384, new char[] {0x00,0x00,0x00,0x01,0x00,0x00 }, 6) != 0)
                         return 0;
 
-                        if ((localFILE = fopen(name, "rb")) != null)
+                         if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0)) != null)
                         {
                           /* Load and set hiscore table. */
-                          fread(RAM,0xd384,1,6*10,localFILE);
-                          fclose(localFILE);
+                          osd_fread(f,RAM,0xd384,6*10);
+                          osd_fclose(f);
                         }
 
                       return 1;
@@ -279,15 +281,15 @@ public class arabian
         };
          static HiscoreSavePtr arabian_hisave = new HiscoreSavePtr()
           {
-                public void handler(String name)
+                public void handler()
                 {
                   char[] RAM = Machine.memory_region[0];
-                  FILE localFILE;
-                  if ((localFILE = fopen(name, "wb")) != null)
+                  FILE f;
+                  if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1)) != null)
                   {
                        /* Write hiscore table. */
-                    fwrite(RAM, 0xd384, 1, 6*10, localFILE);
-                    fclose(localFILE);
+                    osd_fwrite(f,RAM, 0xd384,6*10);
+                    osd_fclose(f);
                   }
                  }
           };

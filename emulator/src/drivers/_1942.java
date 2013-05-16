@@ -455,7 +455,7 @@ public class _1942
 						break;
 					}
 				}
-				fclose(f);
+				osd_fclose(f);
 			}
 
 			return 1;
@@ -477,7 +477,7 @@ public class _1942
 		{
 			osd_fwrite(f,RAM, 0xe800,16*25);
 			osd_fwrite(f,RAM, 0xe9c0,1);
-			fclose(f);
+			osd_fclose(f);
 		}
 	} };
 
