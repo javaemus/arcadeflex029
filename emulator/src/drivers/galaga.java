@@ -38,6 +38,7 @@ import static sndhrdw.pengo.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.galaga.*;
 import static machine.galaga.*;
+import static mame.memoryH.*;
 
 public class galaga {
         static MemoryReadAddress readmem_cpu1[] =
@@ -532,7 +533,7 @@ public class galaga {
         };
 
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
            FILE f;
 
@@ -557,7 +558,7 @@ public class galaga {
         }};
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
            FILE f;
 

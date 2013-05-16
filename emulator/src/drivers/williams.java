@@ -39,7 +39,7 @@ import static sndhrdw.williams.*;
 import static mame.usrintrfH.*;
 import static mame.usrintrf.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 public class williams {
             /*	JB 970823 - separate Stargate for busy loop optimization
          *   Read mem for Stargate

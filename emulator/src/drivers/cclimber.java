@@ -38,6 +38,7 @@ import static sndhrdw._8910intf.*;
 import static sndhrdw.cclimber.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.cclimber.*;
+import static mame.memoryH.*;
 
 public class cclimber
 {
@@ -580,10 +581,10 @@ public class cclimber
 
 
 
-	static HiscoreLoadPtr cclimber_hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr cclimber_hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x8083, new char[] { 0x02, 0x00, 0x00 }, 3) == 0 &&
+	 /*TOFIX        	if (memcmp(RAM, 0x8083, new char[] { 0x02, 0x00, 0x00 }, 3) == 0 &&
 				memcmp(RAM, 0x808f, new char[] { 0x02, 0x00, 0x00 }, 3) == 0)
 		{
 			FILE f;
@@ -597,27 +598,27 @@ public class cclimber
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
 
-	static HiscoreSavePtr cclimber_hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr cclimber_hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 
 
-		if ((f = fopen(name, "wb")) != null)
+	 /*TOFIX        	if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x8083, 1, 17*5, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
-	static HiscoreLoadPtr ckong_hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr ckong_hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x611d, new char[] { 0x50, 0x76, 0x00 }, 3) == 0 &&
+ /*TOFIX        		if (memcmp(RAM, 0x611d, new char[] { 0x50, 0x76, 0x00 }, 3) == 0 &&
 				memcmp(RAM, 0x61a5, new char[] { 0x00, 0x43, 0x00 }, 3) == 0)
 		{
 			FILE f;
@@ -634,20 +635,20 @@ public class cclimber
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
-	static HiscoreSavePtr ckong_hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr ckong_hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 
 
-		if ((f = fopen(name, "wb")) != null)
+ /*TOFIX        		if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x6100, 1, 34*5, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 

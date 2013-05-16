@@ -35,6 +35,7 @@ import static mame.osdependH.*;
 import static sndhrdw.mooncrst.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.galaxian.*;
+import static mame.memoryH.*;
 
 public class galaxian
 {
@@ -562,10 +563,10 @@ public class galaxian
 
 
 
-	static HiscoreLoadPtr galaxian_hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr galaxian_hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* wait for the checkerboard pattern to be on screen */
-		if (memcmp(RAM, 0x5000, new char[] { 0x30, 0x32 }, 2) == 0)
+	/*TOFIX	if (memcmp(RAM, 0x5000, new char[] { 0x30, 0x32 }, 2) == 0)
 		{
 			FILE f;
 
@@ -578,26 +579,26 @@ public class galaxian
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
 
-	static HiscoreSavePtr galaxian_hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr galaxian_hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 
 
-		if ((f = fopen(name, "wb")) != null)
+/*TOFIX		if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x40a8, 1, 3, f);
 			fclose(f);
-		}
+		}*/
 	} };
-        static HiscoreLoadPtr pisces_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr pisces_hiload = new HiscoreLoadPtr() { public int handler()
 	{
                 /* wait for the screen to initialize */
-                if (memcmp(RAM,0x5000,new char[]{0x10,0x10,0x10},3) == 0)
+      /*TOFIX          if (memcmp(RAM,0x5000,new char[]{0x10,0x10,0x10},3) == 0)
                 {
                         FILE f;
 
@@ -610,27 +611,27 @@ public class galaxian
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
 
-        static HiscoreSavePtr pisces_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr pisces_hisave = new HiscoreSavePtr() { public void handler()
 	{
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+      /*TOFIX          if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x4021,1,3,f);
                         fclose(f);
-                }
+                }*/
         }};
 
-        static HiscoreLoadPtr warofbug_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr warofbug_hiload = new HiscoreLoadPtr() { public int handler()
 	{
                 /* wait for memory to be set */
-                if (memcmp(RAM,0x4045,new char[]{0x1F,0x1F},2) == 0)
+   /*TOFIX            if (memcmp(RAM,0x4045,new char[]{0x1F,0x1F},2) == 0)
                 {
                         FILE f;
 
@@ -643,21 +644,21 @@ public class galaxian
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
 
-        static HiscoreSavePtr warofbug_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr warofbug_hisave = new HiscoreSavePtr() { public void handler()
 	{
-                FILE f;
+     /*TOFIX           FILE f;
 
 
                 if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x4034,1,3,f);
                         fclose(f);
-                }
+                }*/
         }};
 
 	

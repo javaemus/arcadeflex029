@@ -33,7 +33,7 @@ import static mame.inptport.*;
 import static mame.osdependH.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.eggs.*;
-
+import static mame.memoryH.*;
 
 public class eggs 
 {
@@ -267,7 +267,7 @@ public class eggs
                              
                  ROM_END();
         }};
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* check if the hi score table has already been initialized */
                 if (	(memcmp(RAM,0x0400,new char[]{0x17,0x25,0x19},3)==0) &&
@@ -290,7 +290,7 @@ public class eggs
         }};
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
                 FILE f;
 

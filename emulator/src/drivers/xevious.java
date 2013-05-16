@@ -35,7 +35,7 @@ import static sndhrdw.pengo.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.xevious.*;
 import static machine.xevious.*;
-
+import static mame.memoryH.*;
 public class xevious {
     
         static MemoryReadAddress readmem_cpu1[] =

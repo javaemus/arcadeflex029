@@ -34,7 +34,7 @@ import static mame.osdependH.*;
 import static vidhrdw.generic.*;
 import static sndhrdw.generic.*;
 import static vidhrdw.yiear.*;
-
+import static mame.memoryH.*;
 
 public class yiear {
         static MemoryReadAddress readmem[] =
@@ -255,10 +255,10 @@ public class yiear {
                 ROM_END();
          }};
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {   
                 /* check if the hi score table has already been initialized */
-                if ((memcmp(RAM,0x5520,new char[]{0x00,0x36,0x70},3) == 0) &&
+       /*TOFIX                  if ((memcmp(RAM,0x5520,new char[]{0x00,0x36,0x70},3) == 0) &&
                         (memcmp(RAM,0x55A9,new char[]{0x10,0x10,0x10},3) == 0))
                 {
                         FILE f;
@@ -267,29 +267,29 @@ public class yiear {
                         if ((f = fopen(name,"rb")) != null)
                         {
                                 /* Read the scores */
-                                fread(RAM,0x5520,1,14*10,f);
+ /*TOFIX                                        fread(RAM,0x5520,1,14*10,f);
                                 /* reset score at top */
-                                memcpy(RAM,0x521C,RAM,0x5520,3);
+ /*TOFIX                                        memcpy(RAM,0x521C,RAM,0x5520,3);
                                 fclose(f);
                         }
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name){
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(){
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+ /*TOFIX                        if ((f = fopen(name,"wb")) != null)
                 {
                         /* Save the scores */
-                        fwrite(RAM,0x5520,1,14*10,f);
+  /*TOFIX                               fwrite(RAM,0x5520,1,14*10,f);
                         fclose(f);
-                }
+                }*/
 
         }};
         public static GameDriver yiear_driver = new GameDriver

@@ -39,7 +39,7 @@ import static vidhrdw.generic.*;
 import static vidhrdw.cclimber.*;
 import static vidhrdw.seicross.*;
 import static sndhrdw.seicross.*;
-
+import static mame.memoryH.*;
 public class seicross
 {
 

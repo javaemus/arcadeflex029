@@ -46,7 +46,7 @@ berzerk.c
 blktiger.c     
 blueprnt.c     | DONE |
 bombjack.c     | DONE |
-bosco.c      
+bosco.c        | DONE |  -to check the new bosconm game
 btime.c      
 bublbobl.c   
 bwidow.c

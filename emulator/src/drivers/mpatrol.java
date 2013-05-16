@@ -34,6 +34,7 @@ import static mame.osdependH.*;
 import static machine.mpatrol.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.mpatrol.*;
+import static mame.memoryH.*;
 
 public class mpatrol
 {

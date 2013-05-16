@@ -37,6 +37,7 @@ import static vidhrdw.taito.*;
 import static sndhrdw._8910intf.*;
 import static sndhrdw.generic.*;
 import static sndhrdw.elevator.*;
+import static mame.memoryH.*;
 
 public class elevator
 {
@@ -348,7 +349,7 @@ static KEYSet[] keys =
             ROM_END();
         }};
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
@@ -356,7 +357,7 @@ static KEYSet[] keys =
                 
 
                 /* wait for the high score to initialize */
-                if (memcmp(RAM,0x8350,new char[]{0x00,0x00,0x01},3) == 0)
+        /*TOFIX                 if (memcmp(RAM,0x8350,new char[]{0x00,0x00,0x01},3) == 0)
                 {
                         FILE f;
 
@@ -369,12 +370,12 @@ static KEYSet[] keys =
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
@@ -383,11 +384,11 @@ static KEYSet[] keys =
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+      /*TOFIX                   if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x8350,1,3,f);
                         fclose(f);
-                };   
+                };  */ 
         }};
 
 	public static GameDriver elevator_driver = new GameDriver

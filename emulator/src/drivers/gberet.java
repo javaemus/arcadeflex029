@@ -39,7 +39,7 @@ import static machine.gberet.*;
 import static sndhrdw.gberet.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.gberet.*;
-
+import static mame.memoryH.*;
 public class gberet
 {
 
@@ -287,10 +287,10 @@ public class gberet
 
 
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0xd900, new char[] { 0x03, 0x30, 0x00 }, 3) == 0 &&
+	 /*TOFIX        	if (memcmp(RAM, 0xd900, new char[] { 0x03, 0x30, 0x00 }, 3) == 0 &&
 				memcmp(RAM, 0xd91b, new char[] { 0x01, 0x00, 0x00 }, 3) == 0)
 		{
 			FILE f;
@@ -307,21 +307,21 @@ public class gberet
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
 
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 
 
-		if ((f = fopen(name, "wb")) != null)
+ /*TOFIX        		if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0xd900, 1, 6*10, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 

@@ -37,7 +37,7 @@ import static vidhrdw.wow.*;
 import static sndhrdw.wow.*;
 import static machine.wow.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 public class wow
 {
 		
@@ -789,10 +789,10 @@ public class wow
 	    wow_sh_update               /* Update audio */
 	);
 	
-	static HiscoreLoadPtr gorf_hiload = new HiscoreLoadPtr() { public int handler(String name) 
+	static HiscoreLoadPtr gorf_hiload = new HiscoreLoadPtr() { public int handler() 
 	{
 		/* check if the hi score table has already been initialized */
-	        if ((RAM[0xD00B]==0xFF) && (RAM[0xD03D]==0x33))
+ /*TOFIX        	        if ((RAM[0xD00B]==0xFF) && (RAM[0xD03D]==0x33))
 		{
 			FILE f;
 	
@@ -805,20 +805,20 @@ public class wow
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 	
 	
 	
-	static HiscoreSavePtr gorf_hisave = new HiscoreSavePtr() { public void handler(String name) 
+	static HiscoreSavePtr gorf_hisave = new HiscoreSavePtr() { public void handler() 
 	{
 		FILE f;
 	
-		if ((f = fopen(name,"wb")) != null)
+ /*TOFIX        		if ((f = fopen(name,"wb")) != null)
 		{
 	        fwrite(RAM,0xD010,1,0x22,f);
 			fclose(f);
-		}
+		}*/
 	
 	} };
 	
@@ -927,10 +927,10 @@ public class wow
 		null
 	);
 	
-	static HiscoreLoadPtr spacezap_hiload = new HiscoreLoadPtr() { public int handler(String name) 
+	static HiscoreLoadPtr spacezap_hiload = new HiscoreLoadPtr() { public int handler() 
 	{
 		/* check if memory has already been initialized */
-	        if (memcmp(RAM,0xD024,new char[] {0x01,0x01},2) == 0)
+ /*TOFIX        	        if (memcmp(RAM,0xD024,new char[] {0x01,0x01},2) == 0)
 		{
 			FILE f;
 	
@@ -939,26 +939,26 @@ public class wow
 			{
 	            fread(RAM,0xD01D,1,6,f);
 				/* Appears twice in memory??? */
-				memcpy(RAM,0xD041,RAM,0xD01D,6);
+ /*TOFIX        				memcpy(RAM,0xD041,RAM,0xD01D,6);
 				fclose(f);
 			}
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 	
 	
 	
-	static HiscoreSavePtr spacezap_hisave = new HiscoreSavePtr() { public void handler(String name) 
+	static HiscoreSavePtr spacezap_hisave = new HiscoreSavePtr() { public void handler() 
 	{
 		FILE f;
 	
-		if ((f = fopen(name,"wb")) != null)
+ /*TOFIX        		if ((f = fopen(name,"wb")) != null)
 		{
 	        fwrite(RAM,0xD01D,1,6,f);
 			fclose(f);
-		}
+		}*/
 	
 	} };
 	
@@ -1096,10 +1096,10 @@ public class wow
 		null
 	);
 	
-	static HiscoreLoadPtr seawolf_hiload = new HiscoreLoadPtr() { public int handler(String name) 
+	static HiscoreLoadPtr seawolf_hiload = new HiscoreLoadPtr() { public int handler() 
 	{
 		/* check if the hi score table has already been initialized */
-	        if (memcmp(RAM,0xC20D,new char[] {0xD8,0x19},2) == 0)
+	 /*TOFIX                if (memcmp(RAM,0xC20D,new char[] {0xD8,0x19},2) == 0)
 		{
 			FILE f;
 	
@@ -1112,20 +1112,20 @@ public class wow
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 	
 	
 	
-	static HiscoreSavePtr seawolf_hisave = new HiscoreSavePtr() { public void handler(String name) 
+	static HiscoreSavePtr seawolf_hisave = new HiscoreSavePtr() { public void handler() 
 	{
 		FILE f;
 	
-		if ((f = fopen(name,"wb")) != null)
+	 /*TOFIX        	if ((f = fopen(name,"wb")) != null)
 		{
 	        fwrite(RAM,0xC208,1,2,f);
 			fclose(f);
-		}
+		}*/
 	
 	} };
 	

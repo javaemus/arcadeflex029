@@ -34,6 +34,7 @@ import static mame.osdependH.*;
 import static machine.panic.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.panic.*;
+import static mame.memoryH.*;
 
 public class panic
 {

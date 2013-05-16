@@ -34,6 +34,7 @@ import static mame.osdependH.*;
 import static sndhrdw.mooncrst.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.galaxian.*;
+import static mame.memoryH.*;
 
 public class moonqsr
 {
@@ -304,10 +305,10 @@ static KEYSet keys[] =
 
 
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x804e, new char[] { 0x00, 0x50, 0x00 }, 3) == 0 &&
+	 /*TOFIX        	if (memcmp(RAM, 0x804e, new char[] { 0x00, 0x50, 0x00 }, 3) == 0 &&
 				memcmp(RAM, 0x805a, new char[] { 0x00, 0x50, 0x00 }, 3) == 0)
 		{
 			FILE f;
@@ -321,21 +322,21 @@ static KEYSet keys[] =
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
 
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 
 
-		if ((f = fopen(name, "wb")) != null)
+	 /*TOFIX        	if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x804e, 1, 10*5, f);
 			fclose(f);
-		}
+		}*/
 	} };
         static String mooncrst_sample_names[] =
         {

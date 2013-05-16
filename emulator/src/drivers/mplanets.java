@@ -38,7 +38,7 @@ import static vidhrdw.generic.*;
 import static vidhrdw.gottlieb.*;
 import static mame.inptport.*;
 import static drivers.qbert.*;
-
+import static mame.memoryH.*;
 
 public class mplanets
 {
@@ -241,7 +241,7 @@ public class mplanets
 	
 	
 	
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name) 
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler() 
 	{
 		FILE f=fopen(name,"rb");
                 char[] RAM = Machine.memory_region[0];
@@ -254,7 +254,7 @@ public class mplanets
 		return 1;
 	} };
 	
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name) 
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler() 
 	{
 		 FILE f=fopen(name,"wb");
                 char[] RAM = Machine.memory_region[0];

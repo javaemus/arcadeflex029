@@ -37,7 +37,7 @@ import static sndhrdw.generic.*;
 import static machine.qix.*;
 import static vidhrdw.qix.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 public class qix
 {
 		
@@ -238,7 +238,7 @@ public class qix
 	
 	
 	/* Loads high scores and all other CMOS settings */
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name) 
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler() 
 	{
 		/* get RAM pointer (data is in second CPU's memory region) */
 		char[] RAM = Machine.memory_region[Machine.drv.cpu[1].memory_region];
@@ -256,7 +256,7 @@ public class qix
 	
 	
 	
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name) 
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler() 
 	{
 		/* get RAM pointer (data is in second CPU's memory region) */
             /* get RAM pointer (data is in second CPU's memory region) */

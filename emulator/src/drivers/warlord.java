@@ -36,7 +36,7 @@ import static sndhrdw.generic.*;
 import static vidhrdw.warlord.*;
 import static sndhrdw.pokeyintf.*;
 import static machine.warlord.*;
-
+import static mame.memoryH.*;
 public class warlord 
 {
         static MemoryReadAddress readmem[] =

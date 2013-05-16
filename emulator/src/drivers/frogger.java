@@ -37,6 +37,7 @@ import static sndhrdw.generic.*;
 import static sndhrdw.frogger.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.frogger.*;
+import static mame.memoryH.*;
 
 public class frogger
 {
@@ -314,14 +315,14 @@ public class frogger
 	
         static HiscoreLoadPtr hiload = new HiscoreLoadPtr()
         {
-             public int handler(String paramString)
+             public int handler()
              {
                  /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
                   char[] RAM = Machine.memory_region[0];
                   
                 /* check if the hi score table has already been initialized */
-                  if (memcmp(RAM,0x83f1,new char[] {0x63, 0x04 } ,2) == 0 &&  memcmp(RAM,0x83f9,new char[] {0x27, 0x01},2) == 0)  
+         /*TOFIX                  if (memcmp(RAM,0x83f1,new char[] {0x63, 0x04 } ,2) == 0 &&  memcmp(RAM,0x83f9,new char[] {0x27, 0x01},2) == 0)  
                  {
                        FILE localFILE;
                        if ((localFILE = fopen(paramString, "rb")) != null)
@@ -334,23 +335,23 @@ public class frogger
 
                          return 1;
                  }
-                 else return 0;	/* we can't load the hi scores yet */
+                 else */return 0;	/* we can't load the hi scores yet */
                 }
         };
         
         static HiscoreSavePtr hisave = new HiscoreSavePtr()
          {
-              public void handler(String name)
+              public void handler()
              {
                   /* get RAM pointer (this game is multiCPU, we can't assume the global */
 	         /* RAM pointer is pointing to the right place) */
                  char[] RAM = Machine.memory_region[0];
-                 FILE localFILE;
+        /*TOFIX                  FILE localFILE;
                  if ((localFILE = fopen(name, "wb")) != null)
                  {
                        fwrite(RAM, 0x83f1, 1, 10, localFILE);
                      fclose(localFILE);
-                }
+                }*/
             }
         };
 

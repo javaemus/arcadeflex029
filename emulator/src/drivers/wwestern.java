@@ -38,6 +38,7 @@ import static vidhrdw.taito.*;
 import static sndhrdw._8910intf.*;
 import static sndhrdw.generic.*;
 import static sndhrdw.elevator.*;
+import static mame.memoryH.*;
 
 public class wwestern {
         static MemoryReadAddress readmem[] =

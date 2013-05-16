@@ -37,7 +37,7 @@ import static vidhrdw.ccastles.*;
 import static sndhrdw.pokeyintf.*;
 import static machine.ccastles.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 public class ccastles {
     
     static MemoryReadAddress readmem[] =
@@ -202,7 +202,7 @@ public class ccastles {
     }};
 
 
-    static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+    static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
     {
             /* Read the NVRAM contents from disk */
             /* No check necessary */
@@ -218,7 +218,7 @@ public class ccastles {
     }};
 
 
-    static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+    static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
     {
             FILE f;
 

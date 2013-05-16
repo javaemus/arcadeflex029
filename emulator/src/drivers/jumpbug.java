@@ -36,6 +36,7 @@ import static sndhrdw.jumpbug.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.jumpbug.*;
 import static mame.mame.*;
+import static mame.memoryH.*;
 
 public class jumpbug
 {

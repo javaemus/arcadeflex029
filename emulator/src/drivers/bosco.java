@@ -16,7 +16,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
- *
+ * ported to v0.29
  * ported to v0.27
  *
  * roms are from v0.36 romset
@@ -25,6 +25,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 package drivers;
 
 import static arcadeflex.libc.*;
+import static arcadeflex.osdepend.*;
 import static mame.commonH.*;
 import static mame.cpuintrf.*;
 import static mame.driverH.*;
@@ -311,6 +312,9 @@ public class bosco {
                         )
                 },
                 60,
+                100,	/* 100 CPU slices per frame - an high value to ensure proper */
+			/* synchronization of the CPUs */
+
                 bosco_init_machine,
 
                 /* video hardware */
@@ -362,6 +366,32 @@ public class bosco {
                 ROM_LOAD( "5100.5l",      0x2000, 0x1000, 0x17ac9511 );
                 ROM_END();
         }};
+        static RomLoadPtr bosconm_rom= new RomLoadPtr(){ public void handler()
+        {
+                
+            ROM_REGION(0x10000);	/* 64k for code for the first CPU  */
+            ROM_LOAD( "bos1_1.bin",  0x0000, 0x1000, 0x345df511 );
+            ROM_LOAD( "bos1_2.bin",  0x1000, 0x1000, 0xf9998bad );
+            ROM_LOAD( "bos1_3.bin",  0x2000, 0x1000, 0x810c3c4e );
+            ROM_LOAD( "bos1_4b.bin", 0x3000, 0x1000, 0x5cf9f585 );
+
+            ROM_REGION(0x2000);	/* temporary space for graphics (disposed after conversion) */
+            ROM_LOAD( "bos1_14.bin", 0x0000, 0x1000, 0x1610cd08 );
+            ROM_LOAD( "bos1_13.bin", 0x1000, 0x1000, 0xb04edf54 );
+
+            ROM_REGION(0x10000);	/* 64k for the second CPU */
+            ROM_LOAD( "bos1_5c.bin", 0x0000, 0x1000, 0x36dceeb2 );
+            ROM_LOAD( "bos1_6.bin",  0x1000, 0x1000, 0xf773c773 );
+
+            ROM_REGION(0x10000);	/* 64k for the third CPU  */
+            ROM_LOAD( "bos1_7.bin", 0x0000, 0x1000, 0x6b74d2ca );
+
+            ROM_REGION(0x3000);	/* ROMs for digitised speech */
+            ROM_LOAD( "bos1_9.bin",  0x0000, 0x1000, 0x409e4312 );
+            ROM_LOAD( "bos1_10.bin", 0x1000, 0x1000, 0x01fce73c );
+            ROM_LOAD( "bos1_11.bin", 0x2000, 0x1000, 0x0c0be19b );
+            ROM_END();
+        }};
 
         static  String bosco_sample_names[] =
         {
@@ -373,7 +403,7 @@ public class bosco {
 
         static HiscoreLoadPtr hiload = new HiscoreLoadPtr()
        {
-            public int handler(String name)
+            public int handler()
             {
                 FILE f;
                 int		i;
@@ -385,13 +415,13 @@ public class bosco {
                 /* check if the hi score table has already been initialized */
                 if (memcmp(RAM,0x8bd3,new char[] {0x18},1) == 0)
                 {
-                        if ((f = fopen(name,"rb")) != null)
+                        if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0)) != null)
                         {
-                                fread(RAM,0x8BC5, 15, 1, f);
-                                fread(RAM,0x8BE4, 16, 1, f);
-                                fread(RAM,0x885C, 4, 1, f);
-                                fread(RAM,0x8060, 8, 1, f);
-                                fclose(f);
+                                osd_fread(f,RAM,0x8BC5, 15);
+                                osd_fread(f,RAM,0x8BE4, 16);
+                                osd_fread(f,RAM,0x885C, 4);
+                                osd_fread(f,RAM,0x8060, 8);
+                                osd_fclose(f);
                         }
                         HiScore = 0;
                         for (i = 0; i < 3; i++)
@@ -413,7 +443,7 @@ public class bosco {
 
       static HiscoreSavePtr hisave = new HiscoreSavePtr()
       {
-        public void handler(String name)
+        public void handler()
         {
                 FILE f;
 
@@ -421,19 +451,19 @@ public class bosco {
                 /* RAM pointer is pointing to the right place) */
                 char[] RAM = Machine.memory_region[0];
 
-                if ((f = fopen(name,"wb")) != null)
+                if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1)) != null)
                 {
-                        fwrite(RAM,0x8BC5, 15, 1, f);
-                        fwrite(RAM,0x8BE4, 16, 1, f);
-                        fwrite(RAM,0x885C, 4, 1, f);
-                        fwrite(RAM,0x8060, 8, 1, f);
-                        fclose(f);
+                        osd_fwrite(f,RAM,0x8BC5, 15);
+                        osd_fwrite(f,RAM,0x8BE4, 16);
+                        osd_fwrite(f,RAM,0x885C, 4);
+                        osd_fwrite(f,RAM,0x8060, 8);
+                        osd_fclose(f);
                 }
         }};
 
         public static GameDriver bosco_driver = new GameDriver
 	(
-                "Bosconian",
+                "Bosconian (Midway)",
                 "bosco",
                 "MARTIN SCRAGG\nAARON GILES\nNICOLA SALMORIA\nMIRKO BUFFONI",
                 machine_driver,
@@ -450,4 +480,23 @@ public class bosco {
 
                 hiload, hisave
         );   
+        public static GameDriver bosconm_driver = new GameDriver
+        (
+            "Bosconian (Namco)",
+            "bosconm",
+            "MARTIN SCRAGG\nAARON GILES\nNICOLA SALMORIA\nMIRKO BUFFONI",
+            machine_driver,
+
+            bosconm_rom,
+            null, null,
+            bosco_sample_names,
+
+            input_ports, null, trak_ports, bosco_dsw, keys,
+
+            color_prom, null, null,
+            ORIENTATION_DEFAULT,
+
+            hiload, hisave
+        );
+
 }

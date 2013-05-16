@@ -36,7 +36,7 @@ import static vidhrdw.vector.*;
 import static vidhrdw.atari_vg.*;
 import static sndhrdw._8910intf.*;
 import static sndhrdw.omegrace.*;
-
+import static mame.memoryH.*;
 public class omegrace {
     
         static MemoryReadAddress readmem[] =
@@ -274,7 +274,7 @@ public class omegrace {
                 ROM_END();
         }};
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
@@ -292,7 +292,7 @@ public class omegrace {
                 return 1;
         }};
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
         {
                 FILE f;
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */

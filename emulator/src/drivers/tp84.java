@@ -35,6 +35,7 @@ import static sndhrdw.generic.*;
 import static machine.tp84.*;
 import static vidhrdw.tp84.*;
 import static sndhrdw.tp84.*;
+import static mame.memoryH.*;
 
 public class tp84 {
 

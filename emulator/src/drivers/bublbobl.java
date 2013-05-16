@@ -33,6 +33,7 @@ import static sndhrdw.generic.*;
 import static vidhrdw.bublbobl.*;
 import static machine.bublbobl.*;
 import static mame.inptport.*;
+import static mame.memoryH.*;
 /**
  *
  * @author shadow
@@ -336,7 +337,7 @@ public class bublbobl {
              *  E67C - initialised to 1F - p1's best level reached
              *  E67D - initialised to 13 - p2's best level reached
              */
-             static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+             static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
              {
                  return 0; //not yet
              }};
@@ -375,7 +376,7 @@ public class bublbobl {
                     else return 0;	/* we can't load the hi scores yet */
          /*   }*/
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name){
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(){
 
         }};
 

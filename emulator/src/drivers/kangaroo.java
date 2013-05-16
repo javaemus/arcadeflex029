@@ -40,6 +40,7 @@ import static mame.mame.*;
 import static Z80.Z80.*;
 import static Z80.Z80H.*;
 import static arcadeflex.libc.*;
+import static mame.memoryH.*;
 
 
 public class kangaroo {

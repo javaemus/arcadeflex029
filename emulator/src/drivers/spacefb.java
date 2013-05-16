@@ -33,7 +33,7 @@ import static vidhrdw.generic.*;
 import static machine.spacefb.*;
 import static vidhrdw.spacefb.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 
 public class spacefb {
         static MemoryReadAddress readmem[] =

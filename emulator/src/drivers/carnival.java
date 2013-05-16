@@ -36,7 +36,7 @@ import static machine.carnival.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.carnival.*;
 import static sndhrdw.carnival.*;
-
+import static mame.memoryH.*;
 public class carnival
 {
 
@@ -232,10 +232,10 @@ static char color_prom[] =
                 "C10.SAM",	/* Hit Bear */
                 null     	/* end of array */
         };
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
                 /* check if the hi score table has already been initialized */
-                if ((memcmp(RAM,0xE397,new char[]{0x00,0x00,0x00},3) == 0) &&
+          /*TOFIX               if ((memcmp(RAM,0xE397,new char[]{0x00,0x00,0x00},3) == 0) &&
                         (memcmp(RAM,0xE5A2,"   ",3) == 0))
                 {
                         FILE f;
@@ -244,32 +244,32 @@ static char color_prom[] =
                         if ((f = fopen(name,"rb")) != null)
                         {
                                 /* Read the scores */
-                                fread(RAM,0xE397,1,2*30,f);
+   /*TOFIX                                      fread(RAM,0xE397,1,2*30,f);
                                 /* Read the initials */
-                                fread(RAM,0xE5A2,1,9,f);
+   /*TOFIX                                      fread(RAM,0xE5A2,1,9,f);
                                 fclose(f);
                         }
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+    /*TOFIX                     if ((f = fopen(name,"wb")) != null)
                 {
                         /* Save the scores */
-                        fwrite(RAM,0xE397,1,2*30,f);
+    /*TOFIX                             fwrite(RAM,0xE397,1,2*30,f);
                         /* Save the initials */
-                        fwrite(RAM,0xE5A2,1,9,f);
+    /*TOFIX                             fwrite(RAM,0xE5A2,1,9,f);
                         fclose(f);
-                }
+                }*/
 
         }};
 	public static GameDriver carnival_driver = new GameDriver

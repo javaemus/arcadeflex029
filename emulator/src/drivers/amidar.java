@@ -486,11 +486,11 @@ public class amidar
 
       static HiscoreLoadPtr amidar_hiload = new HiscoreLoadPtr()
       {
-        public int handler(String name)
+        public int handler()
         {
           char[] RAM = Machine.memory_region[0];
 
-          if (memcmp(RAM, 0x8200, new char[] { 0x00, 0x00, 0x01 }, 3) == 0 && memcmp(RAM, 0x821b, new char[] { 0x00, 0x00, 0x01 }, 3) == 0)
+         /*TOFIX          if (memcmp(RAM, 0x8200, new char[] { 0x00, 0x00, 0x01 }, 3) == 0 && memcmp(RAM, 0x821b, new char[] { 0x00, 0x00, 0x01 }, 3) == 0)
             {
               FILE localFILE;
               if ((localFILE = fopen(name, "rb")) != null)
@@ -503,22 +503,22 @@ public class amidar
               }
 
               return 1;
-            }
+            }*/
           return 0;
         }
       };
 
       static HiscoreSavePtr amidar_hisave = new HiscoreSavePtr()
       {
-        public void handler(String name)
+        public void handler()
         {
-          char[] RAM = Machine.memory_region[0];
+       /*TOFIX            char[] RAM = Machine.memory_region[0];
           FILE localFILE;
           if ((localFILE = fopen(name, "wb")) != null)
           {
             fwrite(RAM, 0x8200, 1, 3*10, localFILE);
             fclose(localFILE);
-          }
+          }*/
         }
       };
 

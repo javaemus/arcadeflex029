@@ -42,7 +42,7 @@ import static vidhrdw.generic.*;
 import static vidhrdw.galaxian.*;
 import static mame.inptport.*;
 import static sndhrdw.frogger.*;
-
+import static mame.memoryH.*;
 
 public class scramble {
 
@@ -530,14 +530,14 @@ public class scramble {
                     RAM[A] = (char)((RAM[A] & 0xfc) | ((RAM[A] & 1) << 1) | ((RAM[A] & 2) >> 1));
                 }
         };
-        static HiscoreLoadPtr scramble_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr scramble_hiload = new HiscoreLoadPtr() { public int handler()
              {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
                 char[] RAM = Machine.memory_region[0];
 
                 /* check if the hi score table has already been initialized */
-                if ((memcmp(RAM,0x4200,new char[]{0x00,0x00,0x01},3) == 0) &&
+       /*TOFIX                 if ((memcmp(RAM,0x4200,new char[]{0x00,0x00,0x01},3) == 0) &&
                         (memcmp(RAM,0x421B,new char[] {0x00,0x00,0x01},3) == 0))
                 {
                         FILE f;
@@ -547,17 +547,17 @@ public class scramble {
                         {
                                 fread(RAM,0x4200,1,0x1E,f);
                                 /* copy high score */
-                                memcpy(RAM,0x40A8,RAM,0x4200,3);
+       /*TOFIX                                 memcpy(RAM,0x40A8,RAM,0x4200,3);
                                 fclose(f);
                         }
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
-        static HiscoreSavePtr scramble_hisave = new HiscoreSavePtr() { public void handler(String name){
+        static HiscoreSavePtr scramble_hisave = new HiscoreSavePtr() { public void handler(){
                 FILE f;
 
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -565,28 +565,28 @@ public class scramble {
                 char[] RAM = Machine.memory_region[0];
 
 
-                if ((f = fopen(name,"wb")) != null)
+        /*TOFIX                if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x4200,1,0x1E,f);
                         fclose(f);
-                }
+                }*/
 
         }};
 
 
-        static HiscoreLoadPtr atlantis_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr atlantis_hiload = new HiscoreLoadPtr() { public int handler()
              {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
                 char[] RAM = Machine.memory_region[0];
 
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM,0x403D,new char[]{0x00,0x00,0x00},3) == 0)
+           /*TOFIX              if (memcmp(RAM,0x403D,new char[]{0x00,0x00,0x00},3) == 0)
                 {
                         FILE f;
 
 
-                        if ((f = fopen(name,"rb")) != null)
+                       if ((f = fopen(name,"rb")) != null)
                         {
                                 fread(RAM,0x403D,1,4*11,f);
                                 fclose(f);
@@ -594,11 +594,11 @@ public class scramble {
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
-        static HiscoreSavePtr atlantis_hisave = new HiscoreSavePtr() { public void handler(String name){
+        static HiscoreSavePtr atlantis_hisave = new HiscoreSavePtr() { public void handler(){
                 FILE f;
 
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -606,22 +606,22 @@ public class scramble {
                 char[] RAM = Machine.memory_region[0];
 
 
-                if ((f = fopen(name,"wb")) != null)
+       /*TOFIX                 if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x403D,1,4*11,f);
                         fclose(f);
-                }
+                } */
 
         }};
 
-        static HiscoreLoadPtr theend_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr theend_hiload = new HiscoreLoadPtr() { public int handler()
              {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
                 char[] RAM = Machine.memory_region[0];
 
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM,0x43C0,new char[]{0x00,0x00,0x00},3) == 0)
+   /*TOFIX                     if (memcmp(RAM,0x43C0,new char[]{0x00,0x00,0x00},3) == 0)
                 {
                         FILE f;
 
@@ -631,19 +631,19 @@ public class scramble {
                                 /* This seems to have more than 5 scores in memory. */
                                 /* If this DISPLAYS more than 5 scores, change 3*5 to 3*10 or */
                                 /* however many it should be. */
-                                fread(RAM,0x43C0,1,3*5,f);
+  /*TOFIX                                      fread(RAM,0x43C0,1,3*5,f);
                                 /* copy high score */
-                                memcpy(RAM,0x40A8,RAM,0x43C0,3);
+ /*TOFIX                                       memcpy(RAM,0x40A8,RAM,0x43C0,3);
                                 fclose(f);
                         }
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */ return 0;	/* we can't load the hi scores yet */
         }};
 
 
-        static HiscoreSavePtr theend_hisave = new HiscoreSavePtr() { public void handler(String name){
+        static HiscoreSavePtr theend_hisave = new HiscoreSavePtr() { public void handler(){
                 FILE f;
 
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -651,19 +651,19 @@ public class scramble {
                 char[] RAM = Machine.memory_region[0];
 
 
-                if ((f = fopen(name,"wb")) != null)
+       /*TOFIX                 if ((f = fopen(name,"wb")) != null)
                 {
                         /* This seems to have more than 5 scores in memory. */
                         /* If this DISPLAYS more than 5 scores, change 3*5 to 3*10 or */
                         /* however many it should be. */
-                        fwrite(RAM,0x43C0,1,3*5,f);
+    /*TOFIX                            fwrite(RAM,0x43C0,1,3*5,f);
                         fclose(f);
-                }
+                } */
 
         }};
 
 
-        static HiscoreLoadPtr froggers_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr froggers_hiload = new HiscoreLoadPtr() { public int handler()
              {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
@@ -671,7 +671,7 @@ public class scramble {
 
 
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM,0x43f1,new char[]{0x63,0x04},2) == 0 &&
+  /*TOFIX                      if (memcmp(RAM,0x43f1,new char[]{0x63,0x04},2) == 0 &&
                                 memcmp(RAM,0x43f8,new char[]{0x27,0x01},2) == 0)
                 {
                         FILE f;
@@ -687,22 +687,22 @@ public class scramble {
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */ return 0;	/* we can't load the hi scores yet */
         }};
 
 
-        static HiscoreSavePtr froggers_hisave = new HiscoreSavePtr() { public void handler(String name){
+        static HiscoreSavePtr froggers_hisave = new HiscoreSavePtr() { public void handler(){
                 FILE f;
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
                 char[] RAM = Machine.memory_region[0];
 
 
-                if ((f = fopen(name,"wb")) != null)
+           /*TOFIX             if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x43f1,1,2*5,f);
                         fclose(f);
-                }
+                } */
         }};
 
 	public static GameDriver scramble_driver = new GameDriver

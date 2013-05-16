@@ -37,6 +37,7 @@ import static vidhrdw.nibbler.*;
 import static machine.vanguard.*;
 import static vidhrdw.vanguard.*;
 import static sndhrdw.vanguard.*;
+import static mame.memoryH.*;
 
 public class nibbler
 {
@@ -259,7 +260,7 @@ static KEYSet keys[] =
 
 
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
 		if (memcmp(RAM, 0x0290, new char[] { 0x00, 0x50, 0x00, 0x00 }, 4) == 0 &&
@@ -282,7 +283,7 @@ static KEYSet keys[] =
 	
 
 
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 	

@@ -38,6 +38,7 @@ import static sndhrdw.generic.*;
 import static sndhrdw.gyruss.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.gyruss.*;
+import static mame.memoryH.*;
 
 public class gyruss
 {
@@ -357,14 +358,14 @@ static KEYSet keys[] =
 	
 	
 	
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* get RAM pointer (this game is multiCPU, we can't assume the global */
 		/* RAM pointer is pointing to the right place) */
 		char []RAM = Machine.memory_region[0];
 	
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x9489, new char[] { 0x00, 0x00, 0x01 }, 3) == 0 &&
+	 /*TOFIX        	if (memcmp(RAM, 0x9489, new char[] { 0x00, 0x00, 0x01 }, 3) == 0 &&
 				memcmp(RAM, 0x94a9, new char[] { 0x00, 0x43, 0x00 }, 3) == 0)
 		{
 			FILE f;
@@ -381,12 +382,12 @@ static KEYSet keys[] =
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 	
 	
 	
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 		/* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -394,11 +395,11 @@ static KEYSet keys[] =
 		char []RAM = Machine.memory_region[0];
 	
 	
-		if ((f = fopen(name, "wb")) != null)
+	 /*TOFIX        	if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x9488, 1, 8*5, f);
 			fclose(f);
-		}
+		}*/
 	} };
 	
 	

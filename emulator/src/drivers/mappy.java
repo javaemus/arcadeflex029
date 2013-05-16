@@ -35,7 +35,7 @@ import static sndhrdw.generic.*;
 import static machine.mappy.*;
 import static vidhrdw.mappy.*;
 import static sndhrdw.mappy.*;
-
+import static mame.memoryH.*;
 public class mappy {
     /* CPU 1 read addresses */
     static MemoryReadAddress mappy_readmem_cpu1[] =

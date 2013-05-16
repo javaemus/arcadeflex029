@@ -37,7 +37,7 @@ import static vidhrdw.phoenix.*;
 import static sndhrdw.phoenix.*;
 import static sndhrdw.pleiads.*;
 import static machine.phoenix.*;
-
+import static mame.memoryH.*;
 
 public class phoenix
 {
@@ -454,7 +454,7 @@ public class phoenix
 
 
 
-    static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+    static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
     {
            FILE f;
 
@@ -493,7 +493,7 @@ public class phoenix
 
 
 
-    static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+    static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
     {
        FILE f;
 

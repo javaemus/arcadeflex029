@@ -40,7 +40,7 @@ import static vidhrdw.vector.*;
 import static machine.tempest.*;
 import static machine.mathbox.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 public class tempest {
         static MemoryReadAddress readmem[] =
         {

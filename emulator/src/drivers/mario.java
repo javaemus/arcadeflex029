@@ -35,6 +35,7 @@ import static mame.osdependH.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.mario.*;
 import static mame.inptport.*;
+import static mame.memoryH.*;
 
 public class mario
 {
@@ -308,10 +309,10 @@ public class mario
          }};
                                
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x6b1d, new char[] { 0x00, 0x20, 0x01 }, 3) == 0 &&
+ /*TOFIX        		if (memcmp(RAM, 0x6b1d, new char[] { 0x00, 0x20, 0x01 }, 3) == 0 &&
 				memcmp(RAM, 0x6ba5, new char[] { 0x00, 0x32, 0x00 }, 3) == 0)
 		{
 			FILE f;
@@ -320,31 +321,31 @@ public class mario
 			if ((f = fopen(name, "rb")) != null)
 			{
 				fread(RAM, 0x6b00, 1, 34*5, f);	/* hi scores */
-				RAM[0x6823] = RAM[0x6b1f];
+ /*TOFIX        				RAM[0x6823] = RAM[0x6b1f];
 				RAM[0x6824] = RAM[0x6b1e];
 				RAM[0x6825] = RAM[0x6b1d];
 				fread(RAM, 0x6c00, 1, 0x3c, f);	/* distributions */
-				fclose(f);
+ /*TOFIX        				fclose(f);
 			}
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 		
 		
 		
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 	
 	
-		if ((f = fopen(name, "wb")) != null)
+ /*TOFIX        		if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x6b00, 1, 34*5, f);	/* hi scores */
-			fwrite(RAM, 0x6c00, 1, 0x3c, f);	/* distribution */
-			fclose(f);
-		}
+ /*TOFIX        			fwrite(RAM, 0x6c00, 1, 0x3c, f);	/* distribution */
+ /*TOFIX        			fclose(f);
+		}*/
 	} };
 
 

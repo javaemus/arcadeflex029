@@ -38,6 +38,7 @@ import static sndhrdw.generic.*;
 import static sndhrdw.junglek.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.taito.*;
+import static mame.memoryH.*;
 
 public class junglek
 {
@@ -366,14 +367,14 @@ static KEYSet keys[] =
                 ROM_END();
         }};
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
                 char RAM[]=Machine.memory_region[0];
 
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM,0x816B,new char[]{0x00,0x50,0x00},3) == 0)
+    /*TOFIX                     if (memcmp(RAM,0x816B,new char[]{0x00,0x50,0x00},3) == 0)
                 {
                         FILE f;
 
@@ -386,12 +387,12 @@ static KEYSet keys[] =
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
                 FILE f;
 
@@ -400,11 +401,11 @@ static KEYSet keys[] =
                 char RAM[]=Machine.memory_region[0];
 
 
-                if ((f = fopen(name,"wb")) != null)
+      /*TOFIX                   if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x816B,1,3,f);
                         fclose(f);
-                }
+                }*/
 
         }};
 

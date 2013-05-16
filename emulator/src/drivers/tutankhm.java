@@ -36,7 +36,7 @@ import static sndhrdw._8910intf.*;
 import static machine.tutankhm.*;
 import static vidhrdw.tutankhm.*;
 import static sndhrdw.tutankhm.*;
-
+import static mame.memoryH.*;
 public class tutankhm {
         static MemoryReadAddress readmem[] =
         {
@@ -276,7 +276,7 @@ public class tutankhm {
         }};
 
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
            FILE f;
 
@@ -299,7 +299,7 @@ public class tutankhm {
               return 0; /* we can't load the hi scores yet */
         }};
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
                 FILE f;
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */

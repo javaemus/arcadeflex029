@@ -36,7 +36,7 @@ import static vidhrdw.generic.*;
 import static vidhrdw.espial.*;
 import static sndhrdw.generic.*;
 import static machine.espial.*;
-
+import static mame.memoryH.*;
 
 public class espial {
         public static ReadHandlerPtr pip = new ReadHandlerPtr() { public int handler(int offset)

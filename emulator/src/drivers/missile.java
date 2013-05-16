@@ -35,7 +35,7 @@ import static sndhrdw.generic.*;
 import static sndhrdw.pokeyintf.*;
 import static machine.missile.*;
 import static vidhrdw.missile.*;
-
+import static mame.memoryH.*;
 
 public class missile {
         static MemoryReadAddress readmem[] =
@@ -247,7 +247,7 @@ public class missile {
         }};
 
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 FILE f;
                 /* check if the hi score table has already been initialized */
@@ -265,7 +265,7 @@ public class missile {
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
         {
                 FILE f;
 

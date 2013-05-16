@@ -36,6 +36,7 @@ import static mame.osdependH.*;
 import static vidhrdw.generic.*;
 import static machine.naughtyb.*;
 import static vidhrdw.naughtyb.*;
+import static mame.memoryH.*;
 
 /**
  *

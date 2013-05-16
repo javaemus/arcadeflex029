@@ -46,7 +46,7 @@ import static sndhrdw.generic.*;
 import static sndhrdw.scramble.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.galaxian.*;
-
+import static mame.memoryH.*;
 public class scobra
 {
 
@@ -779,35 +779,35 @@ public class scobra
 	
 		null, null
 	);
-        static HiscoreLoadPtr anteater_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr anteater_hiload = new HiscoreLoadPtr() { public int handler()
         {
           RAM = Machine.memory_region[0];
           FILE f;
 
           /* Wait for machine initialization to be done. */
-          if (memcmp(RAM,0x146a, new char[] { 0x01, 0x04, 0x80 }, 3) != 0) return 0;
+ /*TOFIX                 if (memcmp(RAM,0x146a, new char[] { 0x01, 0x04, 0x80 }, 3) != 0) return 0;
 
           if ((f = fopen(name, "rb")) != null)
             {
               /* Load and set hiscore table. */
-              fread(RAM,0x146a,1,6*10,f);
+ /*TOFIX                     fread(RAM,0x146a,1,6*10,f);
               fclose(f);
-            }
+            } */
 
           return 1;
         }};
 
-        static HiscoreSavePtr anteater_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr anteater_hisave = new HiscoreSavePtr() { public void handler()
 	{
           RAM = Machine.memory_region[0];
           FILE f;
 
-          if ((f = fopen(name, "wb")) != null)
+   /*TOFIX               if ((f = fopen(name, "wb")) != null)
             {
               /* Write hiscore table. */
-             fwrite(RAM,0x80ef,1,6*10,f);
+      /*TOFIX               fwrite(RAM,0x80ef,1,6*10,f);
               fclose(f);
-            }
+            }*/
         }};
 
 

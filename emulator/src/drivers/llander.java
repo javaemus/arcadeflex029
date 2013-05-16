@@ -37,7 +37,7 @@ import static machine.llander.*;
 import static machine.atari_vg.*;
 import static vidhrdw.atari_vg.*;
 import static vidhrdw.vector.*;
-
+import static mame.memoryH.*;
 public class llander {
         static  MemoryReadAddress readmem[] =
         {

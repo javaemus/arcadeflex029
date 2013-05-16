@@ -1176,7 +1176,7 @@ for (A = 0;A < 0x10000;A++)
 
 
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* get RAM pointer (this game is multiCPU, we can't assume the global */
 		/* RAM pointer is pointing to the right place) */
@@ -1206,7 +1206,7 @@ for (A = 0;A < 0x10000;A++)
 
 
 
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 		/* get RAM pointer (this game is multiCPU, we can't assume the global */

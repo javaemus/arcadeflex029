@@ -36,6 +36,7 @@ import static mame.inptport.*;
 import static mame.osdependH.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.congo.*;
+import static mame.memoryH.*;
 
 public class congo
 {
@@ -432,10 +433,10 @@ public class congo
 	
 
 	
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x8030, new char[] { 0x00, 0x89, 0x00 }, 3) == 0 &&
+ /*TOFIX        		if (memcmp(RAM, 0x8030, new char[] { 0x00, 0x89, 0x00 }, 3) == 0 &&
 				memcmp(RAM, 0x8099, new char[] { 0x00, 0x37, 0x00 }, 3) == 0)
 		{
 			FILE f;
@@ -452,16 +453,16 @@ public class congo
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
 
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
                 /* make sure that the high score table is still valid (entering the */
                 /* test mode corrupts it) */
-                if (memcmp(RAM,0x8030,new char[]{0x00,0x00,0x00},3) != 0)
+          /*TOFIX               if (memcmp(RAM,0x8030,new char[]{0x00,0x00,0x00},3) != 0)
                 {
                         FILE f;
 
@@ -471,7 +472,7 @@ public class congo
                                 fwrite(RAM,0x8020,1,21*6,f);
                                 fclose(f);
                         }
-                }
+                }*/
 	} };
 
 

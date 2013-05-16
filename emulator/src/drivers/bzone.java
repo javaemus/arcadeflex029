@@ -40,7 +40,7 @@ import static mame.inptport.*;
 import static vidhrdw.atari_vg.*;
 import static vidhrdw.vector.*;
 import static machine.mathbox.*;
-
+import static mame.memoryH.*;
 public class bzone {
         static MemoryReadAddress readmem[] =
         {
@@ -178,7 +178,7 @@ public class bzone {
 
 
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* check if the hi score table has already been initialized */
                 if (memcmp(RAM,0x0300,new char[]{0x05,0x00,0x00},3) == 0 &&
@@ -199,7 +199,7 @@ public class bzone {
         }};
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
         {
                 FILE f;
 

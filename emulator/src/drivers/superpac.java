@@ -34,6 +34,7 @@ import static sndhrdw.generic.*;
 import static machine.superpac.*;
 import static vidhrdw.superpac.*;
 import static sndhrdw.mappy.*;
+import static mame.memoryH.*;
 /**
  *
  * @author shadow

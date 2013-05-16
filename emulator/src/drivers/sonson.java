@@ -37,6 +37,7 @@ import static m6809.M6809H.*;
 import static m6809.M6809.*;
 import static sndhrdw._8910intf.*;
 import static sndhrdw.capcom.*;
+import static mame.memoryH.*;
 
 public class sonson {
       public static InitMachinePtr sonson_init_machine = new InitMachinePtr()
@@ -332,7 +333,7 @@ public class sonson {
                  ROM_END();
         }};
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
@@ -366,7 +367,7 @@ public class sonson {
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
         {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */

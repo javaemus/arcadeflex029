@@ -35,7 +35,7 @@ import static mame.osdependH.*;
 import static sndhrdw.pengo.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.pengo.*;
-
+import static mame.memoryH.*;
 public class pengo
 {
 
@@ -475,13 +475,13 @@ public class pengo
         };
 
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM,0x8840,new char[] {0xd0,0x07},2) == 0 &&
+	 /*TOFIX        	if (memcmp(RAM,0x8840,new char[] {0xd0,0x07},2) == 0 &&
 			memcmp(RAM,0x8858,new char[]{0xd0,0x07},2) == 0 &&
 			memcmp(RAM,0x880c,new char[]{0xd0,0x07},2) == 0)	/* high score */
-		{
+ /*TOFIX        		{
 			FILE f;
 
 
@@ -495,20 +495,20 @@ public class pengo
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 
 
-		if ((f = fopen(name, "wb")) != null)
+		 /*TOFIX        if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x8840, 1, 6*5, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 

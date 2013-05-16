@@ -34,6 +34,7 @@ import static mame.inptport.*;
 import static mame.osdependH.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.exidy.*;
+import static mame.memoryH.*;
 
 public class pepper2 {
     
@@ -398,7 +399,7 @@ public class pepper2 {
         }};
 
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
@@ -424,7 +425,7 @@ public class pepper2 {
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
                 FILE f;
 

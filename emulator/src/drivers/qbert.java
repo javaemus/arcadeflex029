@@ -36,7 +36,7 @@ import static machine.gottlieb.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.gottlieb.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 public class qbert 
 {
 	static MemoryReadAddress readmem[] =

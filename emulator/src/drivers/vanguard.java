@@ -36,6 +36,7 @@ import static machine.vanguard.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.vanguard.*;
 import static sndhrdw.vanguard.*;
+import static mame.memoryH.*;
 
 public class vanguard
 {

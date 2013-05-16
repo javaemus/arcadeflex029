@@ -35,7 +35,7 @@ import static sndhrdw.dkong.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.dkong.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 public class dkong {
     
         static MemoryReadAddress readmem[] =
@@ -960,7 +960,7 @@ public class dkong {
 
 
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
             	if (memcmp(RAM,0x611d, new char[] {0x50,0x76,0x00},3) == 0 &&
@@ -993,7 +993,7 @@ public class dkong {
 	
 		
 		
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 	

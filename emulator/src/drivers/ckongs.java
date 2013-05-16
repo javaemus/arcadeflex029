@@ -40,6 +40,7 @@ import static sndhrdw.generic.*;
 import static sndhrdw.scramble.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.galaxian.*;
+import static mame.memoryH.*;
 
 public class ckongs
 {

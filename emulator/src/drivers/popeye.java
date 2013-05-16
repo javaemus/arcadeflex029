@@ -35,6 +35,7 @@ import static sndhrdw._8910intf.*;
 import static sndhrdw.popeye.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.popeye.*;
+import static mame.memoryH.*;
 
 public class popeye
 {
@@ -302,10 +303,10 @@ public class popeye
 
 	
 	
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x8209, new char[] { 0x00, 0x26, 0x03 }, 3) == 0 &&
+ /*TOFIX        		if (memcmp(RAM, 0x8209, new char[] { 0x00, 0x26, 0x03 }, 3) == 0 &&
 				memcmp(RAM, 0x8221, new char[] { 0x50, 0x11, 0x02}, 3) == 0)
 		{
 			FILE f;
@@ -336,21 +337,21 @@ public class popeye
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 	
 	
 	
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 	
 	
-		if ((f = fopen(name, "wb")) != null)
+ /*TOFIX        		if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x8200, 1, 6+6*5, f);
 			fclose(f);
-		}
+		}*/
 	} };
 	
 	

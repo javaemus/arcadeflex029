@@ -38,6 +38,7 @@ import static sndhrdw.generic.*;
 import static sndhrdw.pooyan.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.pooyan.*;
+import static mame.memoryH.*;
 
 public class pooyan
 {
@@ -292,7 +293,7 @@ public class pooyan
 	        ROM_END();
         }};
 			
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* get RAM pointer (this game is multiCPU, we can't assume the global */
 		/* RAM pointer is pointing to the right place) */
@@ -300,7 +301,7 @@ public class pooyan
 
 
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x8a00, new char[] { 0x00, 0x00, 0x01 }, 3) == 0 &&
+/*TOFIX        		if (memcmp(RAM, 0x8a00, new char[] { 0x00, 0x00, 0x01 }, 3) == 0 &&
 				memcmp(RAM, 0x8a1b, new char[] { 0x00, 0x00, 0x01 }, 3) == 0)
 		{
 			FILE f;
@@ -319,12 +320,12 @@ public class pooyan
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 		
 		
 		
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 		/* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -332,13 +333,13 @@ public class pooyan
 		char []RAM = Machine.memory_region[0];
 	
 	
-		if ((f = fopen(name, "wb")) != null)
+/*TOFIX        		if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x89c0, 1, 3*10, f);
 			fwrite(RAM, 0x8a00, 1, 3*10, f);
 			fwrite(RAM, 0x8e00, 1, 3*10, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 

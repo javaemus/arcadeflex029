@@ -36,6 +36,7 @@ import static sndhrdw.generic.*;
 import static sndhrdw.pooyan.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.locomotn.*;
+import static mame.memoryH.*;
 
 public class locomotn {
         static  MemoryReadAddress readmem[] =
@@ -288,7 +289,7 @@ public class locomotn {
         }};
 
         static int ROMloaded=0;
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {       
 	/* get RAM pointer (this game is multiCPU, we can't assume the global */
 	/* RAM pointer is pointing to the right place) */
@@ -328,7 +329,7 @@ public class locomotn {
 	else return 0;	/* we can't load the hi scores yet */
     }};
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
             FILE f;
 

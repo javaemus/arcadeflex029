@@ -35,7 +35,7 @@ import static sndhrdw.ladybug.*;
 import static machine.mrdo.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.mrdo.*;
-
+import static mame.memoryH.*;
 public class mrdo
 {
 
@@ -269,10 +269,10 @@ static KEYSet keys[] =
                 ROM_END();
         }};
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0xe017, new char[] { 0x01, 0x00, 0x00 }, 3) == 0 &&
+	 /*TOFIX        	if (memcmp(RAM, 0xe017, new char[] { 0x01, 0x00, 0x00 }, 3) == 0 &&
 				memcmp(RAM, 0xe071, new char[] { 0x01, 0x00, 0x00 }, 3) == 0)
 		{
 			FILE f;
@@ -286,21 +286,21 @@ static KEYSet keys[] =
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
 
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 
 
-		if ((f = fopen(name, "wb")) != null)
+		 /*TOFIX        if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0xe017, 1, 10*10+2, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 

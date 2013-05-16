@@ -36,6 +36,7 @@ import static sndhrdw.rastan.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.rastan.*;
 import static mame.inptport.*;
+import static mame.memoryH.*;
 
 public class rastan
 {

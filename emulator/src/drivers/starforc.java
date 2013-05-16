@@ -38,7 +38,7 @@ import static vidhrdw.generic.*;
 import static vidhrdw.starforc.*;
 import static sndhrdw.starforc.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 public class starforc {
         static MemoryReadAddress readmem[] =
         {
@@ -318,7 +318,7 @@ public class starforc {
 
 
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
             //this doesn't seem to work anyway so we leave it for later...
             
@@ -351,7 +351,7 @@ public class starforc {
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
            /*     FILE *f;
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */

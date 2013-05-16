@@ -37,6 +37,7 @@ import static sndhrdw.invaders.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.invaders.*;
 import static mame.inptport.*;
+import static mame.memoryH.*;
 
 public class invaders
 {

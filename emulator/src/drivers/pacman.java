@@ -39,6 +39,7 @@ import static machine.pacman.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.pengo.*;
 import static mame.inptport.*;
+import static mame.memoryH.*;
 
 public class pacman
 {

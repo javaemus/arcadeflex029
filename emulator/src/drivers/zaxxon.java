@@ -26,6 +26,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 package drivers;
 
 import static arcadeflex.libc.*;
+import static arcadeflex.osdepend.*;
 import static mame.commonH.*;
 import static mame.cpuintrf.*;
 import static mame.driverH.*;
@@ -34,7 +35,7 @@ import static mame.inptport.*;
 import static mame.osdependH.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.zaxxon.*;
-
+import static mame.memoryH.*;
 public class zaxxon
 {
 
@@ -480,7 +481,7 @@ public class zaxxon
                 ROM_END();
         }};
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
 		if (memcmp(RAM, 0x6110, new char[] { 0x00, 0x89, 0x00 }, 3) == 0 &&
@@ -489,13 +490,13 @@ public class zaxxon
 			FILE f;
 
 
-			if ((f = fopen(name, "rb")) != null)
+			if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0)) != null)
 			{
-				fread(RAM, 0x6100, 1, 21*6, f);
+				osd_fread(f,RAM, 0x6100,21*6);
 				RAM[0x6038] = RAM[0x6110];
 				RAM[0x6039] = RAM[0x6111];
 				RAM[0x603a] = RAM[0x6112];
-				fclose(f);
+				osd_fclose(f);
 			}
 
 			return 1;
@@ -505,7 +506,7 @@ public class zaxxon
 
 
 
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
                 /* make sure that the high score table is still valid (entering the */
                 /* test mode corrupts it) */
@@ -514,10 +515,10 @@ public class zaxxon
                         FILE f;
 
 
-                        if ((f = fopen(name,"wb")) != null)
+                        if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1)) != null)
                         {
-                                fwrite(RAM,0x6100,1,21*6,f);
-                                fclose(f);
+                                osd_fwrite(f,RAM,0x6100,21*6);
+                                osd_fclose(f);
                         }
                 }
 	} };

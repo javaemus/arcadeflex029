@@ -39,6 +39,7 @@ import static sndhrdw.generic.*;
 import static machine._1942.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.exedexes.*;
+import static mame.memoryH.*;
 
 public class exedexes {
         static MemoryReadAddress readmem[] =
@@ -426,7 +427,7 @@ public class exedexes {
                 
                 ROM_END();
         }};
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* get RAM pointer (this game is multiCPU, we can't assume the global */
                 /* RAM pointer is pointing to the right place) */
@@ -454,7 +455,7 @@ public class exedexes {
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
                 FILE f;
 

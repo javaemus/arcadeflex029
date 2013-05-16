@@ -39,6 +39,7 @@ import static vidhrdw.docastle.*;
 import static mame.osdependH.*;
 import static mame.mame.*;
 import static sndhrdw.docastle.*;
+import static mame.memoryH.*;
 
 public class dowild {
             static  MemoryReadAddress readmem[] =
@@ -384,7 +385,7 @@ public class dowild {
                     ROM_END();
             }};
 
-            static HiscoreLoadPtr dowild_hiload = new HiscoreLoadPtr() { public int handler(String name)
+            static HiscoreLoadPtr dowild_hiload = new HiscoreLoadPtr() { public int handler()
             {
                     /* get RAM pointer (this game is multiCPU, we can't assume the global */
                     /* RAM pointer is pointing to the right place) */
@@ -392,7 +393,7 @@ public class dowild {
 
 
                     /* check if the hi score table has already been initialized */
-                    if (memcmp(RAM,0x8020, new char[] { 0x01 , 0x00 , 0x00 },3) == 0 &&
+                  /*TOFIX          if (memcmp(RAM,0x8020, new char[] { 0x01 , 0x00 , 0x00 },3) == 0 &&
                                 memcmp(RAM,0x8068,new char[] { 0x01 , 0x00 , 0x00 },3) == 0)
                     {
                     
@@ -407,27 +408,27 @@ public class dowild {
 
                             return 1;
                     }
-                    else return 0;	/* we can't load the hi scores yet */
+                    else */return 0;	/* we can't load the hi scores yet */
             }};
 
 
-            static HiscoreSavePtr dowild_hisave = new HiscoreSavePtr() { public void handler(String name)
+            static HiscoreSavePtr dowild_hisave = new HiscoreSavePtr() { public void handler()
             {
                     FILE f;
                     /* get RAM pointer (this game is multiCPU, we can't assume the global */
                     /* RAM pointer is pointing to the right place) */
-                    char []RAM = Machine.memory_region[0];
+               /*TOFIX      char []RAM = Machine.memory_region[0];
 
 
                     if ((f = fopen(name, "wb")) != null)
                     {
                             fwrite(RAM,0x2020,1,10*8,f);
                             fclose(f);
-                    }
+                    }*/
             }};
 
 
-            static HiscoreLoadPtr dorunrun_hiload = new HiscoreLoadPtr() { public int handler(String name)
+            static HiscoreLoadPtr dorunrun_hiload = new HiscoreLoadPtr() { public int handler()
             {
 
                     /* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -436,7 +437,7 @@ public class dowild {
 
 
                     /* check if the hi score table has already been initialized */
-                    if (memcmp(RAM,0x8020, new char[] { 0x00 , 0x10 , 0x00 },3) == 0 &&
+              /*TOFIX       if (memcmp(RAM,0x8020, new char[] { 0x00 , 0x10 , 0x00 },3) == 0 &&
                                 memcmp(RAM,0x8068,new char[] { 0x00 , 0x10 , 0x00 },3) == 0)
                     {
                     
@@ -451,10 +452,10 @@ public class dowild {
 
                             return 1;
                     }
-                    else return 0;	/* we can't load the hi scores yet */
+                    else */return 0;	/* we can't load the hi scores yet */
             }};
 
-            static HiscoreSavePtr dorunrun_hisave = new HiscoreSavePtr() { public void handler(String name)
+            static HiscoreSavePtr dorunrun_hisave = new HiscoreSavePtr() { public void handler()
             {
                     FILE f;
                     /* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -462,11 +463,11 @@ public class dowild {
                     char []RAM = Machine.memory_region[0];
 
 
-                   if ((f = fopen(name, "wb")) != null)
+                /*TOFIX    if ((f = fopen(name, "wb")) != null)
                     {
                             fwrite(RAM,0x2010,1,50*8,f);
                             fclose(f);
-                    }
+                    } */
             }};
 
 

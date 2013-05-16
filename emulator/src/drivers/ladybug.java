@@ -36,7 +36,7 @@ import static mame.osdependH.*;
 import static sndhrdw.ladybug.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.ladybug.*;
-
+import static mame.memoryH.*;
 public class ladybug
 {
 
@@ -527,10 +527,10 @@ public class ladybug
                 ROM_END();
         }};
 
-                static HiscoreLoadPtr ladybug_hiload = new HiscoreLoadPtr() { public int handler(String name)
+                static HiscoreLoadPtr ladybug_hiload = new HiscoreLoadPtr() { public int handler()
                 {
                         /* check if the hi score table has already been initialized */
-                        if (memcmp(RAM, 0x6073, new char[] { 0x01, 0x00, 0x00 }, 3) == 0 &&
+               /*TOFIX                  if (memcmp(RAM, 0x6073, new char[] { 0x01, 0x00, 0x00 }, 3) == 0 &&
                                         memcmp(RAM, 0x608b, new char[] { 0x01, 0x00, 0x00 }, 3) == 0)
                         {
                                 FILE f;
@@ -545,31 +545,31 @@ public class ladybug
 
                                 return 1;
                         }
-                        else return 0;	/* we can't load the hi scores yet */
+                        else */return 0;	/* we can't load the hi scores yet */
                 } };
-                static HiscoreSavePtr ladybug_hisave = new HiscoreSavePtr() { public void handler(String name)
+                static HiscoreSavePtr ladybug_hisave = new HiscoreSavePtr() { public void handler()
                 {
                         FILE f;
 
 
-                        if ((f = fopen(name, "wb")) != null)
+                 /*TOFIX                if ((f = fopen(name, "wb")) != null)
                         {
                                 fwrite(RAM, 0x6073, 1, 3*9, f);
                                 fwrite(RAM, 0xd380, 1, 13*9, f);
                                 fclose(f);
-                        }
+                        }*/
                 } };
-                static HiscoreLoadPtr cavenger_hiload = new HiscoreLoadPtr() { public int handler(String name)
+                static HiscoreLoadPtr cavenger_hiload = new HiscoreLoadPtr() { public int handler()
                 {
 
                         /* check if the hi score table has already been initialized */
-                        if ((memcmp(RAM,0x6025,new char[]{0x01,0x00,0x00},3) == 0) &&
+      /*TOFIX                           if ((memcmp(RAM,0x6025,new char[]{0x01,0x00,0x00},3) == 0) &&
                                 (memcmp(RAM,0x6063,new char[]{0x0A,0x15,0x28},3) == 0))
                         {
                                 FILE f;
 
 
-                                if ((f = fopen(name,"rb")) != null)
+           /*TOFIX                              if ((f = fopen(name,"rb")) != null)
                                 {
                                         fread(RAM,0x6025,1,0x41,f);
                                         fclose(f);
@@ -577,26 +577,26 @@ public class ladybug
 
                                 return 1;
                         }
-                        else return 0;	/* we can't load the hi scores yet */
+                        else */ return 0;	/* we can't load the hi scores yet */
                 }};
 
 
-                static HiscoreSavePtr cavenger_hisave = new HiscoreSavePtr() { public void handler(String name)
+                static HiscoreSavePtr cavenger_hisave = new HiscoreSavePtr() { public void handler()
                 {
                         FILE f;
 
 
-                        if ((f = fopen(name,"wb")) != null)
+                      /*TOFIX           if ((f = fopen(name,"wb")) != null)
                         {
                                 fwrite(RAM,0x6025,1,0x41,f);
                                 fclose(f);
-                        }
+                        } */
 
                 }};
-                static HiscoreLoadPtr snapjack_hiload = new HiscoreLoadPtr() { public int handler(String name)
+                static HiscoreLoadPtr snapjack_hiload = new HiscoreLoadPtr() { public int handler()
                 {
                         /* check if the hi score table has already been initialized */
-                        if ((memcmp(RAM,0x6A94,new char[]{0x01,0x00,0x00},3) == 0) &&
+               /*TOFIX                  if ((memcmp(RAM,0x6A94,new char[]{0x01,0x00,0x00},3) == 0) &&
                                 (memcmp(RAM,0x6AA0,new char[]{0x01,0x00,0x00,0x1E},4) == 0) &&
                                 (memcmp(RAM,0x6AD2,new char[]{0x0A,0x15,0x24},3) == 0))
                         {
@@ -611,20 +611,20 @@ public class ladybug
 
                                 return 1;
                         }
-                        else return 0;	/* we can't load the hi scores yet */
+                        else */ return 0;	/* we can't load the hi scores yet */
                 }};
 
 
-                static HiscoreSavePtr snapjack_hisave = new HiscoreSavePtr() { public void handler(String name)
+                static HiscoreSavePtr snapjack_hisave = new HiscoreSavePtr() { public void handler()
                 {
                         FILE f;
 
 
-                        if ((f = fopen(name,"wb")) != null)
+                  /*TOFIX               if ((f = fopen(name,"wb")) != null)
                         {
                                 fwrite(RAM,0x6A94,1,0x41,f);
                                 fclose(f);
-                        }
+                        } */
                 }};
 
                 public static GameDriver ladybug_driver = new GameDriver

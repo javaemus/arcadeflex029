@@ -213,7 +213,7 @@ public class asteroid
             0x01,0x01,0x00, /* YELLOW */
             0x01,0x01,0x01	/* WHITE */
         };
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* check if the hi score table has already been initialized */
                 if (memcmp(RAM,0x001d,new char[]{0x00,0x00},2) == 0 &&
@@ -236,7 +236,7 @@ public class asteroid
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
         {
                 FILE f;
 

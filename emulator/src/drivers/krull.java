@@ -39,6 +39,7 @@ import static vidhrdw.generic.*;
 import static vidhrdw.gottlieb.*;
 import static mame.inptport.*;
 import static drivers.qbert.*;
+import static mame.memoryH.*;
 public class krull
 {
 		
@@ -286,7 +287,7 @@ public class krull
 	
 	
 	
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name) 
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler() 
 	{
 		/* check if the hi score table has already been initialized */
 		if (memcmp(RAM,0x0b3d,new char[] { 0x7F,0x7F,0x7F,0x00,0x00,0x00,0x00,0x00,0x00,0x00 },10) == 0 &&
@@ -309,7 +310,7 @@ public class krull
 	
 	
 	
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name) 
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler() 
 	{
 		FILE f;
 	

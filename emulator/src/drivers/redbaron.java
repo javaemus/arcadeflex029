@@ -41,7 +41,7 @@ import static vidhrdw.atari_vg.*;
 import static vidhrdw.vector.*;
 import static machine.redbaron.*;
 import static machine.mathbox.*;
-
+import static mame.memoryH.*;
 public class redbaron {
  
         static MemoryReadAddress readmem[] =

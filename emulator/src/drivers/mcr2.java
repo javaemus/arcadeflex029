@@ -36,7 +36,7 @@ import static vidhrdw.mcr2.*;
 import static sndhrdw.mcr.*;
 import static mame.inptport.*;
 import static sndhrdw._8910intf.*;
-
+import static mame.memoryH.*;
 public class mcr2 {
     
         static MemoryReadAddress mcr2_readmem[] =

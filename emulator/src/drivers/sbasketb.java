@@ -35,7 +35,7 @@ import static sndhrdw.generic.*;
 import static vidhrdw.sbasketb.*;
 import static m6809.M6809H.*;
 import static m6809.M6809.*;
-
+import static mame.memoryH.*;
 
 
 public class sbasketb {
@@ -305,7 +305,7 @@ public class sbasketb {
             ROM_END();
     }};
 
-    static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+    static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
     {
 
             /* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -331,7 +331,7 @@ public class sbasketb {
     }};
 
 
-    static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+    static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
     {
             FILE f;
             /* get RAM pointer (this game is multiCPU, we can't assume the global */

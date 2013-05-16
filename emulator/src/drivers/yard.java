@@ -32,7 +32,7 @@ import static mame.osdependH.*;
 import static vidhrdw.generic.*;
 import static sndhrdw.generic.*;
 import static vidhrdw.yard.*;
-
+import static mame.memoryH.*;
 
 public class yard {
         static MemoryReadAddress readmem[] =

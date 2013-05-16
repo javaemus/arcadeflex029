@@ -36,7 +36,7 @@ import static vidhrdw.mcr1.*;
 import static sndhrdw.mcr.*;
 import static mame.inptport.*;
 import static sndhrdw._8910intf.*;
-
+import static mame.memoryH.*;
 
 public class mcr1 {
     

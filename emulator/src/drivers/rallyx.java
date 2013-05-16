@@ -36,7 +36,7 @@ import static sndhrdw.pengo.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.rallyx.*;
 import static arcadeflex.osdepend.*;
-
+import static mame.memoryH.*;
 
 public class rallyx
 {

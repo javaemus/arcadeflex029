@@ -38,7 +38,7 @@ import static vidhrdw.generic.*;
 import static machine.gng.*;
 import static vidhrdw.gng.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 /**
  *
  * @author shadow

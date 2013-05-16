@@ -38,7 +38,7 @@ import static machine.milliped.*;
 import static sndhrdw.pokeyintf.*;
 import static machine.centiped.*;
 import static mame.inptport.*;
-
+import static mame.memoryH.*;
 
 public class milliped {
     
@@ -300,7 +300,7 @@ public class milliped {
 
 
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
                 /* check if the hi score table has already been initialized */
                 if (memcmp(RAM,0x0064,new char[]{0x75,0x91,0x08},3) == 0 &&
@@ -322,7 +322,7 @@ public class milliped {
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
                 FILE f;
 

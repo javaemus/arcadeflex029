@@ -33,7 +33,7 @@ import static mame.osdependH.*;
 import static machine.warpwarp.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.warpwarp.*;
-
+import static mame.memoryH.*;
 public class warpwarp
 {
 

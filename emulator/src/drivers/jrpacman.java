@@ -39,7 +39,7 @@ import static vidhrdw.generic.*;
 import static sndhrdw.pengo.*;
 import static vidhrdw.jrpacman.*;
 import static arcadeflex.libc.*;
-
+import static mame.memoryH.*;
 public class jrpacman 
 {
         static MemoryReadAddress  readmem[] =
@@ -320,13 +320,13 @@ public class jrpacman
           static int resetcount;
           static HiscoreLoadPtr hiload = new HiscoreLoadPtr()
           {
-            public int handler(String name)
+            public int handler()
             {
                 /* during a reset, leave time to the game to clear the screen */
                 if (++resetcount < 60) return 0;
 
                 /* wait for "HIGH SCORE" to be on screen */
-                if (memcmp(RAM, 0x476d, new char[] { 0x40, 0x40, 0x40, 0x40 }, 4) == 0 &&
+  /*TOFIX                       if (memcmp(RAM, 0x476d, new char[] { 0x40, 0x40, 0x40, 0x40 }, 4) == 0 &&
 				memcmp(RAM, 0x4751, new char[] { 0x48, 0x47, 0x49, 0x48 }, 4) == 0)
                     
                 {
@@ -344,7 +344,7 @@ public class jrpacman
                                 fread(RAM,0x4e88,1,4,f);
                                 /* also copy the high score to the screen, otherwise it won't be */
                                 /* updated */
-                                hi = (RAM[0x4e88] & 0x0f) +
+   /*TOFIX                                      hi = (RAM[0x4e88] & 0x0f) +
                                      (RAM[0x4e88] >> 4) * 10 +
                                      (RAM[0x4e89] & 0x0f) * 100 +
                                      (RAM[0x4e89] >> 4) * 1000 +
@@ -370,19 +370,19 @@ public class jrpacman
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
             }
           };
           static HiscoreSavePtr hisave = new HiscoreSavePtr()
           {
-            public void handler(String name)
+            public void handler()
             {
                 FILE f;
-                if ((f = fopen(name,"wb")) != null)
+       /*TOFIX                  if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x4e88,1,4,f);
                         fclose(f);
-                }
+                }*/
             }
           };
           public static GameDriver jrpacman_driver = new GameDriver
