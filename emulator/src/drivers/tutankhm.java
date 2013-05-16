@@ -285,7 +285,7 @@ public class tutankhm {
            char []RAM = Machine.memory_region[0];
 
            /* check if the hi score table has already been initialized */
-           if (memcmp(RAM,0x88d9,new char[]{0x01,0x00},2) == 0)
+       /*TOFIX    if (memcmp(RAM,0x88d9,new char[]{0x01,0x00},2) == 0)
            {
               if ((f = fopen(name,"rb")) != null)
               {
@@ -295,7 +295,7 @@ public class tutankhm {
 
               return 1;
            }
-           else
+           else*/
               return 0; /* we can't load the hi scores yet */
         }};
 
@@ -306,11 +306,11 @@ public class tutankhm {
                 /* RAM pointer is pointing to the right place) */
                 char []RAM = Machine.memory_region[0];
 
-                if ((f = fopen(name,"wb")) != null)
+      /*TOFIX          if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x88a6,1,52,f);
                         fclose(f);
-                }
+                }*/
         }};
 
         public static GameDriver tutankhm_driver = new GameDriver

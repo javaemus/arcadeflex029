@@ -389,7 +389,7 @@ public class vulgus {
 
 
             /* check if the hi score table has already been initialized */
-            if (memcmp(RAM, 0xee00, new char[] { 0x00, 0x50, 0x00 }, 3) == 0 &&
+        /*TOFIX    if (memcmp(RAM, 0xee00, new char[] { 0x00, 0x50, 0x00 }, 3) == 0 &&
 				memcmp(RAM, 0xee34, new char[] { 0x00, 0x32, 0x50 }, 3) == 0)
             {
                     FILE f;
@@ -406,7 +406,7 @@ public class vulgus {
 
                     return 1;
             }
-            else return 0;	/* we can't load the hi scores yet */
+            else */return 0;	/* we can't load the hi scores yet */
     }};
 
 
@@ -419,11 +419,11 @@ public class vulgus {
             char []RAM = Machine.memory_region[0];
 
 
-            if ((f = fopen(name,"wb")) != null)
+           /*TOFIX if ((f = fopen(name,"wb")) != null)
             {
                     fwrite(RAM,0xee00,1,13*5,f);
                     fclose(f);
-            }
+            }*/
     }};
 
 

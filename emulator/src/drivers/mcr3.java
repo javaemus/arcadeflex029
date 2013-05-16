@@ -1123,23 +1123,23 @@ public class mcr3 {
            }
         }
 
-        static HiscoreLoadPtr tapper_hiload = new HiscoreLoadPtr() { public int handler(String name)   { return mcr3_hiload (name, 0xe000, 0x9d); }};
-        static HiscoreSavePtr  tapper_hisave = new HiscoreSavePtr() { public void handler(String name)   {        mcr3_hisave (name, 0xe000, 0x9d); }};
+        static HiscoreLoadPtr tapper_hiload = new HiscoreLoadPtr() { public int handler()   { return 0;/*TOFIX mcr3_hiload (name, 0xe000, 0x9d); */}};
+        static HiscoreSavePtr  tapper_hisave = new HiscoreSavePtr() { public void handler()   {        /*TOFIX mcr3_hisave (name, 0xe000, 0x9d);*/ }};
 
-        static HiscoreLoadPtr dotron_hiload = new HiscoreLoadPtr() { public int handler(String name)  { return mcr3_hiload (name, 0xe543, 0xac); }};
-        static HiscoreSavePtr  dotron_hisave = new HiscoreSavePtr() { public void handler(String name)  {        mcr3_hisave (name, 0xe543, 0xac); }};
+        static HiscoreLoadPtr dotron_hiload = new HiscoreLoadPtr() { public int handler()  { return 0;/*TOFIX mcr3_hiload (name, 0xe543, 0xac);*/ }};
+        static HiscoreSavePtr  dotron_hisave = new HiscoreSavePtr() { public void handler()  {        /*TOFIX mcr3_hisave (name, 0xe543, 0xac);*/ }};
 
-        static HiscoreLoadPtr destderb_hiload = new HiscoreLoadPtr() { public int handler(String name) { return mcr3_hiload (name, 0xe4e6, 0x153); }};
-        static HiscoreSavePtr  destderb_hisave = new HiscoreSavePtr() { public void handler(String name) {        mcr3_hisave (name, 0xe4e6, 0x153); }};
+        static HiscoreLoadPtr destderb_hiload = new HiscoreLoadPtr() { public int handler() { return 0;/*TOFIX mcr3_hiload (name, 0xe4e6, 0x153);*/ }};
+        static HiscoreSavePtr  destderb_hisave = new HiscoreSavePtr() { public void handler() {        /*TOFIX mcr3_hisave (name, 0xe4e6, 0x153);*/ }};
 
-        static HiscoreLoadPtr timber_hiload = new HiscoreLoadPtr() { public int handler(String name)   { return mcr3_hiload (name, 0xe000, 0x9f); }};
-        static HiscoreSavePtr  timber_hisave = new HiscoreSavePtr() { public void handler(String name)  {        mcr3_hisave (name, 0xe000, 0x9f); }};
+        static HiscoreLoadPtr timber_hiload = new HiscoreLoadPtr() { public int handler()   { return 0;/*TOFIX mcr3_hiload (name, 0xe000, 0x9f);*/ }};
+        static HiscoreSavePtr  timber_hisave = new HiscoreSavePtr() { public void handler()  {        /*TOFIX mcr3_hisave (name, 0xe000, 0x9f);*/ }};
 
-        static HiscoreLoadPtr rampage_hiload = new HiscoreLoadPtr() { public int handler(String name)  { return mcr3_hiload (name, 0xe631, 0x3f); }};
-        static HiscoreSavePtr  rampage_hisave = new HiscoreSavePtr() { public void handler(String name)  {        mcr3_hisave (name, 0xe631, 0x3f); }};
+        static HiscoreLoadPtr rampage_hiload = new HiscoreLoadPtr() { public int handler()  { return 0;/*TOFIX mcr3_hiload (name, 0xe631, 0x3f);*/ }};
+        static HiscoreSavePtr  rampage_hisave = new HiscoreSavePtr() { public void handler()  {        /*TOFIX mcr3_hisave (name, 0xe631, 0x3f);*/ }};
 
-        static HiscoreLoadPtr spyhunt_hiload = new HiscoreLoadPtr() { public int handler(String name)  { return mcr3_hiload (name, 0xf42b, 0xfb); }};
-        static HiscoreSavePtr  spyhunt_hisave = new HiscoreSavePtr() { public void handler(String name) {        mcr3_hisave (name, 0xf42b, 0xfb); }};
+        static HiscoreLoadPtr spyhunt_hiload = new HiscoreLoadPtr() { public int handler()  { return 0;/*TOFIX mcr3_hiload (name, 0xf42b, 0xfb);*/ }};
+        static HiscoreSavePtr  spyhunt_hisave = new HiscoreSavePtr() { public void handler() {        /*TOFIX mcr3_hisave (name, 0xf42b, 0xfb);*/ }};
 
         static DecodePtr spyhunt_decode = new DecodePtr()
         {

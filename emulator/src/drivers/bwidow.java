@@ -433,10 +433,10 @@ public class bwidow {
          * emulated
          */
 
-        static HiscoreLoadPtr bwidow_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr bwidow_hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM,0x0310,new char[]{0x00,0x00,0x00},3) == 0 &&
+         /*TOFIX       if (memcmp(RAM,0x0310,new char[]{0x00,0x00,0x00},3) == 0 &&
                                 memcmp(RAM,0x03a0,new char[]{0x01,0x01,0x11},3) == 0)
                 {
                         FILE f;
@@ -450,18 +450,18 @@ public class bwidow {
 
                         return 1;
                 }
-                else return 0;  /* we can't load the hi scores yet */
+                else */return 0;  /* we can't load the hi scores yet */
         }};
-        static HiscoreSavePtr bwidow_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr bwidow_hisave = new HiscoreSavePtr() { public void handler()
         {
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+             /*TOFIX   if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x0310,1,7*21,f);
                         fclose(f);
-                }
+                }*/
         }};
 
         static RomLoadPtr bwidow_rom= new RomLoadPtr(){ public void handler()  

@@ -243,28 +243,28 @@ public class mplanets
 	
 	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler() 
 	{
-		FILE f=fopen(name,"rb");
-                char[] RAM = Machine.memory_region[0];
+/*TOFIX		FILE f=fopen(name,"rb");
+    /*TOFIX            char[] RAM = Machine.memory_region[0];
 
                 if (f!=null) {
                         fread(RAM,0x536,1,2,f); /* hiscore table checksum */
-                        fread(RAM,0x538,41,7,f); /* 20+20+1 hiscore entries */
-                        fclose(f);
+    /*TOFIX                    fread(RAM,0x538,41,7,f); /* 20+20+1 hiscore entries */
+    /*TOFIX                    fclose(f);
                 }
-		return 1;
+		return 1;*/
 	} };
 	
 	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler() 
 	{
-		 FILE f=fopen(name,"wb");
+/*TOFIX		 FILE f=fopen(name,"wb");
                 char[] RAM = Machine.memory_region[0];
 
                 if (f!=null) {
                         /* not saving distributions tables : does anyone really want them ? */
-                        fwrite(RAM,0x536,1,2,f); /* hiscore table checksum */
-                        fwrite(RAM,0x538,41,7,f); /* 20+20+1 hiscore entries */
-                        fclose(f);
-                }
+   /*TOFIX                     fwrite(RAM,0x536,1,2,f); /* hiscore table checksum */
+       /*TOFIX                 fwrite(RAM,0x538,41,7,f); /* 20+20+1 hiscore entries */
+        /*TOFIX                fclose(f);
+                }*/
 	} };
 	
 	

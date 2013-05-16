@@ -181,7 +181,7 @@ public class bzone {
         static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM,0x0300,new char[]{0x05,0x00,0x00},3) == 0 &&
+         /*TOFIX       if (memcmp(RAM,0x0300,new char[]{0x05,0x00,0x00},3) == 0 &&
                                 memcmp(RAM,0x0339,new char[]{0x22,0x28,0x38},3) == 0)
                 {
                         FILE f;
@@ -195,7 +195,7 @@ public class bzone {
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
@@ -204,11 +204,11 @@ public class bzone {
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+          /*TOFIX      if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x0300,1,6*10,f);
                         fclose(f);
-                }
+                }*/
         }};
 
         static MachineDriver machine_driver = new MachineDriver

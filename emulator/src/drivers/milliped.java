@@ -303,7 +303,7 @@ public class milliped {
         static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM,0x0064,new char[]{0x75,0x91,0x08},3) == 0 &&
+           /*TOFIX     if (memcmp(RAM,0x0064,new char[]{0x75,0x91,0x08},3) == 0 &&
                                 memcmp(RAM,0x0079,new char[]{0x75,0x91,0x08},3) == 0)
                 {
                         FILE f;
@@ -317,7 +317,7 @@ public class milliped {
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
@@ -327,11 +327,11 @@ public class milliped {
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+              /*TOFIX  if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x0064,1,6*8,f);
                         fclose(f);
-                }
+                }*/
         }};
 
 

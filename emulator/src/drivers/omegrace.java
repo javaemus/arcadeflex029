@@ -282,13 +282,13 @@ public class omegrace {
 
                 /* no reason to check hiscore table. It's an NV_RAM! */
                 /* However, it does not work yet. Don't know why. BW */
-                FILE f;
+         /*TOFIX       FILE f;
 
                 if ((f = fopen(name,"rb")) != null)
                 {
                         fread(RAM,0x5c00,1,0x100,f);
                         fclose(f);
-                }
+                }*/
                 return 1;
         }};
 
@@ -299,11 +299,11 @@ public class omegrace {
                 /* RAM pointer is pointing to the right place) */
                 char RAM[]=Machine.memory_region[0];
 
-                if ((f = fopen(name,"wb")) != null)
+               /*TOFIX if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x5c00,1,0x100,f);
                         fclose(f);
-                }
+                }*/
         }};
         public static GameDriver omegrace_driver = new GameDriver
         (

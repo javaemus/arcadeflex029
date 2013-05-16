@@ -16,6 +16,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
+ * ported to v0.29
  * ported to v0.28
  *
  * romset are from 0.36 romset
@@ -25,6 +26,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 
 package drivers;
 import static machine.mcr.*;
+import static arcadeflex.osdepend.*;
 import static arcadeflex.libc.*;
 import static mame.commonH.*;
 import static mame.cpuintrf.*;
@@ -117,8 +119,8 @@ public class mcr2 {
         static IOReadPort wacko_readport[] =
         {
            new IOReadPort( 0x00, 0x00, input_port_0_r ),
-           new IOReadPort( 0x01, 0x01, wacko_trakball_x_r ), /* trackball x */
-           new IOReadPort( 0x02, 0x02, wacko_trakball_y_r ), /* trackball y */
+           new IOReadPort( 0x01, 0x01, input_port_1_r ), 
+           new IOReadPort( 0x02, 0x02, input_port_2_r ), 
            new IOReadPort( 0x03, 0x03, input_port_3_r ),
            new IOReadPort( 0x04, 0x04, input_port_4_r ),
            new IOReadPort( 0x05, 0xff, mcr_readport ),
@@ -156,7 +158,7 @@ public class mcr2 {
                 PORT_DIPSETTING(    0x00, "On" );
 
                 PORT_START();	/* IN1 -- controls spinner */
-                PORT_ANALOG( 0xff, 0x00, IPT_DIAL | IPF_REVERSE, 50 );
+                PORT_ANALOG( 0xff, 0x00, IPT_DIAL | IPF_REVERSE, 50, 0, 0, 0 );
 
                 PORT_START();	/* IN2 */
                 PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_JOYSTICK_LEFT | IPF_8WAY );
@@ -181,7 +183,7 @@ public class mcr2 {
                 PORT_BIT( 0xf8, IP_ACTIVE_LOW, IPT_UNUSED );
 
                 PORT_START();	/* IN4 */
-                PORT_ANALOG( 0xff, 0x00, IPT_DIAL | IPF_REVERSE | IPF_COCKTAIL, 50 );
+                PORT_ANALOG( 0xff, 0x00, IPT_DIAL | IPF_REVERSE | IPF_COCKTAIL, 50, 0, 0, 0 );
 
                 PORT_START();	/* AIN0 */
                 PORT_BIT( 0xff, IP_ACTIVE_LOW, IPT_UNKNOWN );
@@ -202,7 +204,7 @@ public class mcr2 {
                 PORT_DIPSETTING(    0x00, "On" );
 
                 PORT_START();	/* IN1 -- player 1 spinner */
-                PORT_ANALOG( 0xff, 0x00, IPT_DIAL | IPF_REVERSE, 50 );
+                PORT_ANALOG( 0xff, 0x00, IPT_DIAL | IPF_REVERSE, 50, 0, 0, 0 );
 
                 PORT_START();;	/* IN2 -- buttons for player 1 & player 2 */
                 PORT_BIT( 0x01, IP_ACTIVE_LOW, IPT_BUTTON1 );
@@ -215,7 +217,7 @@ public class mcr2 {
                 PORT_BIT( 0xff, IP_ACTIVE_LOW, IPT_UNUSED );
 
                 PORT_START();	/* IN4 -- player 2 spinner */
-                PORT_ANALOG( 0xff, 0x00, IPT_DIAL | IPF_REVERSE | IPF_PLAYER2, 50 );
+                PORT_ANALOG( 0xff, 0x00, IPT_DIAL | IPF_REVERSE | IPF_PLAYER2, 50, 0, 0, 0 );
 
                 PORT_START();	/* AIN0 */
                 PORT_BIT( 0xff, IP_ACTIVE_LOW, IPT_UNKNOWN );
@@ -305,10 +307,10 @@ public class mcr2 {
                 PORT_DIPSETTING(    0x00, "On" );
 
                 PORT_START();	/* IN1 -- controls joystick x-axis */
-                PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+                PORT_ANALOG ( 0xff, 0x00, IPT_TRACKBALL_X, 50, 8, 0, 0 );
 
                 PORT_START();	/* IN2 -- controls joystick y-axis */
-                PORT_BIT( 0xff, IP_ACTIVE_HIGH, IPT_UNUSED );
+                PORT_ANALOG ( 0xff, 0x00, IPT_TRACKBALL_Y | IPF_REVERSE, 50, 8, 0, 0 );
 
                 PORT_START();	/* IN3 -- dipswitches */
                 PORT_BIT( 0xff, IP_ACTIVE_LOW, IPT_UNKNOWN );
@@ -366,28 +368,12 @@ public class mcr2 {
                 PORT_BIT( 0xf0, IP_ACTIVE_HIGH, IPT_UNUSED );
 
                 PORT_START();	/* dummy extra port for dial control */
-                PORT_ANALOG( 0xff, 0x00, IPT_DIAL | IPF_REVERSE, 40 );
+                PORT_ANALOG( 0xff, 0x00, IPT_DIAL | IPF_REVERSE, 40, 0, 0, 0 );
                 INPUT_PORTS_END();
         }};
 
 
 
-        static TrakPort wacko_trak_ports[] =
-        {
-                new TrakPort(
-                        X_AXIS,
-                        1,
-                        -0.5,
-                        wacko_trakball_xy
-                ),
-                new TrakPort(
-                        Y_AXIS,
-                        1,
-                        0.5,
-                        wacko_trakball_xy
-                ),
-           new TrakPort( -1 )
-        };
 
 
         /* 512 characters; used by all the mcr2 games */
@@ -471,12 +457,13 @@ public class mcr2 {
                         )
                 },
                 30,
+                10,	/* 10 CPU slices per frame - enough for the sound CPU to read all commands */
                 mcr_init_machine,
 
                 /* video hardware */
                 32*16, 30*16, new rectangle( 0, 32*16-1, 0, 30*16-1 ),
                 mcr2_gfxdecodeinfo,
-                1+8*16, 8*16,
+                8*16, 8*16,
                 mcr2_vh_convert_color_prom,
 
                 VIDEO_TYPE_RASTER|VIDEO_SUPPORTS_DIRTY|VIDEO_MODIFIES_PALETTE,
@@ -513,12 +500,13 @@ public class mcr2 {
                         )
                 },
                 30,
+                10,	/* 10 CPU slices per frame - enough for the sound CPU to read all commands */
                 mcr_init_machine,
 
                 /* video hardware */
                 32*16, 30*16, new rectangle( 0, 32*16-1, 0, 30*16-1 ),
                 mcr2_gfxdecodeinfo,
-                1+8*16, 8*16,
+                8*16, 8*16,
                 mcr2_vh_convert_color_prom,
 
                 VIDEO_TYPE_RASTER|VIDEO_SUPPORTS_DIRTY|VIDEO_MODIFIES_PALETTE,
@@ -555,12 +543,13 @@ public class mcr2 {
                         )
                 },
                 30,
+                10,	/* 10 CPU slices per frame - enough for the sound CPU to read all commands */
                 mcr_init_machine,
 
                 /* video hardware */
                 32*16, 30*16, new rectangle( 0, 32*16-1, 0, 30*16-1 ),
                 mcr2_gfxdecodeinfo,
-                1+8*16, 8*16,
+                8*16, 8*16,
                 wacko_vh_convert_color_prom,
 
                 VIDEO_TYPE_RASTER|VIDEO_SUPPORTS_DIRTY|VIDEO_MODIFIES_PALETTE,
@@ -597,12 +586,13 @@ public class mcr2 {
                         )
                 },
                 30,
+                10,	/* 10 CPU slices per frame - enough for the sound CPU to read all commands */
                 mcr_init_machine,
 
                 /* video hardware */
                 32*16, 30*16, new rectangle( 0, 32*16-1, 0, 30*16-1 ),
                 mcr2_gfxdecodeinfo,
-                1+8*16, 8*16,
+                8*16, 8*16,
                 mcr2_vh_convert_color_prom,
 
                 VIDEO_TYPE_RASTER|VIDEO_SUPPORTS_DIRTY|VIDEO_MODIFIES_PALETTE,
@@ -639,12 +629,13 @@ public class mcr2 {
                         )
                 },
                 30,
+                10,	/* 10 CPU slices per frame - enough for the sound CPU to read all commands */
                 mcr_init_machine,
 
                 /* video hardware */
                 32*16, 30*16, new rectangle( 0, 32*16-1, 0, 30*16-1 ),
                 journey_gfxdecodeinfo,
-                1+8*16, 8*16,
+                8*16, 8*16,
                 journey_vh_convert_color_prom,
 
                 VIDEO_TYPE_RASTER|VIDEO_SUPPORTS_DIRTY|VIDEO_MODIFIES_PALETTE,
@@ -668,7 +659,7 @@ public class mcr2 {
 
         ***************************************************************************/
 
-        static int mcr2_hiload (String name, int addr, int len)
+        static int mcr2_hiload (int addr, int len)
         {
            char RAM[]=Machine.memory_region[0];
 
@@ -677,84 +668,84 @@ public class mcr2 {
            {
               FILE f;
 
-                        f = fopen (name, "rb");
+              f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0);
               if (f!=null)
               {
-                                fread (RAM,addr, 1, len, f);
-                                fclose (f);
+                osd_fread (f,RAM,addr,len);
+                osd_fclose (f);
               }
               return 1;
            }
            else return 0;	/* we can't load the hi scores yet */
         }
 
-        static void mcr2_hisave (String name, int addr, int len)
+        static void mcr2_hisave (int addr, int len)
         {
            char RAM[]=Machine.memory_region[0];
            FILE f;
 
-                f = fopen (name, "wb");
+           f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1);
            if (f!=null)
            {
-              fwrite (RAM,addr, 1, len, f);
-              fclose (f);
+              osd_fwrite (f,RAM,addr,len);
+              osd_fclose (f);
            }
         }
-        static HiscoreLoadPtr domino_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr domino_hiload = new HiscoreLoadPtr() { public int handler()
 	{
-             return mcr2_hiload (name, 0xc000, 0x92); 
+             return mcr2_hiload (0xc000, 0x92);
         }};
-        static HiscoreSavePtr domino_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr domino_hisave = new HiscoreSavePtr() { public void handler()
 	{
-               mcr2_hisave (name, 0xc000, 0x92); 
+               mcr2_hisave (0xc000, 0x92);
         }};
-        static HiscoreLoadPtr journey_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr journey_hiload = new HiscoreLoadPtr() { public int handler()
 	{
-            return mcr2_hiload (name, 0xc000, 0x9e);
+            return mcr2_hiload (0xc000, 0x9e);
         }};
-        static HiscoreSavePtr journey_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr journey_hisave = new HiscoreSavePtr() { public void handler()
 	{
-            mcr2_hisave (name, 0xc000, 0x9e); 
+            mcr2_hisave (0xc000, 0x9e);
         }};
-        static HiscoreLoadPtr tron_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr tron_hiload = new HiscoreLoadPtr() { public int handler()
 	{
-            return mcr2_hiload (name, 0xc4f0, 0x97); 
+            return mcr2_hiload (0xc4f0, 0x97);
         }};
-        static HiscoreSavePtr tron_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr tron_hisave = new HiscoreSavePtr() { public void handler()
 	{
-             mcr2_hisave (name, 0xc4f0, 0x97);
+             mcr2_hisave (0xc4f0, 0x97);
         }};
-        static HiscoreLoadPtr kroozr_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr kroozr_hiload = new HiscoreLoadPtr() { public int handler()
 	{
-            return mcr2_hiload (name, 0xc466, 0x95); 
+            return mcr2_hiload (0xc466, 0x95);
         }};
-        static HiscoreSavePtr kroozr_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr kroozr_hisave = new HiscoreSavePtr() { public void handler()
 	{
-                 mcr2_hisave (name, 0xc466, 0x95); 
+                 mcr2_hisave (0xc466, 0x95); 
         }};
-        static HiscoreLoadPtr shollow_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr shollow_hiload = new HiscoreLoadPtr() { public int handler()
 	{
-            return mcr2_hiload (name, 0xc600, 0x8a); 
+            return mcr2_hiload (0xc600, 0x8a);
         }};
-        static HiscoreSavePtr shollow_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr shollow_hisave = new HiscoreSavePtr() { public void handler()
 	{
-               mcr2_hisave (name, 0xc600, 0x8a); 
+               mcr2_hisave (0xc600, 0x8a); 
         }};
-        static HiscoreLoadPtr twotiger_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr twotiger_hiload = new HiscoreLoadPtr() { public int handler()
 	{
-                return mcr2_hiload (name, 0xc000, 0xa0); 
+                return mcr2_hiload (0xc000, 0xa0); 
         }};
-        static HiscoreSavePtr twotiger_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr twotiger_hisave = new HiscoreSavePtr() { public void handler()
 	{
-           mcr2_hisave (name, 0xc000, 0xa0); 
+            mcr2_hisave (0xc000, 0xa0);
         }};   
-        static HiscoreLoadPtr wacko_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr wacko_hiload = new HiscoreLoadPtr() { public int handler()
 	{
-            return mcr2_hiload (name, 0xc000, 0x91); 
+            return  mcr2_hiload (0xc000, 0x91);
         }};
-        static HiscoreSavePtr wacko_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr wacko_hisave = new HiscoreSavePtr() { public void handler()
 	{
-               mcr2_hisave (name, 0xc000, 0x91); 
+               mcr2_hisave (0xc000, 0x91);
         }};
 
 
@@ -967,7 +958,7 @@ public class mcr2 {
                 null, null,
                 null,
 
-                null/*TBR*/,wacko_input_ports, wacko_trak_ports,null/*TBR*/,null/*TBR*/,
+                null/*TBR*/,wacko_input_ports, null,null/*TBR*/,null/*TBR*/,
 
                 null,null,null,
                 ORIENTATION_DEFAULT,

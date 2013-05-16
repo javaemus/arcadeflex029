@@ -399,24 +399,24 @@ public class mcr1 {
               fclose (f);
            }
         }
-        static HiscoreLoadPtr kick_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr kick_hiload = new HiscoreLoadPtr() { public int handler()
 	{
-            return mcr1_hiload (name, 0x7000, 0x91);
+            return 0; /*TOFIXmcr1_hiload (name, 0x7000, 0x91);*/
         }};
-        static HiscoreSavePtr kick_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr kick_hisave = new HiscoreSavePtr() { public void handler()
 	{
-            mcr1_hisave (name, 0x7000, 0x91);
+           /*TOFIX mcr1_hisave (name, 0x7000, 0x91);*/
         }};
-        static HiscoreLoadPtr solarfox_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr solarfox_hiload = new HiscoreLoadPtr() { public int handler()
 	{
            char RAM[]=Machine.memory_region[0];
 
            /* see if it's okay to load */
-           if (mcr_loadnvram !=0)
+    /*TOFIX       if (mcr_loadnvram !=0)
            {
               FILE f;
 
-             f = fopen (name, "rb");
+          /*TOFIX   f = fopen (name, "rb");
               if (f!=null)
               {
                                 fread (RAM,0x7000, 1, 0x86, f);
@@ -425,16 +425,16 @@ public class mcr1 {
               else
               {
                 /* leaving RAM all-zero is not a happy thing for solarfox */
-                char[] init = { 0,0,1,1,1,1,1,3,3,3,7,0,0,0,0,0 };
+         /*TOFIX       char[] init = { 0,0,1,1,1,1,1,3,3,3,7,0,0,0,0,0 };
                 memcpy (RAM,0x7000, init,0, sizeof (init)); //TODO : probably correct but who knows :P
               }
               return 1;
            }
-           else return 0;	/* we can't load the hi scores yet */
+           else */return 0;	/* we can't load the hi scores yet */
         }};
-        static HiscoreSavePtr solarfox_hisave= new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr solarfox_hisave= new HiscoreSavePtr() { public void handler()
 	{
-               mcr1_hisave (name, 0x7000, 0x86); 
+               //mcr1_hisave (name, 0x7000, 0x86); 
         }};
 
 

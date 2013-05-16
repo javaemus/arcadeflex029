@@ -963,10 +963,10 @@ public class dkong {
 	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-            	if (memcmp(RAM,0x611d, new char[] {0x50,0x76,0x00},3) == 0 &&
+        /*TOFIX    	if (memcmp(RAM,0x611d, new char[] {0x50,0x76,0x00},3) == 0 &&
 			memcmp(RAM,0x61a5,new char[] {0x00 ,0x43,0x00},3) == 0 &&
 			memcmp(RAM,0x60b8,new char[] {0x50,0x76,0x00},3) == 0)	/* high score */
-		{
+	/*TOFIX	{
 			FILE f;
 	
 	
@@ -978,7 +978,7 @@ public class dkong {
 				RAM[0x60ba] = RAM[0x611f];
 			/* also copy the high score to the screen, otherwise it won't be */
 			/* updated until a new game is started */
-                                videoram_w.handler(0x0221,RAM[0x6108]);
+     /*TOFIX                           videoram_w.handler(0x0221,RAM[0x6108]);
                                 videoram_w.handler(0x0201,RAM[0x6109]);
                                 videoram_w.handler(0x01e1,RAM[0x610a]);
                                 videoram_w.handler(0x01c1,RAM[0x610b]);
@@ -988,7 +988,7 @@ public class dkong {
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 	
 		
@@ -998,18 +998,18 @@ public class dkong {
 		FILE f;
 	
 	
-		if ((f = fopen(name, "wb")) != null)
+	/*TOFIX	if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x6100, 1, 34*5, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 
-        static HiscoreLoadPtr dkong3_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr dkong3_hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x6b1d, new char[] { 0x00, 0x20, 0x01 }, 3) == 0 &&
+	/*TOFIX	if (memcmp(RAM, 0x6b1d, new char[] { 0x00, 0x20, 0x01 }, 3) == 0 &&
 				memcmp(RAM, 0x6ba5, new char[] { 0x00, 0x32, 0x00 }, 3) == 0)
 		{
 			FILE f;
@@ -1018,31 +1018,31 @@ public class dkong {
 			if ((f = fopen(name, "rb")) != null)
 			{
 				fread(RAM, 0x6b00, 1, 34*5, f);	/* hi scores */
-				RAM[0x68f3] = RAM[0x6b1f];
+	/*TOFIX			RAM[0x68f3] = RAM[0x6b1f];
 				RAM[0x68f4] = RAM[0x6b1e];
 				RAM[0x68f5] = RAM[0x6b1d];
 				fread(RAM, 0x6c20, 1, 0x40, f);	/* distributions */
-				fread(RAM, 0x6c16, 1, 4, f);
+	/*TOFIX			fread(RAM, 0x6c16, 1, 4, f);
 				fclose(f);
 			}
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
   
-        static HiscoreSavePtr dkong3_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr dkong3_hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 	
 	
-		if ((f = fopen(name, "wb")) != null)
+	/*TOFIX	if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x6b00, 1, 34*5, f);	/* hi scores */
-			fwrite(RAM, 0x6c20, 1, 0x40, f);	/* distribution */
-			fwrite(RAM, 0x6c16, 1, 4, f);
+	/*TOFIX		fwrite(RAM, 0x6c20, 1, 0x40, f);	/* distribution */
+	/*TOFIX		fwrite(RAM, 0x6c16, 1, 4, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 

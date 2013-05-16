@@ -244,25 +244,25 @@ public class reactor
 	
 	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler() 
 	{
-		FILE f=fopen(name,"rb");
+	/*TOFIX	FILE f=fopen(name,"rb");
                 char[] RAM = Machine.memory_region[0];
                  if (RAM[0x4D8]!=0x0A) return 0;  
                 if (f!=null) {
                         fread(RAM,0x4D8,0x557-0x4D8,1,f);
                         fclose(f);
-                }
+                }*/
                 return 1;
 	} };
 	
 	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler() 
 	{
-		FILE f=fopen(name,"wb");
+	/*TOFIX	FILE f=fopen(name,"wb");
                 char[] RAM = Machine.memory_region[0];
 
                 if (f!=null) {
                         fwrite(RAM,0x4D8,0x557-0x4D8,1,f);
                         fclose(f);
-                }
+                }*/
 	} };
 	
 	public static GameDriver reactor_driver = new GameDriver

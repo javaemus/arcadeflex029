@@ -251,7 +251,7 @@ public class missile {
         {
                 FILE f;
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM,0x002C,new char[] {0x47,0x4A,0x4C}, 3) == 0 &&
+        /*TOFIX        if (memcmp(RAM,0x002C,new char[] {0x47,0x4A,0x4C}, 3) == 0 &&
                                 memcmp(RAM,0x0044,new char[] {0x50,0x69,0x00}, 3) == 0){
 
                         if ((f = fopen(name,"rb")) != null){
@@ -259,7 +259,7 @@ public class missile {
                                 fclose(f);
                         }
                         return 1;
-                }else
+                }else*/
                         return 0;	/* we can't load the hi scores yet */
         }};
 
@@ -269,10 +269,10 @@ public class missile {
         {
                 FILE f;
 
-                if ((f = fopen(name,"wb")) != null){
+     /*TOFIX           if ((f = fopen(name,"wb")) != null){
                         fwrite(RAM,0x002C,1,6*8,f);
                         fclose(f);
-                }
+                }*/
         }};
 
 

@@ -245,11 +245,11 @@ public class qix
                 FILE f;
 
 
-                if ((f = fopen(name,"rb")) != null)
+        /*TOFIX        if ((f = fopen(name,"rb")) != null)
                 {
                         fread(RAM,0x8400,1,0x400,f);
                         fclose(f);
-                }
+                }*/
 
                 return 1;
 	} };
@@ -264,11 +264,11 @@ public class qix
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+             /*TOFIX   if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x8400,1,0x400,f);
                         fclose(f);
-                }
+                }*/
 		
 	} };
 	

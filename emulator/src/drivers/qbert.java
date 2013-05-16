@@ -339,62 +339,62 @@ public class qbert
 
       static HiscoreLoadPtr hiload = new HiscoreLoadPtr()
       {
-        public int handler(String name)
+        public int handler()
         {
-                FILE f=fopen(name,"rb");
+       /*TOFIX         FILE f=fopen(name,"rb");
                 char[] RAM = Machine.memory_region[0];
 
                 if (f!=null) {
                         fread(RAM,0xA00,1,2,f); /* hiscore table checksum */
-                        fread(RAM,0xA02,23,10,f); /* 23 hiscore ascending entries: name (3 chars) + score (7 figures) */
-                        fread(RAM,0xBB0,12,1,f); /* operator parameters : coins/credits, lives, extra-lives points */
-                        fclose(f);
-                }
+   /*TOFIX                     fread(RAM,0xA02,23,10,f); /* 23 hiscore ascending entries: name (3 chars) + score (7 figures) */
+   /*TOFIX                     fread(RAM,0xBB0,12,1,f); /* operator parameters : coins/credits, lives, extra-lives points */
+   /*TOFIX                     fclose(f);
+                }*/
                 return 1;
         }};
       static HiscoreSavePtr hisave = new HiscoreSavePtr()
       {
-        public void handler(String name)
+        public void handler()
         {
-                FILE f=fopen(name,"wb");
+   /*TOFIX             FILE f=fopen(name,"wb");
                 char[] RAM = Machine.memory_region[0];
 
                 if (f!=null) {
                         fwrite(RAM,0xA00,1,2,f); /* hiscore table checksum */
-                        fwrite(RAM,0xA02,23,10,f); /* 23 hiscore ascending entries: name (3 chars) + score (7 figures) */
-                        fwrite(RAM,0xBB0,12,1,f); /* operator parameters : coins/credits, lives, extra-lives points */
-                        fclose(f);
-                }
+   /*TOFIX                     fwrite(RAM,0xA02,23,10,f); /* 23 hiscore ascending entries: name (3 chars) + score (7 figures) */
+    /*TOFIX                    fwrite(RAM,0xBB0,12,1,f); /* operator parameters : coins/credits, lives, extra-lives points */
+     /*TOFIX                   fclose(f);
+                }*/
         }};
 
       static HiscoreLoadPtr hiload_jp = new HiscoreLoadPtr()
       {
-        public int handler(String name)
+        public int handler()
         {
-                FILE f=fopen(name,"rb");
+    /*TOFIX            FILE f=fopen(name,"rb");
                 char[] RAM = Machine.memory_region[0];
 
                 if (f!=null) {
                         fread(RAM,0xA00,1,2,f); /* hiscore table checksum */
-                        fread(RAM,0xA02,23,10,f); /* 23 hiscore ascending entries: name (3 chars) + score (7 figures) */
-                        fread(RAM,0xC0C,12,1,f); /* operator parameters : coins/credits, lives, extra-lives points */
-                        fclose(f);
-                }
+/*TOFIX                        fread(RAM,0xA02,23,10,f); /* 23 hiscore ascending entries: name (3 chars) + score (7 figures) */
+/*TOFIX                        fread(RAM,0xC0C,12,1,f); /* operator parameters : coins/credits, lives, extra-lives points */
+/*TOFIX                        fclose(f);
+                }*/
                 return 1;
         }};
       static HiscoreSavePtr hisave_jp = new HiscoreSavePtr()
       {
-        public void handler(String name)
+        public void handler()
         {
-                FILE f=fopen(name,"wb");
+  /*TOFIX              FILE f=fopen(name,"wb");
                 char[] RAM = Machine.memory_region[0];
 
                 if (f!=null) {
                         fwrite(RAM,0xA00,1,2,f); /* hiscore table checksum */
-                        fwrite(RAM,0xA02,23,10,f); /* 23 hiscore ascending entries: name (3 chars) + score (7 figures) */
-                        fwrite(RAM,0xC0C,12,1,f); /* operator parameters : coins/credits, lives, extra-lives points */
-                        fclose(f);
-                }
+  /*TOFIX                      fwrite(RAM,0xA02,23,10,f); /* 23 hiscore ascending entries: name (3 chars) + score (7 figures) */
+  /*TOFIX                      fwrite(RAM,0xC0C,12,1,f); /* operator parameters : coins/credits, lives, extra-lives points */
+  /*TOFIX                      fclose(f);
+                }*/
         }};
 
  	public static GameDriver qbert_driver = new GameDriver

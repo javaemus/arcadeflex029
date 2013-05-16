@@ -237,7 +237,7 @@ public class centiped {
     static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
     {
             /* check if the hi score table has already been initialized */
-            if (memcmp(RAM,0x0002,new char[]{0x43,0x65,0x01},3) == 0 &&
+         /*TOFIX   if (memcmp(RAM,0x0002,new char[]{0x43,0x65,0x01},3) == 0 &&
                             memcmp(RAM,0x0017,new char[]{0x02,0x21,0x01},3) == 0)
             {
                     FILE f;
@@ -251,7 +251,7 @@ public class centiped {
 
                     return 1;
             }
-            else return 0;	/* we can't load the hi scores yet */
+            else */return 0;	/* we can't load the hi scores yet */
     }};
 
 
@@ -261,11 +261,11 @@ public class centiped {
             FILE f;
 
 
-            if ((f = fopen(name,"wb")) != null)
+           /*TOFIX if ((f = fopen(name,"wb")) != null)
             {
                     fwrite(RAM,0x0002,1,6*8,f);
                     fclose(f);
-            }
+            }*/
     }};
 
 

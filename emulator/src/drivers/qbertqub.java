@@ -229,27 +229,27 @@ public class qbertqub
 	
 	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler() 
 	{
-		FILE f=fopen(name,"rb");
+/*TOFIX		FILE f=fopen(name,"rb");
                 char[] RAM = Machine.memory_region[0];
 
-                if (f!=null) {
+ /*TOFIX               if (f!=null) {
                         fread(RAM,0x200,2*20,15,f); /* hi-score entries */
-                        fread(RAM,0x458,8,1,f); /* checksum */
-                        fclose(f);
-                }
+     /*TOFIX                   fread(RAM,0x458,8,1,f); /* checksum */
+ /*TOFIX                       fclose(f);
+                }*/
                 return 1;
 	} };
 	
 	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler() 
 	{
-		FILE f=fopen(name,"wb");
+/*TOFIX		FILE f=fopen(name,"wb");
                 char[] RAM = Machine.memory_region[0];
 
                 if (f!=null) {
                         fwrite(RAM,0x200,2*20,15,f); /* hi-score entries */
-                        fwrite(RAM,0x458,8,1,f); /* checksum */
-                        fclose(f);
-                }
+  /*TOFIX                      fwrite(RAM,0x458,8,1,f); /* checksum */
+    /*TOFIX                    fclose(f);
+                }*/
 	} };
 	
 	

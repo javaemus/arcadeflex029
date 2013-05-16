@@ -543,7 +543,7 @@ public class mappy {
 
 
     /* load the high score table */
-    static HiscoreLoadPtr mappy_hiload = new HiscoreLoadPtr() { public int handler(String name)
+    static HiscoreLoadPtr mappy_hiload = new HiscoreLoadPtr() { public int handler()
     {
        int writing = 0;
        FILE f;
@@ -553,23 +553,23 @@ public class mappy {
        char []RAM = Machine.memory_region[0];
 
        /* check if the hi score table has already been initialized */
-       if (memcmp(RAM,0x1465,new char[] {'B','E','H'},3) == 0 &&          /* check for high score initials */
-            memcmp(RAM,0x1385,new char[]{0x00,0x20,0x00 },3) == 0 &&    /* check for main high score value */
-            memcmp(RAM,0x7ed,new char[]{0x00,0x00,0x00},3) == 0)         /* see if main high score was written to screen */
-       {
+   /*TOFIX    if (memcmp(RAM,0x1465,new char[] {'B','E','H'},3) == 0 &&          /* check for high score initials */
+/*TOFIX            memcmp(RAM,0x1385,new char[]{0x00,0x20,0x00 },3) == 0 &&    /* check for main high score value */
+/*TOFIX           memcmp(RAM,0x7ed,new char[]{0x00,0x00,0x00},3) == 0)         /* see if main high score was written to screen */
+ /*TOFIX      {
           if ((f = fopen(name,"rb")) != null)
           {
              fread(RAM,0x1460,1,40,f);
              fclose(f);
 
              /* also copy over the high score */
-             RAM[0x1385] = RAM[0x1460];
+/*TOFIX             RAM[0x1385] = RAM[0x1460];
              RAM[0x1386] = RAM[0x1461];
              RAM[0x1387] = RAM[0x1462];
           }
 
           /* this is a little gross, but necessary to get the high score on-screen */
-          if (writing==0) writing = (RAM[0x1385] >> 4);
+/*TOFIX          if (writing==0) writing = (RAM[0x1385] >> 4);
           mappy_videoram_w.handler(0x7f3, writing!=0 ? (RAM[0x1385] >> 4) : ' ');
           if (writing==0) writing = (RAM[0x1385] & 0x0f);
           mappy_videoram_w.handler (0x7f2, writing!=0 ? (RAM[0x1385] & 0x0f) : ' ');
@@ -585,12 +585,12 @@ public class mappy {
 
           return 1;
        }
-       else return 0; /* we can't load the hi scores yet */
+       else*/ return 0; /* we can't load the hi scores yet */
     }};
 
 
     /* save the high score table */
-    static HiscoreSavePtr mappy_hisave = new HiscoreSavePtr() { public void handler(String name)
+    static HiscoreSavePtr mappy_hisave = new HiscoreSavePtr() { public void handler()
     {
        FILE f;
 
@@ -598,16 +598,16 @@ public class mappy {
        /* RAM pointer is pointing to the right place) */
        char []RAM = Machine.memory_region[0];
 
-       if ((f = fopen(name,"wb")) != null)
+  /*TOFIX     if ((f = fopen(name,"wb")) != null)
        {
           fwrite(RAM,0x1460,1,40,f);
           fclose(f);
-       }
+       }*/
     }};
 
 
     /* load the high score table */
-    static HiscoreLoadPtr digdug2_hiload = new HiscoreLoadPtr() { public int handler(String name)
+    static HiscoreLoadPtr digdug2_hiload = new HiscoreLoadPtr() { public int handler()
     {
        int writing = 0;
        FILE f;
@@ -617,23 +617,23 @@ public class mappy {
        char []RAM = Machine.memory_region[0];
 
        /* check if the hi score table has already been initialized */
-       if (memcmp(RAM,0x11b6,new char[] {0x00,'K','A','Z','U',0x00},6) == 0 &&         /* check for high score initials */
-             memcmp(RAM,0x100b,new char[] {0x00,0x20,0x00},3) == 0 &&   /* check for main high score value */
-             memcmp(RAM,0x7ed,new char[] {0x30,0x00,0x00},3) == 0)          /* see if main high score was written to screen */
-       {
+  /*TOFIX     if (memcmp(RAM,0x11b6,new char[] {0x00,'K','A','Z','U',0x00},6) == 0 &&         /* check for high score initials */
+  /*TOFIX           memcmp(RAM,0x100b,new char[] {0x00,0x20,0x00},3) == 0 &&   /* check for main high score value */
+  /*TOFIX           memcmp(RAM,0x7ed,new char[] {0x30,0x00,0x00},3) == 0)          /* see if main high score was written to screen */
+ /*TOFIX      {
           if ((f = fopen(name,"rb")) != null)
           {
              fread(RAM,0x11b0,1,80,f);
              fclose(f);
 
              /* also copy over the high score */
-             RAM[0x100b] = (char)((RAM[0x11b0] << 4) | RAM[0x11b1]);
+/*TOFIX             RAM[0x100b] = (char)((RAM[0x11b0] << 4) | RAM[0x11b1]);
              RAM[0x100c] = (char)((RAM[0x11b2] << 4) | RAM[0x11b3]);
              RAM[0x100d] = (char)((RAM[0x11b4] << 4) | RAM[0x11b5]);
           }
 
           /* this is a little gross, but necessary to get the high score on-screen */
-          if (writing==0) writing = (RAM[0x11b0] & 0x0f);
+ /*TOFIX         if (writing==0) writing = (RAM[0x11b0] & 0x0f);
           mappy_videoram_w.handler(0x7f3, writing!=0 ? (RAM[0x11b0] & 0x0f) : ' ');
           if (writing==0) writing = (RAM[0x11b1] & 0x0f);
           mappy_videoram_w.handler (0x7f2, writing!=0 ? (RAM[0x11b1] & 0x0f) : ' ');
@@ -649,12 +649,12 @@ public class mappy {
 
           return 1;
        }
-       else return 0; /* we can't load the hi scores yet */
+       else */return 0; /* we can't load the hi scores yet */
     }};
 
 
     /* save the high score table */
-    static HiscoreSavePtr digdug2_hisave = new HiscoreSavePtr() { public void handler(String name)
+    static HiscoreSavePtr digdug2_hisave = new HiscoreSavePtr() { public void handler()
     {
        FILE f;
 
@@ -662,11 +662,11 @@ public class mappy {
        /* RAM pointer is pointing to the right place) */
         char []RAM = Machine.memory_region[0];
 
-       if ((f = fopen(name,"wb")) != null)
+   /*TOFIX    if ((f = fopen(name,"wb")) != null)
        {
           fwrite(RAM,0x11b0,1,80,f);
           fclose(f);
-       }
+       }*/
     }};
 
 

@@ -488,10 +488,10 @@ public class wow
 	    wow_sh_update               /* Update audio */
 	);
 	
-	static HiscoreLoadPtr wow_hiload = new HiscoreLoadPtr() { public int handler(String name) 
+	static HiscoreLoadPtr wow_hiload = new HiscoreLoadPtr() { public int handler() 
 	{
 		/* check if the hi score table has already been initialized */
-	        if (memcmp(RAM,0xD004,new char[] {0x00,0x00},2) == 0)
+	/*TOFIX        if (memcmp(RAM,0xD004,new char[] {0x00,0x00},2) == 0)
 		{
 			FILE f;
 	
@@ -500,26 +500,26 @@ public class wow
 			{
 	            fread(RAM,0xD004,1,20,f);
 				/* stored twice in memory??? */
-				memcpy(RAM,0xD304,RAM,0xD004,20);
+	/*TOFIX			memcpy(RAM,0xD304,RAM,0xD004,20);
 				fclose(f);
 			}
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 	
 	
 	
-	static HiscoreSavePtr wow_hisave = new HiscoreSavePtr() { public void handler(String name) 
+	static HiscoreSavePtr wow_hisave = new HiscoreSavePtr() { public void handler() 
 	{
 		FILE f;
 	
-		if ((f = fopen(name,"wb")) != null)
+	/*TOFIX	if ((f = fopen(name,"wb")) != null)
 		{
 	        fwrite(RAM,0xD004,1,20,f);
 			fclose(f);
-		}
+		}*/
 	
 	} };
 	
@@ -614,10 +614,10 @@ public class wow
 		null
 	);
 	
-	static HiscoreLoadPtr robby_hiload = new HiscoreLoadPtr() { public int handler(String name) 
+	static HiscoreLoadPtr robby_hiload = new HiscoreLoadPtr() { public int handler() 
 	{
 		/* check if the hi score table has already been initialized */
-	        if ((memcmp(RAM,0xE13B,new char[] {0x10,0x27},2) == 0) &&
+	  /*TOFIX      if ((memcmp(RAM,0xE13B,new char[] {0x10,0x27},2) == 0) &&
 			(memcmp(RAM,0xE1E4,"COCK",4) == 0))
 		{
 			FILE f;
@@ -627,26 +627,26 @@ public class wow
 			{
                                 fread(RAM,0xE13B,1,0xAD,f);
 				/* appears twice in memory??? */
-				memcpy(RAM,0xE33B,RAM,0xE13B,0xAD);
+	/*TOFIX			memcpy(RAM,0xE33B,RAM,0xE13B,0xAD);
 				fclose(f);
 			}
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 	
 	
 	
-	static HiscoreSavePtr robby_hisave = new HiscoreSavePtr() { public void handler(String name) 
+	static HiscoreSavePtr robby_hisave = new HiscoreSavePtr() { public void handler() 
 	{
 		FILE f;
 	
-		if ((f = fopen(name,"wb")) != null)
+		/*TOFIXif ((f = fopen(name,"wb")) != null)
 		{
 	        fwrite(RAM,0xE13B,1,0xAD,f);
 			fclose(f);
-		}
+		}*/
 	
 	} };
 	

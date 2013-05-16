@@ -434,7 +434,7 @@ public class exedexes {
                 char RAM[]=Machine.memory_region[0];
 
                 /* check if the hi score table has already been initialized */
-                if ((memcmp(RAM,0xE680,new char[]{0x00,0x00,0x00},3) == 0) &&
+            /*TOFIX    if ((memcmp(RAM,0xE680,new char[]{0x00,0x00,0x00},3) == 0) &&
                         (memcmp(RAM,0xE6CD,new char[]{0x24,0x1E,0x19},3) == 0))
                 {
                         FILE f;
@@ -444,13 +444,13 @@ public class exedexes {
                         {
                                 fread(RAM,0xE680,1,0x50,f);
                                 /* fix the score at the top */
-                                memcpy(RAM,0xE600,RAM,0xE680,8);
+      /*TOFIX                          memcpy(RAM,0xE600,RAM,0xE680,8);
                                 fclose(f);
                         }
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
@@ -464,11 +464,11 @@ public class exedexes {
                 char RAM[]=Machine.memory_region[0];
 
 
-                if ((f = fopen(name,"wb")) != null)
+         /*TOFIX       if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0xE680,1,0x50,f);
                         fclose(f);
-                }
+                }*/
 
         }};
 

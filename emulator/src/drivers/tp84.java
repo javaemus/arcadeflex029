@@ -386,19 +386,19 @@ public class tp84 {
         }};
 
 
-        static HiscoreLoadPtr tp84_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr tp84_hiload = new HiscoreLoadPtr() { public int handler()
          {
           char[] RAM = Machine.memory_region[0];
           FILE f;
 
           /* Wait for hiscore table initialization to be done. */
-          if (memcmp(RAM,0x57a0,new char[]{0x00,0x02,0x00,0x47,0x53,0x58}, 6) != 0)
+     /*TOFIX     if (memcmp(RAM,0x57a0,new char[]{0x00,0x02,0x00,0x47,0x53,0x58}, 6) != 0)
             return 0;
 
           if ((f = fopen(name,"rb")) != null)
             {
               /* Load and set hiscore table. */
-              fread(RAM,0x57a0,1,5*6,f);
+/*TOFIX              fread(RAM,0x57a0,1,5*6,f);
               fclose(f);
             }
 
@@ -409,16 +409,16 @@ public class tp84 {
         }};
 
 
-        static HiscoreSavePtr tp84_hisave = new HiscoreSavePtr() { public void handler(String name){
+        static HiscoreSavePtr tp84_hisave = new HiscoreSavePtr() { public void handler(){
               char[] RAM = Machine.memory_region[0];
           FILE f;
 
-          if ((f = fopen(name,"wb")) != null)
+      /*TOFIX    if ((f = fopen(name,"wb")) != null)
             {
               /* Write hiscore table. */
-              fwrite(RAM,0x57a0,1,5*6,f);
+    /*TOFIX          fwrite(RAM,0x57a0,1,5*6,f);
               fclose(f);
-            }
+            }*/
         /*  fwrite(&RAM[0x5736],1,6,f);*/
         }};
 

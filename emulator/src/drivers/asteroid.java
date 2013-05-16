@@ -216,7 +216,7 @@ public class asteroid
         static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM,0x001d,new char[]{0x00,0x00},2) == 0 &&
+          /*TOFIX      if (memcmp(RAM,0x001d,new char[]{0x00,0x00},2) == 0 &&
                                 memcmp(RAM,0x0050,new char[]{0x00,0x00},2) == 0 &&
                                 memcmp(RAM,0x0032,new char[]{0xff,0xff},2) == 0)
                 {
@@ -231,7 +231,7 @@ public class asteroid
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
@@ -241,11 +241,11 @@ public class asteroid
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+       /*TOFIX         if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x001d,1,2*10+3*11,f);
                         fclose(f);
-                }
+                }*/
          }};
 
         /* Asteroids Deluxe now uses the earom routines

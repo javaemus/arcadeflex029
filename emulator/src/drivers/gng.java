@@ -390,7 +390,7 @@ static MachineDriver diamond_machine_driver = new MachineDriver
 
 
 
-	static HiscoreLoadPtr gng_hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr gng_hiload = new HiscoreLoadPtr() { public int handler()
 	{
 	/* get RAM pointer (this game is multiCPU, we can't assume the global */
 	/* RAM pointer is pointing to the right place) */
@@ -398,7 +398,7 @@ static MachineDriver diamond_machine_driver = new MachineDriver
 
 
 	/* check if the hi score table has already been initialized */
-        if (memcmp(RAM, 0x152c, new char[] { 0x00, 0x01, 0x00,0x00 }, 4) == 0 &&
+   /*TOFIX     if (memcmp(RAM, 0x152c, new char[] { 0x00, 0x01, 0x00,0x00 }, 4) == 0 &&
 				memcmp(RAM, 0x0042, new char[] { 0x00, 0x01, 0x00,0x00 }, 4) == 0)
 	{
 
@@ -421,25 +421,25 @@ static MachineDriver diamond_machine_driver = new MachineDriver
 
 		return 1;
 	}
-	else 
+	else */
             return 0;	/* we can't load the hi scores yet */
 } };
 
 
 
-static HiscoreSavePtr gng_hisave = new HiscoreSavePtr() { public void handler(String name)
+static HiscoreSavePtr gng_hisave = new HiscoreSavePtr() { public void handler()
 	{
 	/* get RAM pointer (this game is multiCPU, we can't assume the global */
 	/* RAM pointer is pointing to the right place) */
-	char []RAM = Machine.memory_region[0];
+	/*TOFIXchar []RAM = Machine.memory_region[0];
 	FILE f;
 	if ((f = fopen(name,"wb")) != null)
 	{
 		fwrite(RAM,0x1518,1,9*10,f);
 		fclose(f);
-	}
+	}*/
 } };
-static HiscoreLoadPtr diamond_hiload = new HiscoreLoadPtr() { public int handler(String name)
+static HiscoreLoadPtr diamond_hiload = new HiscoreLoadPtr() { public int handler()
 {
 
 	/* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -447,7 +447,7 @@ static HiscoreLoadPtr diamond_hiload = new HiscoreLoadPtr() { public int handler
 	char []RAM = Machine.memory_region[0];
 
 	/* We're just going to blast the hi score table into ROM and be done with it */
-        if (memcmp(RAM,0xC10E,"KLE",3) == 0)
+    /*TOFIX    if (memcmp(RAM,0xC10E,"KLE",3) == 0)
 	{
 		FILE f;
 
@@ -460,11 +460,11 @@ static HiscoreLoadPtr diamond_hiload = new HiscoreLoadPtr() { public int handler
 
 		return 1;
 	}
-	else return 0;	/* we can't load the hi scores yet */
+	else*/ return 0;	/* we can't load the hi scores yet */
 }};
 
 
-static HiscoreSavePtr diamond_hisave = new HiscoreSavePtr() { public void handler(String name)
+static HiscoreSavePtr diamond_hisave = new HiscoreSavePtr() { public void handler()
 {
 	FILE f;
 
@@ -473,12 +473,12 @@ static HiscoreSavePtr diamond_hisave = new HiscoreSavePtr() { public void handle
 	char []RAM = Machine.memory_region[0];
 
 
-	if ((f = fopen(name,"wb")) != null)
+	/*TOFIXif ((f = fopen(name,"wb")) != null)
 	{
 		/* The RAM location of the hi score table */
-                fwrite(RAM,0x105F,1,0x80,f);
+ /*TOFIX               fwrite(RAM,0x105F,1,0x80,f);
 		fclose(f);
-	}
+	}*/
 }};
 
 public static GameDriver gng_driver =new GameDriver
