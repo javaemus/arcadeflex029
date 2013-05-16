@@ -250,8 +250,8 @@ public class mplanets
                         fread(RAM,0x536,1,2,f); /* hiscore table checksum */
     /*TOFIX                    fread(RAM,0x538,41,7,f); /* 20+20+1 hiscore entries */
     /*TOFIX                    fclose(f);
-                }
-		return 1;*/
+                }*/
+		return 1;
 	} };
 	
 	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler() 

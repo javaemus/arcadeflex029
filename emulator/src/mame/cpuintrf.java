@@ -36,8 +36,8 @@ import static Z80.Z80.*;
 import static arcadeflex.libc.*;
 import static mame.driverH.*;
 import static mame.mame.*;
-import static mame.osdependH.*;
 import static arcadeflex.osdepend.*;
+import m6809.M6809H;
 import static mame.inptport.*;
 import static mame.memoryH.*;
 /***************************************************************************

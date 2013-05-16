@@ -1019,14 +1019,14 @@ public class williams {
 
     static HiscoreLoadPtr cmos_load = new HiscoreLoadPtr()
       {
-        public int handler(String name)
+        public int handler()
         {
                 FILE f;
 
-                if ((f = fopen(name,"rb")) != null)
+                if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0)) != null)
                 {
-                        fread(RAM,0xCC00,1,0x400,f);
-                        fclose(f);
+                        osd_fread(f,RAM,0xCC00,0x400);
+                        osd_fclose(f);
                 }else{
                         DisplayText[] dt = DisplayText.create(2);
                         dt[0].text ="THIS IS THE FIRST TIME YOU START THIS GAME\n"+
@@ -1060,27 +1060,27 @@ public class williams {
         }};
          static HiscoreSavePtr cmos_save = new HiscoreSavePtr()
           {
-            public void handler(String name)
+            public void handler()
             {
                 FILE f;
 
-                if ((f = fopen(name,"wb")) != null)
+                if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1)) != null)
                 {
-                        fwrite(RAM,0xCC00,1,0x400,f);
-                        fclose(f);
+                        osd_fwrite(f,RAM,0xCC00,0x400);
+                        osd_fclose(f);
                 }
         }};
 
     static HiscoreLoadPtr defender_cmos_load = new HiscoreLoadPtr()
       {
-        public int handler(String name)
+        public int handler()
         {
                 FILE f;
 
-                if ((f = fopen(name,"rb")) != null)
+                if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0)) != null)
                 {
-                        fread(RAM,0x10400,1,0x100,f);
-                        fclose(f);
+                        osd_fread(f,RAM,0x10400,0x100);
+                        osd_fclose(f);
                 }else{
                         DisplayText[] dt = DisplayText.create(2);
                         dt[0].text =
@@ -1124,14 +1124,14 @@ public class williams {
         }};
          static HiscoreSavePtr defender_cmos_save = new HiscoreSavePtr()
           {
-            public void handler(String name)
+            public void handler()
             {
                 FILE f;
 
-                if ((f = fopen(name,"wb")) != null)
+                if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1)) != null)
                 {
-                        fwrite(RAM,0x10400,1,0x100,f);
-                        fclose(f);
+                        osd_fwrite(f,RAM,0x10400,0x100);
+                        osd_fclose(f);
                 }
         }};
 

@@ -31,6 +31,8 @@ import static mame.cpuintrf.*;
 import static mame.mame.*;
 import static vidhrdw.vector.*;
 import static mame.memoryH.*;
+import static mame.osdependH.*;
+import static arcadeflex.osdepend.*;
 
 public class atari_vg {
     static int earom_offset;
@@ -71,27 +73,27 @@ public class atari_vg {
                     earom[earom_offset]=(char)earom_data;
     }};
 
-    public static HiscoreLoadPtr atari_vg_earom_load = new HiscoreLoadPtr() { public int handler(String name)
+    public static HiscoreLoadPtr atari_vg_earom_load = new HiscoreLoadPtr() { public int handler()
     {
             /* We read the EAROM contents from disk */
             /* No check necessary */
             FILE f;
 
-            if ((f = fopen(name,"rb")) != null)
+            if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0)) != null)
             {
-                    fread(earom,0,1,0x40,f);
-                    fclose(f);
+                    osd_fread(f,earom,0,0x40);
+                    osd_fclose(f);
             }
             return 1;
     }};
-    public static HiscoreSavePtr atari_vg_earom_save = new HiscoreSavePtr() { public void handler(String name)
+    public static HiscoreSavePtr atari_vg_earom_save = new HiscoreSavePtr() { public void handler()
     {
             FILE f;
 
-            if ((f = fopen(name,"wb")) != null)
+            if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1)) != null)
             {
-                    fwrite(earom,0,1,0x40,f);
-                    fclose(f);
+                    osd_fwrite(f,earom,0,0x40);
+                    osd_fclose(f);
             }
     } };   
 }
