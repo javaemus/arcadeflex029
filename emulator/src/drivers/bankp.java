@@ -16,6 +16,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
+ * ported to v0.29
  * ported to v0.28
  * 
  *
@@ -27,6 +28,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 package drivers;
 
 import static arcadeflex.libc.*;
+import static arcadeflex.osdepend.*;
 import static mame.commonH.*;
 import static mame.mame.*;
 import static mame.cpuintrf.*;
@@ -223,6 +225,7 @@ public class bankp {
                         ),
                 },
                 60,
+                1,	/* single CPU, no need for interleaving */
                 null,
 
                 /* video hardware */
@@ -274,7 +277,7 @@ public class bankp {
 
 
 
-        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* check if the hi score table has already been initialized */
                 /* this check is really stupid and almost useless, but better than nothing */
@@ -285,11 +288,11 @@ public class bankp {
                         FILE f;
 
 
-                        if ((f = fopen(name,"rb")) != null)
+                        if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0)) != null)
                         {
-                                fread(RAM,0xe590,1,16*10,f);
+                                osd_fread(f,RAM,0xe590,16*10);
                                 memcpy(RAM,0xe018,RAM,0xe590,7);	/* copy high score */
-                                fclose(f);
+                                osd_fclose(f);
                         }
 
                         return 1;
@@ -299,15 +302,15 @@ public class bankp {
 
 
 
-        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
         {
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+                if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1)) != null)
                 {
-                        fwrite(RAM,0xe590,1,16*10,f);
-                        fclose(f);
+                        osd_fwrite(f,RAM,0xe590,16*10);
+                        osd_fclose(f);
                 }
         }};
 

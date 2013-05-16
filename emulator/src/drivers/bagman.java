@@ -349,6 +349,7 @@ public class bagman
 			)
 		},
 		60,
+                1,	/* single CPU, no need for interleaving */
 		null,
 
 		/* video hardware */

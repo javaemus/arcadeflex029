@@ -36,9 +36,9 @@ src\drivers
 
 1942.c         | DONE |
 1943.c         
-3stooges.c   
+3stooges.c     | DONE |
 amidar.c
-arabian.c    
+arabian.c      | DONE |
 asteroid.c   
 bagman.c     
 bankp.c      
