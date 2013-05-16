@@ -303,16 +303,16 @@ public class locomotn {
 	{
 		FILE f;
 
-		if ((f = fopen(name,"rb")) != null)
+/*TOFIX		if ((f = fopen(name,"rb")) != null)
 		{
                         fread(RAM,0x0931,1,3,f);
 			fclose(f);
-		}
+		}*/
 		ROMloaded=1;
 	}
 
 	/* check if the hi score table has already been initialized */
-        if ((memcmp(RAM,0x9F00,RAM,0x0931,3) == 0) &&
+   /*TOFIX     if ((memcmp(RAM,0x9F00,RAM,0x0931,3) == 0) &&
 		(memcmp(RAM,0x9F75,new char[]{0x3E,0x3E,0x3E},3) == 0))
 	{
 		FILE f;
@@ -326,7 +326,7 @@ public class locomotn {
 
 		return 1;
 	}
-	else return 0;	/* we can't load the hi scores yet */
+	else */return 0;	/* we can't load the hi scores yet */
     }};
 
         static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
@@ -338,11 +338,11 @@ public class locomotn {
             char []RAM = Machine.memory_region[0];
 
 
-            if ((f = fopen(name,"wb")) != null)
+      /*TOFIX      if ((f = fopen(name,"wb")) != null)
             {
                     fwrite(RAM,0x9F00,1,12*10,f);
                     fclose(f);
-            }
+            }*/
 
         }};
         public static GameDriver locomotn_driver = new GameDriver

@@ -387,7 +387,7 @@ public class digdug
 
 
                         /* check if the hi score table has already been initialized (works for Namco & Atari) */
-                       if (RAM[0x89b1] == 0x35 && RAM[0x89b4] == 0x35)
+   /*TOFIX                    if (RAM[0x89b1] == 0x35 && RAM[0x89b4] == 0x35)
                        {
                           FILE f;
                            
@@ -400,7 +400,7 @@ public class digdug
 
                           return 1;
                        }
-                       else
+                       else*/
                           return 0; /* we can't load the hi scores yet */
             }};
 
@@ -412,11 +412,11 @@ public class digdug
                     char []RAM = Machine.memory_region[0];
 
 
-                    if ((f = fopen(name, "wb")) != null)
+           /*TOFIX         if ((f = fopen(name, "wb")) != null)
                     {
                             fwrite(RAM,0x89a0,1,37,f);
                             fclose(f);
-                    }
+                    }*/
             }};
 
  

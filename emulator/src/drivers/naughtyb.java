@@ -263,14 +263,14 @@ public class naughtyb {
 
       static HiscoreLoadPtr hiload = new HiscoreLoadPtr()
       {
-        public int handler(String name)
+        public int handler()
         {
            /* get RAM pointer (this game is multiCPU, we can't assume the global */
            /* RAM pointer is pointing to the right place) */
           char []RAM = Machine.memory_region[0];
            /* check if the hi score has already been written to screen */
-           if((RAM[0x874a] == 8) && (RAM[0x8746] == 9) && (RAM[0x8742] == 7) && (RAM[0x873e] == 8) &&  /* HIGH */
-              (RAM[0x8743] == 0x20) && (RAM[0x873f] == 0x20) && (RAM[0x873b] == 0x20) && (RAM[0x8737] == 0x20))
+ /*TOFIX          if((RAM[0x874a] == 8) && (RAM[0x8746] == 9) && (RAM[0x8742] == 7) && (RAM[0x873e] == 8) &&  /* HIGH */
+ /*TOFIX             (RAM[0x8743] == 0x20) && (RAM[0x873f] == 0x20) && (RAM[0x873b] == 0x20) && (RAM[0x8737] == 0x20))
            {
 
             FILE f;
@@ -281,7 +281,7 @@ public class naughtyb {
               fread(RAM, 0x4003, 1, 4, f);
              /* also copy the high score to the screen, otherwise it won't be */
              /* updated */
-            int hi = (RAM[0x4006] & 0x0f) +
+     /*TOFIX       int hi = (RAM[0x4006] & 0x0f) +
                   (RAM[0x4006] >> 4) * 10 +
                   (RAM[0x4005] & 0x0f) * 100 +
                   (RAM[0x4005] >> 4) * 1000 +
@@ -289,7 +289,7 @@ public class naughtyb {
                   (RAM[0x4004] >> 4) * 100000 +
                   (RAM[0x4003] & 0x0f) * 1000000 +
                   (RAM[0x4003] >> 4) * 10000000;
-              if (hi != 0)
+   /*TOFIX           if (hi != 0)
               {
                      sprintf(buf, "%8d", new Object[] { Integer.valueOf(hi) });
                      if (buf[2] != ' ') videoram_w.handler(0x0743,buf[2]-'0'+0x20);
@@ -303,7 +303,7 @@ public class naughtyb {
             }
 
             return 1;
-          }
+          }*/
           return 0;
         }
       };
@@ -314,12 +314,12 @@ public class naughtyb {
     }
     static HiscoreSavePtr hisave = new HiscoreSavePtr()
       {
-        public void handler(String name)
+        public void handler()
         {
           char []RAM = Machine.memory_region[0];
           int offset = 0;//we can't write directly to RAM so we store the offset (shadow)
 
-          long score1 = naughtyb.get_score(new CharPtr(RAM, 0x4020));
+   /*TOFIX       long score1 = naughtyb.get_score(new CharPtr(RAM, 0x4020));
           long score2 = naughtyb.get_score(new CharPtr(RAM, 0x4030));
           long hiscore = naughtyb.get_score(new CharPtr(RAM, 0x4003));
 
@@ -332,7 +332,7 @@ public class naughtyb {
           {
             fwrite(RAM, offset, 1, 4, f);
             fclose(f);
-          }
+          }*/
         }
       };
 

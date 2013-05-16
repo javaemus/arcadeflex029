@@ -221,10 +221,10 @@ public class panic
 	
 	***************************************************************************/
 	
-	static HiscoreLoadPtr panic_hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr panic_hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* wait for default to be copied */
-		if (RAM[0x40c1] == 0x00 && RAM[0x40c2] == 0x03 && RAM[0x40c3] == 0x04)
+	/*TOFIX	if (RAM[0x40c1] == 0x00 && RAM[0x40c2] == 0x03 && RAM[0x40c3] == 0x04)
 		{
 			FILE f;
 	
@@ -232,29 +232,29 @@ public class panic
 			{
 	        	RAM[0x4004] = 0x01;	/* Prevent program resetting high score */
 	
-				fread(RAM, 0x40C1, 1, 5, f);
+/*TOFIX				fread(RAM, 0x40C1, 1, 5, f);
 	            fread(RAM, 0x5C00, 1, 12, f);
 				fclose(f);
 			}
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 	
 	
 	
-	static HiscoreSavePtr panic_hisave = new HiscoreSavePtr()	{ public void handler(String name)
+	static HiscoreSavePtr panic_hisave = new HiscoreSavePtr()	{ public void handler()
 	{
 		FILE f;
 	
 	
-		if ((f = fopen(name, "wb")) != null)
+	/*TOFIX	if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x40C1, 1, 5, f);
 	        fwrite(RAM, 0x5C00, 1, 12, f);
 			fclose(f);
-		}
+		}*/
 	} };
         static RomLoadPtr panic_rom= new RomLoadPtr(){ public void handler()  
         {

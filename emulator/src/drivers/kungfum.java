@@ -395,7 +395,7 @@ public class kungfum {
                     /* RAM pointer is pointing to the right place) */
                     char []RAM = Machine.memory_region[0];
 
-                    if (memcmp(RAM, 0xe801, new char[] { 0x00, 0x14, 0x95}, 3) == 0 &&
+           /*TOFIX         if (memcmp(RAM, 0xe801, new char[] { 0x00, 0x14, 0x95}, 3) == 0 &&
 				memcmp(RAM, 0xe981, new char[] { 0x00, 0x48, 0x52}, 3) == 0)
                     {
                             FILE f;
@@ -412,7 +412,7 @@ public class kungfum {
 
                             return 1;
                     }
-                    else return 0;	/* we can't load the hi scores yet */
+                    else */return 0;	/* we can't load the hi scores yet */
             } };
 
 
@@ -425,11 +425,11 @@ public class kungfum {
                     char []RAM = Machine.memory_region[0];
 
 
-                    if ((f = fopen(name, "wb")) != null)
+ /*TOFIX                   if ((f = fopen(name, "wb")) != null)
                     {
                             fwrite(RAM,0xea06,1,6*20,f);
                             fclose(f);
-                    }
+                    }*/
             } };
 
 

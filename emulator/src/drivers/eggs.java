@@ -270,7 +270,7 @@ public class eggs
         static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* check if the hi score table has already been initialized */
-                if (	(memcmp(RAM,0x0400,new char[]{0x17,0x25,0x19},3)==0) &&
+      /*TOFIX          if (	(memcmp(RAM,0x0400,new char[]{0x17,0x25,0x19},3)==0) &&
                         (memcmp(RAM,0x041B,new char[]{0x00,0x47,0x00},3) == 0))
                 {
                         FILE f;
@@ -280,13 +280,13 @@ public class eggs
                         {
                                 fread(RAM,0x0400,1,0x1E,f);
                                 /* Fix hi score at top */
-                                memcpy(RAM,0x0015,RAM,0x0403,3);
+  /*TOFIX                              memcpy(RAM,0x0015,RAM,0x0403,3);
                                 fclose(f);
                         }
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
@@ -295,11 +295,11 @@ public class eggs
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+         /*TOFIX       if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x0400,1,0x1E,f);
                         fclose(f);
-                }
+                }*/
 
         }};
         public static GameDriver eggs_driver = new GameDriver

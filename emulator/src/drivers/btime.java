@@ -1184,7 +1184,7 @@ for (A = 0;A < 0x10000;A++)
 
 
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x0036, new char[] { 0x00, 0x80, 0x02 }, 3) == 0 &&
+	/*TOFIX	if (memcmp(RAM, 0x0036, new char[] { 0x00, 0x80, 0x02 }, 3) == 0 &&
 				memcmp(RAM, 0x0042, new char[] { 0x50, 0x48, 0x00 }, 3) == 0)
 		{
 			FILE f;
@@ -1201,7 +1201,7 @@ for (A = 0;A < 0x10000;A++)
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
@@ -1214,11 +1214,11 @@ for (A = 0;A < 0x10000;A++)
 		char []RAM = Machine.memory_region[0];
 
 
-		if ((f = fopen(name, "wb")) != null)
+	/*TOFIX	if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x0036, 1, 6*6, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 

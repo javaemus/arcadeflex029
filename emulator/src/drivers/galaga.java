@@ -542,7 +542,7 @@ public class galaga {
             char[] RAM = Machine.memory_region[0];
 
            /* check if the hi score table has already been initialized */
-           if (memcmp(RAM,0x8a4c,new char[] {0x18,0x6e},2) == 0)
+    /*TOFIX       if (memcmp(RAM,0x8a4c,new char[] {0x18,0x6e},2) == 0)
            {
               if ((f = fopen(name,"rb")) != null)
               {
@@ -553,7 +553,7 @@ public class galaga {
 
               return 1;
            }
-           else
+           else*/
               return 0; /* we can't load the hi scores yet */
         }};
 
@@ -566,11 +566,11 @@ public class galaga {
            /* RAM pointer is pointing to the right place) */
            char[] RAM = Machine.memory_region[0];
 
-           if ((f = fopen(name,"wb")) != null)
+     /*TOFIX      if ((f = fopen(name,"wb")) != null)
            {
               fwrite(RAM,0x8A20,1,45,f);
               fclose(f);
-           }
+           }*/
         }};
 
 

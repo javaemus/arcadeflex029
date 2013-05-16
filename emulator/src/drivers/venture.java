@@ -477,7 +477,7 @@ public class venture {
                 char RAM[]=Machine.memory_region[0];
 
                 /* check if the hi score table has already been initialized */
-                if ((memcmp(RAM,0x0380,new char[]{0x00,0x06,0x0C,0x12,0x18},5) == 0) &&
+     /*TOFIX           if ((memcmp(RAM,0x0380,new char[]{0x00,0x06,0x0C,0x12,0x18},5) == 0) &&
                         (memcmp(RAM,0x03A0,new char[] { 'D','J','S'},3) == 0))
                 {
                         FILE f;
@@ -491,7 +491,7 @@ public class venture {
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
@@ -505,12 +505,12 @@ public class venture {
                 char RAM[]=Machine.memory_region[0];
 
 
-                if ((f = fopen(name,"wb")) != null)
+       /*TOFIX         if ((f = fopen(name,"wb")) != null)
                 {
                         /* 5 bytes for score order, 6 bytes per score/initials */
-                        fwrite(RAM,0x0380,1,5+6*5,f);
+          /*TOFIX              fwrite(RAM,0x0380,1,5+6*5,f);
                         fclose(f);
-                }
+                }*/
         }};
 
 

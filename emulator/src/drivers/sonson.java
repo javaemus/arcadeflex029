@@ -341,10 +341,10 @@ public class sonson {
 
 
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM,0x0300,new char[] {0x00,0x01,0x00,0x00},4) == 0 &&
+     /*TOFIX           if (memcmp(RAM,0x0300,new char[] {0x00,0x01,0x00,0x00},4) == 0 &&
                                 memcmp(RAM,0x0320,new char[] {0x00,0x01,0x00,0x00},4) == 0 &&
                                 memcmp(RAM,0x00d8,new char[] {0x00,0x01,0x00,0x00},4) == 0 &&	/* high score */
-                                memcmp(RAM,0x0328,new char[] {0x00,0x02,0x00,0x00},4) == 0 &&
+ /*TOFIX                               memcmp(RAM,0x0328,new char[] {0x00,0x02,0x00,0x00},4) == 0 &&
                                 memcmp(RAM,0x0358,new char[] {0x00,0x02,0x00,0x00},4) == 0)
                 {
                         FILE f;
@@ -362,7 +362,7 @@ public class sonson {
 
                         return 1;
                 }
-                else return 0;	/* we can't load the hi scores yet */
+                else */return 0;	/* we can't load the hi scores yet */
         }};
 
 
@@ -375,11 +375,11 @@ public class sonson {
                 FILE f;
 
 
-                if ((f = fopen(name,"wb")) != null)
+          /*TOFIX      if ((f = fopen(name,"wb")) != null)
                 {
                         fwrite(RAM,0x0300,1,8*5+12*5,f);
                         fclose(f);
-                }
+                }*/
         }};
         public static GameDriver  sonson_driver =new GameDriver
         (

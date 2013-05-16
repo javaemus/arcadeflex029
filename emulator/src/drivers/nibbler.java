@@ -263,7 +263,7 @@ static KEYSet keys[] =
 	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x0290, new char[] { 0x00, 0x50, 0x00, 0x00 }, 4) == 0 &&
+/*TOFIX		if (memcmp(RAM, 0x0290, new char[] { 0x00, 0x50, 0x00, 0x00 }, 4) == 0 &&
 				memcmp(RAM, 0x02b4, new char[] { 0x00, 0x05, 0x00, 0x00 }, 4) == 0)
 		{
 			FILE f;
@@ -278,7 +278,7 @@ static KEYSet keys[] =
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else*/return 0;	/* we can't load the hi scores yet */
 	} };
 	
 
@@ -288,12 +288,12 @@ static KEYSet keys[] =
 		FILE f;
 	
 	
-		if ((f = fopen(name, "wb")) != null)
+	/*TOFIX	if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x0290, 1, 4*10, f);
 			fwrite(RAM, 0x02d0, 1, 3*10, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 

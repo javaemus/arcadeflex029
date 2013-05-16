@@ -471,10 +471,10 @@ public static MachineDriver invdelux_machine_driver = new MachineDriver
 
 
 
-	static HiscoreLoadPtr invaders_hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr invaders_hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* check if the hi score table has already been initialized */
-		if (memcmp(RAM, 0x20f4, new char[] { 0x00, 0x00 }, 2) == 0)
+	/*TOFIX	if (memcmp(RAM, 0x20f4, new char[] { 0x00, 0x00 }, 2) == 0)
 		{
 			FILE f;
 	
@@ -487,118 +487,118 @@ public static MachineDriver invdelux_machine_driver = new MachineDriver
 	
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
 
-	static HiscoreSavePtr invaders_hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr invaders_hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 	
 	
-		if ((f = fopen(name, "wb")) != null)
+	/*TOFIX	if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x20f4, 1, 2, f);
 			fclose(f);
-		}
+		}*/
 	} };
-        static HiscoreLoadPtr invdelux_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr invdelux_hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM, 0x2340, new char[] { 0x1b, 0x1b }, 2) == 0)
+       /*TOFIX         if (memcmp(RAM, 0x2340, new char[] { 0x1b, 0x1b }, 2) == 0)
                 {
                         FILE f;
 
                         if ((f = fopen(name, "rb")) != null)
                         {
                  /* Load the actual score */
-                           fread(RAM,0x20f4,1, 0x2,f);
+     /*TOFIX                      fread(RAM,0x20f4,1, 0x2,f);
                  /* Load the name */
-                           fread(RAM,0x2340,1, 0xa,f);
+    /*TOFIX                       fread(RAM,0x2340,1, 0xa,f);
                            fclose(f);
                         }
 
                         return 1;
                 }
-                else return 0;  /* we can't load the hi scores yet */
+                else */return 0;  /* we can't load the hi scores yet */
         }};
-        static HiscoreSavePtr invdelux_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr invdelux_hisave = new HiscoreSavePtr() { public void handler()
         {
 
-                FILE f;
+     /*TOFIX           FILE f;
 
                 if ((f = fopen(name,"wb")) != null)
                 {
               /* Save the actual score */
-                        fwrite(RAM,0x20f4,1, 0x2,f);
+    /*TOFIX                    fwrite(RAM,0x20f4,1, 0x2,f);
               /* Save the name */
-                        fwrite(RAM,0x2340,1, 0xa,f);
+  /*TOFIX                      fwrite(RAM,0x2340,1, 0xa,f);
                         fclose(f);
-                }
+                }*/
         }};
-        static HiscoreLoadPtr lrescue_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr lrescue_hiload = new HiscoreLoadPtr() { public int handler()
         {
                 /* check if the hi score table has already been initialized */
-                if (memcmp(RAM, 0x20CF, new char[] { 0x1b, 0x1b }, 2) == 0)
+      /*TOFIX          if (memcmp(RAM, 0x20CF, new char[] { 0x1b, 0x1b }, 2) == 0)
                 {
                         FILE f;
 
                         if ((f = fopen(name,"rb")) != null)
                        {
                  /* Load the actual score */
-                           fread(RAM,0x20F4,1, 0x2,f);
+    /*TOFIX                       fread(RAM,0x20F4,1, 0x2,f);
                  /* Load the name */
-                           fread(RAM,0x20CF,1, 0xa,f);
+  /*TOFIX                         fread(RAM,0x20CF,1, 0xa,f);
                  /* Load the high score length */
-                           fread(RAM,0x20DB,1, 0x1,f);
+  /*TOFIX                         fread(RAM,0x20DB,1, 0x1,f);
                            fclose(f);
                         }
 
                         return 1;
                 }
-                else return 0;  /* we can't load the hi scores yet */
+                else */return 0;  /* we can't load the hi scores yet */
 
         }};
-        static HiscoreLoadPtr desterth_hiload = new HiscoreLoadPtr() { public int handler(String name)
+        static HiscoreLoadPtr desterth_hiload = new HiscoreLoadPtr() { public int handler()
         {
         /* check if the hi score table has already been initialized */
-            if (memcmp(RAM, 0x20CF, new char[] { 0x1b, 0x07 }, 2) == 0)
+     /*TOFIX       if (memcmp(RAM, 0x20CF, new char[] { 0x1b, 0x07 }, 2) == 0)
             {
                         FILE f;
 
                         if ((f = fopen(name,"rb")) != null)
                        {
                  /* Load the actual score */
-                           fread(RAM,0x20F4,1, 0x2,f);
+     /*TOFIX                      fread(RAM,0x20F4,1, 0x2,f);
                  /* Load the name */
-                           fread(RAM,0x20CF,1, 0xa,f);
+     /*TOFIX                      fread(RAM,0x20CF,1, 0xa,f);
                  /* Load the high score length */
-                           fread(RAM,0x20DB,1, 0x1,f);
-                                fclose(f);
+     /*TOFIX                      fread(RAM,0x20DB,1, 0x1,f);
+    /*TOFIX                            fclose(f);
                         }
 
                         return 1;
                 }
-                else return 0;   /* we can't load the hi scores yet */
+                else */return 0;   /* we can't load the hi scores yet */
 
         }};
 
 
-        static HiscoreSavePtr lrescue_hisave = new HiscoreSavePtr() { public void handler(String name)
+        static HiscoreSavePtr lrescue_hisave = new HiscoreSavePtr() { public void handler()
         {
                 FILE f;
 
-                if ((f = fopen(name,"wb")) != null)
+    /*TOFIX            if ((f = fopen(name,"wb")) != null)
                 {
               /* Save the actual score */
-                        fwrite(RAM,0x20F4,1,0x02,f);
+   /*TOFIX                    fwrite(RAM,0x20F4,1,0x02,f);
               /* Save the name */
-                        fwrite(RAM,0x20CF,1,0xa,f);
+    /*TOFIX                    fwrite(RAM,0x20CF,1,0xa,f);
               /* Save the high score length */
-                        fwrite(RAM,0x20DB,1,0x1,f);
+    /*TOFIX                    fwrite(RAM,0x20DB,1,0x1,f);
                         fclose(f);
-                }
+                }*/
         }};
 	
 	public static GameDriver invaders_driver = new GameDriver

@@ -243,7 +243,7 @@ public class kangaroo {
 
         static HiscoreLoadPtr kangaroo_hiload = new HiscoreLoadPtr()
         {
-          public int handler(String name)
+          public int handler()
           {
                 /* Ok, we need to explicitly tell what RAM to read...*/
                 /* realizing this was necessary took me quite a long time :( -V- */
@@ -251,32 +251,32 @@ public class kangaroo {
                 char []RAM = Machine.memory_region[0];
 
                 /* just a guess really... */
-                if ( RAM[0xe1da] == 0x50 )
+   /*TOFIX             if ( RAM[0xe1da] == 0x50 )
                 {
                         FILE f;
                         if (( f = fopen(name, "rb")) != null)
                         {
                                 fread(RAM,0xe1a0, 1, 0x40, f);
                                 /* is this enough ??? */
-                                fclose(f);
+   /*TOFIX                             fclose(f);
                         }
                         return 1;
                  }
-                 else return 0; /* didn't load them yet, do stop by later ;-) -V- */
+                 else */return 0; /* didn't load them yet, do stop by later ;-) -V- */
         }};
         static HiscoreSavePtr kangaroo_hisave = new HiscoreSavePtr()
         {
-           public void handler(String name)
+           public void handler()
            {
                 FILE f;
 
-                char []RAM = Machine.memory_region[0];
+     /*TOFIX           char []RAM = Machine.memory_region[0];
 
                 if ((f = fopen(name , "wb")) != null)
                 {
                         fwrite(RAM,0xe1a0, 1, 0x40, f);
                         fclose(f);
-                }
+                }*/
         }};
 
 

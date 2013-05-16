@@ -533,7 +533,7 @@ public class superpac {
                  ROM_END();
         }};
 
-             static HiscoreLoadPtr superpac_hiload = new HiscoreLoadPtr() { public int handler(String name)
+             static HiscoreLoadPtr superpac_hiload = new HiscoreLoadPtr() { public int handler()
              {
                        int writing = 0;
                        /* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -543,7 +543,7 @@ public class superpac {
 
 
 
-                      if ((memcmp(RAM, 0x113c, "N@N", 3) == 0) && (RAM[0x1087] == 0) && (RAM[0x1089] == 0) && (RAM[0x1088] != 0) && (memcmp(RAM, 0x3ee, "000", 3) == 0))
+  /*TOFIX                 if ((memcmp(RAM, 0x113c, "N@N", 3) == 0) && (RAM[0x1087] == 0) && (RAM[0x1089] == 0) && (RAM[0x1088] != 0) && (memcmp(RAM, 0x3ee, "000", 3) == 0))
                       {
                         FILE localFILE;
                         if ((localFILE = fopen(name, "rb")) != null)
@@ -551,13 +551,13 @@ public class superpac {
                           fread(RAM, 0x1138, 1, 40, localFILE);
                           fclose(localFILE);
 
-                          /* also copy over the high score */
-                            RAM[0x1087] = RAM[0x1138];
+ /*TOFIX                         /* also copy over the high score */
+ /*TOFIX                           RAM[0x1087] = RAM[0x1138];
                             RAM[0x1088] = RAM[0x1139];
                             RAM[0x1089] = RAM[0x113a];
                         }
                        /* this is a little gross, but necessary to get the high score on-screen */
-                        if (writing == 0) writing = RAM[0x1087] >> 4;
+ /*TOFIX                       if (writing == 0) writing = RAM[0x1087] >> 4;
                         if (writing != 0) videoram_w.handler(0x3f4, (RAM[0x1087] >> 4) + '0');
                         if (writing == 0) writing = RAM[0x1087] & 0x0f;
                         if (writing != 0) videoram_w.handler(0x3f3, (RAM[0x1087] & 0x0f) + '0');
@@ -572,22 +572,22 @@ public class superpac {
                         videoram_w.handler(0x3ee, 0 + '0');
 
                         return 1;
-                      }
+                      }*/
                       return 0;
 
              }};
 
-        static HiscoreSavePtr superpac_hisave = new HiscoreSavePtr() { public void handler(String name){
+        static HiscoreSavePtr superpac_hisave = new HiscoreSavePtr() { public void handler(){
               char[] RAM = Machine.memory_region[0];
-              FILE localFILE;
+        /*TOFIX      FILE localFILE;
               if ((localFILE = fopen(name, "wb")) != null)
               {
                 fwrite(RAM, 0x1138, 1, 40, localFILE);
                 fclose(localFILE);
-              }
+              }*/
         }};
 
-             static HiscoreLoadPtr pacnpal_hiload = new HiscoreLoadPtr() { public int handler(String name)
+             static HiscoreLoadPtr pacnpal_hiload = new HiscoreLoadPtr() { public int handler()
              {
                                         int writing = 0;
                        /* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -596,7 +596,7 @@ public class superpac {
                         /* check if the hi score table has already been initialized */
 
 
-                      if ((memcmp(RAM, 0x1051, new char[] { 0x1a, 0x25, 0x1a }, 3) == 0) && (RAM[0x116d] == 0) && (RAM[0x116f] == 0) && (RAM[0x116e] != 0) && (memcmp(RAM, 0x3ed, new char[] { 0x00, 0x00, 0x00 }, 3) == 0))
+       /*TOFIX               if ((memcmp(RAM, 0x1051, new char[] { 0x1a, 0x25, 0x1a }, 3) == 0) && (RAM[0x116d] == 0) && (RAM[0x116f] == 0) && (RAM[0x116e] != 0) && (memcmp(RAM, 0x3ed, new char[] { 0x00, 0x00, 0x00 }, 3) == 0))
                       {
                         FILE localFILE;
                         if ((localFILE = fopen(name, "rb")) != null)
@@ -605,12 +605,12 @@ public class superpac {
                           fclose(localFILE);
 
                           /* also copy over the high score */
-                            RAM[0x116d] = RAM[0x104d];
+         /*TOFIX                   RAM[0x116d] = RAM[0x104d];
                              RAM[0x116e] = RAM[0x104e];
                              RAM[0x116f] = RAM[0x104f];
                         }
                        /* this is a little gross, but necessary to get the high score on-screen */
-                        if (writing == 0) writing = RAM[0x116d] >> 4;
+     /*TOFIX                   if (writing == 0) writing = RAM[0x116d] >> 4;
                         if (writing != 0) videoram_w.handler(0x3f3, (RAM[0x116d] >> 4)); else videoram_w.handler(0x3f3,0x24);
                         if (writing == 0) writing = RAM[0x116d] & 0x0f;
                         if (writing != 0) videoram_w.handler(0x3f2, (RAM[0x116d] & 0x0f)); else videoram_w.handler(0x3f2,0x24);
@@ -629,17 +629,17 @@ public class superpac {
                         videoram_w.handler(0x3ed, 0);
 
                         return 1;
-                      }
+                      }*/
                       return 0;
              }};
-        static HiscoreSavePtr pacnpal_hisave= new HiscoreSavePtr() { public void handler(String name){
+        static HiscoreSavePtr pacnpal_hisave= new HiscoreSavePtr() { public void handler(){
               char[] RAM = Machine.memory_region[0];
               FILE localFILE;
-              if ((localFILE = fopen(name, "wb")) != null)
+      /*TOFIX        if ((localFILE = fopen(name, "wb")) != null)
               {
                 fwrite(RAM, 0x104c, 1, 40, localFILE);
                 fclose(localFILE);
-              }
+              }*/
         }};
 
 

@@ -463,7 +463,7 @@ public class phoenix
        char[] RAM = Machine.memory_region[0];
 
        /* check if the hi score table has already been initialized */
-       if (memcmp(RAM,0x438a,new char[] {0x00,0x00,0x0f},3) == 0)
+  /*TOFIX     if (memcmp(RAM,0x438a,new char[] {0x00,0x00,0x0f},3) == 0)
        {
           if ((f = fopen(name,"rb")) != null)
           {
@@ -473,7 +473,7 @@ public class phoenix
              phoenix_videoram2_w(0x0221, (RAM[0x4388] >> 4)+0x20);
              phoenix_videoram2_w(0x0201, (RAM[0x4388] & 0xf)+0x20);
     */
-             phoenix_videoram2_w.handler(0x01e1, (RAM[0x4389] >> 4)+0x20);
+/*TOFIX             phoenix_videoram2_w.handler(0x01e1, (RAM[0x4389] >> 4)+0x20);
              phoenix_videoram2_w.handler(0x01c1, (RAM[0x4389] & 0xf)+0x20);
              phoenix_videoram2_w.handler(0x01a1, (RAM[0x438a] >> 4)+0x20);
              phoenix_videoram2_w.handler(0x0181, (RAM[0x438a] & 0xf)+0x20);
@@ -484,7 +484,7 @@ public class phoenix
 
           return 1;
        }
-       else return 0; /* we can't load the hi scores yet */
+       else */ return 0; /* we can't load the hi scores yet */
     }};
     static long get_score(CharPtr score)
     {
@@ -509,11 +509,11 @@ public class phoenix
        else if (score2 > hiscore) offset += 0x4384;
        else offset += 0x4388;
 
-       if ((f = fopen(name,"wb")) != null)
+  /*TOFIX     if ((f = fopen(name,"wb")) != null)
        {
           fwrite(RAM,offset,1,4,f);
           fclose(f);
-       }
+       }*/
     }};
         public static GameDriver phoenix_driver = new GameDriver
 	(

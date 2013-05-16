@@ -571,7 +571,7 @@ public class pacman
 
 
 	static int resetcount;
-	static HiscoreLoadPtr pacman_hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr pacman_hiload = new HiscoreLoadPtr() { public int handler()
 	{
 
 
@@ -579,7 +579,7 @@ public class pacman
 		if (++resetcount < 60) return 0;
 
 		/* wait for "HIGH SCORE" to be on screen */
-		if (memcmp(RAM, 0x43d1, new char[] { 0x48, 0x47, 0x49, 0x48 }, 2) == 0)
+/*TOFIX		if (memcmp(RAM, 0x43d1, new char[] { 0x48, 0x47, 0x49, 0x48 }, 2) == 0)
 		{
 			FILE f;
 
@@ -595,7 +595,7 @@ public class pacman
 				fread(RAM, 0x4e88, 1, 4, f);
 				/* also copy the high score to the screen, otherwise it won't be */
 				/* updated */
-				hi = (RAM[0x4e88] & 0x0f) +
+	/*TOFIX			hi = (RAM[0x4e88] & 0x0f) +
 						(RAM[0x4e88] >> 4) * 10 +
 						(RAM[0x4e89] & 0x0f) * 100 +
 						(RAM[0x4e89] >> 4) * 1000 +
@@ -618,34 +618,34 @@ public class pacman
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
 
-	static HiscoreSavePtr pacman_hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr pacman_hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 
 
-		if ((f = fopen(name, "wb")) != null)
+/*TOFIX		if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x4e88, 1, 4, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 
 
-	static HiscoreLoadPtr crush_hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr crush_hiload = new HiscoreLoadPtr() { public int handler()
 	{
 
 
 		/* during a reset, leave time to the game to clear the screen */
-		if (++resetcount < 60) return 0;
+/*TOFIX		if (++resetcount < 60) return 0;
 
 		/* wait for "HI SCORE" to be on screen */
-		if (memcmp(RAM, 0x43d0, new char[] { 0x53, 0x40, 0x49, 0x48 }, 2) == 0)
+/*TOFIX		if (memcmp(RAM, 0x43d0, new char[] { 0x53, 0x40, 0x49, 0x48 }, 2) == 0)
 		{
 			FILE f;
 
@@ -661,7 +661,7 @@ public class pacman
 				fread(RAM, 0x4c80, 1, 3, f);
 				/* also copy the high score to the screen, otherwise it won't be */
 				/* updated */
-				hi = (RAM[0x4c82] & 0x0f) +
+	/*TOFIX			hi = (RAM[0x4c82] & 0x0f) +
 						(RAM[0x4c82] >> 4) * 10 +
 						(RAM[0x4c81] & 0x0f) * 100 +
 						(RAM[0x4c81] >> 4) * 1000 +
@@ -682,21 +682,21 @@ public class pacman
 
 			return 1;
 		}
-		else return 0;	/* we can't load the hi scores yet */
+		else */return 0;	/* we can't load the hi scores yet */
 	} };
 
 
 
-	static HiscoreSavePtr crush_hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr crush_hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 
 
-		if ((f = fopen(name, "wb")) != null)
+	/*TOFIX	if ((f = fopen(name, "wb")) != null)
 		{
 			fwrite(RAM, 0x4c80, 1, 3, f);
 			fclose(f);
-		}
+		}*/
 	} };
 
 
