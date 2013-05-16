@@ -30,6 +30,7 @@ import static mame.driverH.*;
 import static mame.cpuintrf.*;
 import static mame.mame.*;
 import static vidhrdw.vector.*;
+import static mame.memoryH.*;
 
 public class atari_vg {
     static int earom_offset;

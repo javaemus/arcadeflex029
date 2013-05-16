@@ -16,10 +16,11 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
+ * ported to v0.29
  * ported to v0.28
  * ported to v0.27
  *
- *   NOTES: readroms doesn't support crc check
+ *   NOTES: 
  *          readsamples and free samples are not implemented
  *          
  *
@@ -54,27 +55,25 @@ public class common {
                 + "authors so that appropriate legal action can be taken.\n\n", new Object[0]);
     }
 
-    /***************************************************************************
-    
-    Read ROMs into memory.
-    
-    Arguments:
-    const struct RomModule *romp - pointer to an array of Rommodule structures,
-    as defined in common.h.
-    
-    const char *basename - Name of the directory where the files are
-    stored. The function also supports the
-    control sequence %s in file names: for example,
-    if the RomModule gives the name "%s.bar", and
-    the basename is "foo", the file "foo/foo.bar"
-    will be loaded.
-    
-     ***************************************************************************/
+/***************************************************************************
+
+  Read ROMs into memory.
+
+  Arguments:
+  const struct RomModule *romp - pointer to an array of Rommodule structures,
+                                 as defined in common.h.
+
+  const char *basename - Name of the directory where the files are
+                         stored.
+
+***************************************************************************/
     public static int readroms(RomModule[] rommodule, String basename) {
         int region;
         RomModule[] romp;
+	int checksumwarning;
 
 
+	checksumwarning = 0;
         romp = rommodule;
 
         for (region = 0; region < MAX_MEMORY_REGIONS; region++) {
@@ -86,7 +85,7 @@ public class common {
 
         while (romp[_ptr].name != null || romp[_ptr].offset != 0 || romp[_ptr].length != 0) {
             int region_size;
-
+            String name;
 
             if (romp[_ptr].name != null || romp[_ptr].length != 0) {
                 printf("Error in RomModule definition: expecting ROM_REGION\n");
@@ -106,9 +105,7 @@ public class common {
 
             while (romp[_ptr].length != 0) {
                 FILE f;
-                String buf;
-                String name;
-
+                int sum,xor,expchecksum;
 
                 if (romp[_ptr].name == null) {
                     printf("Error in RomModule definition: ROM_CONTINUE not preceded by ROM_LOAD\n");
@@ -118,67 +115,138 @@ public class common {
                     printf("Error in RomModule definition: ROM_RELOAD not preceded by ROM_LOAD\n", new Object[0]);
                     return getout();
                 }
-                buf = sprintf(romp[_ptr].name, basename);
-                name = sprintf("%s/%s", basename, buf);
-
-                if ((f = fopen(name, "rb")) == null) {
-                    printf("Unable to open file %s\n", name);
-                    return printromlist(rommodule, basename);
-                }
-
+                name = romp[_ptr].name;
+		if ((f = osd_fopen(basename,name,OSD_FILETYPE_ROM,0)) == null)
+		{
+		      //fprintf(stderr, "Unable to open ROM %s\n",name); //TODO ???
+                      printf("Unable to open ROM %s\n", name);
+		      return printromlist(rommodule, basename);
+		}
+	        sum = 0;
+	        xor = 0;
+		expchecksum = romp[_ptr].checksum;
                 do {
+                    CharPtr c;
+		    int i;
+		    int length = romp[_ptr].length & ~0x80000000;
+                                
                     if ((romp[_ptr].name != null) && (romp[_ptr].name.compareTo("-1") == 0)) {
                         System.out.println("ROM RELOAD");
-                        fseek(f, 0);
+                        osd_fseek(f,0,SEEK_SET);
+                        /* reinitialize checksum counters as well */
+			sum = 0;
+			xor = 0;
                     }
-                    if (romp[_ptr].offset + romp[_ptr].length > region_size) {
+                    if (romp[_ptr].offset + length > region_size) {
                         printf("Error in RomModule definition: %s out of memory region space\n", name);
-                        fclose(f);
+                        osd_fclose(f);
                         return getout();
                     }
+		    if ((romp[_ptr].length & 0x80000000)!=0)
+		    {
+			  char []temp;
+                          temp = new char[length];
 
-                    if (fread(Machine.memory_region[region], romp[_ptr].offset, 1, romp[_ptr].length, f) != romp[_ptr].length) {
-                        printf("Unable to read ROM %s\n", name);
-                        fclose(f);
-                        return printromlist(rommodule, basename);
-                    }
+			  if (temp==null)
+			  {
+				printf("Out of memory reading ROM %s\n",name);
+				osd_fclose(f);
+				return getout();
+			  }
 
+			   if (osd_fread(f,temp,0,length) != length)
+			   {
+				printf("Unable to read ROM %s\n",name);
+				temp=null;
+				osd_fclose(f);
+				printromlist(rommodule, basename);
+			   }
+
+				/* copy the ROM data and calculate the checksum */
+				//c = Machine.memory_region[region] + romp[_ptr].offset;
+                                c=new CharPtr(Machine.memory_region[region],romp[_ptr].offset);
+				for (i = 0;i < length;i+=2)
+				{
+				     int j;
+                                     j = 256 * temp[i] + temp[i+1];
+				     sum += j;
+				     xor ^= j;
+                                     
+				     c.write(i*2,temp[i]);
+				     c.write(i*2+2,temp[i+1]);
+				}
+
+				temp=null;
+			}
+			else
+			{
+				if (osd_fread(f,Machine.memory_region[region],romp[_ptr].offset,length) != length)
+				{
+						printf("Unable to read ROM %s\n",name);
+						osd_fclose(f);
+						return printromlist(rommodule, basename);
+				}
+
+				/* calculate the checksum */
+                                c=new CharPtr(Machine.memory_region[region],romp[_ptr].offset);
+					
+				for (i = 0;i < length;i+=2)
+				{
+				     int j;
+
+
+				      j = 256 * c.read(i) + c.read(i+1);
+				      sum += j;
+				      xor ^= j;
+				}
+			}
                     _ptr++;
                 } while (romp[_ptr].length != 0 && (romp[_ptr].name == null || romp[_ptr].name.compareTo("-1") == 0));
-
-                fclose(f);
+		 sum = ((sum & 0xffff) << 16) | (xor & 0xffff);
+		 if (expchecksum != -1 && expchecksum != sum)
+		 {
+		     if (checksumwarning == 0)
+				printf("The checksum of some ROMs does not match that of the ones MAME was tested with.\n"+
+					"WARNING: the game might not run correctly.\n"+
+					"Name         Expected  Found\n");
+		     checksumwarning++;
+		     printf("%-12s %08x %08x\n",name,expchecksum,sum);
+		}
+                osd_fclose(f);
             }
 
             region++;
         }
+        if (checksumwarning > 0)
+	{
+	   printf("Press return to continue\n");
+	   getchar();
+	}
 
         return 0;
     }
 
     static int printromlist(RomModule[] rommodule, String basename) {
         RomModule[] romp = rommodule;
-        printf("\nMAME is an emulator: it reproduces, more or less faithfully, the behaviour of\n"
-                + "several arcade machines. But hardware is useless without software, so an image\n"
-                + "of the ROMs which run on that hardware is required. Such ROMs, like any other\n"
-                + "commercial software, are copyrighted material and it is therefore illegal to\n"
-                + "use them if you don't own the original arcade machine. Needless to say, ROMs\n"
-                + "are not distributed together with MAME. Distribution of MAME together with ROM\n"
-                + "images is a violation of copyright law and should be promptly reported to the\n"
-                + "author so that appropriate legal action can be taken.\n\nPress return to continue\n");
-        getchar();
+        printf("\n");                         /* MAURY_BEGIN: dichiarazione */
+	showdisclaimer();
+	printf("Press return to continue\n"); /* MAURY_END: dichiarazione */
+	getchar();
+
         printf("This is the list of the ROMs required.\n"
                 + "All the ROMs must reside in a subdirectory called \"%s\".\n"
-                + "Name             Size\n", basename);
+                + "Name             Size      Checksum\n",basename);
         int _ptr = 0;
         while (romp[_ptr].name != null || romp[_ptr].offset != 0 || romp[_ptr].length != 0) {
             _ptr++;	/* skip memory region definition */
 
             while (romp[_ptr].length != 0) {
                 String name;
-                int length;
+                int length,expchecksum;
 
 
                 name = sprintf(romp[_ptr].name, basename);
+                expchecksum=romp[_ptr].checksum;
 
                 length = 0;
 
@@ -187,12 +255,12 @@ public class common {
                     if ((romp[_ptr].name != null) && (romp[_ptr].name.compareTo("-1") == 0)) {
                         length = 0;
                     }
-                    length += romp[_ptr].length;
+                    length += romp[_ptr].length & ~0x80000000;
 
                     _ptr++;
                 } while (romp[_ptr].length != 0 && (romp[_ptr].name == null || romp[_ptr].name.compareTo("-1") == 0));
-
-                printf("%-12s %5d bytes\n", name, length);
+                
+                printf("%-12s %5d bytes   %08x\n",name,length,expchecksum);
             }
         }
         return getout();
@@ -214,80 +282,80 @@ public class common {
      ***************************************************************************/
     /*struct GameSamples *readsamples(const char **samplenames,const char *basename)
     {
-    int i;
-    struct GameSamples *samples;
-    
-    if (samplenames == 0 || samplenames[0] == 0) return 0;
-    
-    i = 0;
-    while (samplenames[i] != 0) i++;
-    
-    if ((samples = malloc(sizeof(struct GameSamples) + (i-1)*sizeof(struct GameSample))) == 0)
-    return 0;
-    
-    samples.total = i;
-    for (i = 0;i < samples.total;i++)
-    samples.sample[i] = 0;
-    
-    for (i = 0;i < samples.total;i++)
-    {
-    FILE *f;
-    char buf[100];
-    char name[100];
-    
-    
-    if (samplenames[i][0])
-    {
-    sprintf(buf,samplenames[i],basename);
-    sprintf(name,"%s/%s",basename,buf);
-    
-    if ((f = fopen(name,"rb")) != 0)
-    {
-    if (fseek(f,0,SEEK_END) == 0)
-    {
-    int dummy;
-    unsigned char smpvol=0, smpres=0;
-    unsigned smplen=0, smpfrq=0;
-    
-    fseek(f,0,SEEK_SET);
-    fread(buf,1,4,f);
-    if (memcmp(buf, "MAME", 4) == 0) {
-    fread(&smplen,1,4,f);         /* all datas are LITTLE ENDIAN */
-    /*                          fread(&smpfrq,1,4,f);
-    smplen = intelLong (smplen);  /* so convert them in the right endian-ness */
-    /*                           smpfrq = intelLong (smpfrq);
-    fread(&smpres,1,1,f);
-    fread(&smpvol,1,1,f);
-    fread(&dummy,1,2,f);
-    if ((smplen != 0) && (samples.sample[i] = malloc(sizeof(struct GameSample) + (smplen)*sizeof(char))) != 0)
-    {
-    samples.sample[i].length = smplen;
-    samples.sample[i].volume = smpvol;
-    samples.sample[i].smpfreq = smpfrq;
-    samples.sample[i].resolution = smpres;
-    fread(samples.sample[i].data,1,smplen,f);
+            int i;
+            struct GameSamples *samples;
+
+            if (samplenames == 0 || samplenames[0] == 0) return 0;
+
+            i = 0;
+            while (samplenames[i] != 0) i++;
+
+            if ((samples = malloc(sizeof(struct GameSamples) + (i-1)*sizeof(struct GameSample))) == 0)
+                    return 0;
+
+            samples.total = i;
+            for (i = 0;i < samples.total;i++)
+                    samples.sample[i] = 0;
+
+            for (i = 0;i < samples.total;i++)
+            {
+                    void *f;
+                    char buf[100];
+
+
+                    if (samplenames[i][0])
+                    {
+                            if ((f = osd_fopen(basename,samplenames[i],OSD_FILETYPE_SAMPLE,0)) != 0)
+                            {
+                                    if (osd_fseek(f,0,SEEK_END) == 0)
+                                    {
+                                            int dummy;
+                                            unsigned char smpvol=0, smpres=0;
+                                            unsigned smplen=0, smpfrq=0;
+
+                                            osd_fseek(f,0,SEEK_SET);
+                                            osd_fread(f,buf,4);
+                                            if (memcmp(buf, "MAME", 4) == 0)
+                                            {
+                                                    osd_fread(f,&smplen,4);         /* all datas are LITTLE ENDIAN */
+/*                                                    osd_fread(f,&smpfrq,4);
+                                                    smplen = intelLong (smplen);  /* so convert them in the right endian-ness */
+/*                                                    smpfrq = intelLong (smpfrq);
+                                                    osd_fread(f,&smpres,1);
+                                                    osd_fread(f,&smpvol,1);
+                                                    osd_fread(f,&dummy,2);
+                                                    if ((smplen != 0) && (samples.sample[i] = malloc(sizeof(struct GameSample) + (smplen)*sizeof(char))) != 0)
+                                                    {
+                                                       samples.sample[i].length = smplen;
+                                                       samples.sample[i].volume = smpvol;
+                                                       samples.sample[i].smpfreq = smpfrq;
+                                                       samples.sample[i].resolution = smpres;
+                                                       osd_fread(f,samples.sample[i].data,smplen);
+                                                    }
+                                            }
+                                    }
+
+                                    osd_fclose(f);
+                            }
+                    }
+            }
+
+            return samples;
     }
-    }
-    }
-    
-    fclose(f);
-    }
-    }
-    }
-    
-    return samples;
-    }*/
-    /*void freesamples(struct GameSamples *samples)
+
+
+
+    void freesamples(struct GameSamples *samples)
     {
-    int i;
-    
-    
-    if (samples == 0) return;
-    
-    for (i = 0;i < samples.total;i++)
-    free(samples.sample[i]);
-    
-    free(samples);
+            int i;
+
+
+            if (samples == 0) return;
+
+            for (i = 0;i < samples.total;i++)
+                    free(samples.sample[i]);
+
+            free(samples);
     }*/
     /***************************************************************************
     
@@ -346,16 +414,7 @@ public class common {
     
      ***************************************************************************/
     private static int readbit(CharPtr src, int bitnum) {
-        int bit;
-
-
-        bit = src.read(bitnum / 8) << (bitnum % 8);
-
-        if ((bit & 0x80) != 0) {
-            return 1;
-        } else {
-            return 0;
-        }
+         return (src.read(bitnum / 8) >> (7 - bitnum % 8)) & 1;
     }
 
     public static void decodechar(GfxElement gfx, int num, CharPtr src, GfxLayout gl) {
@@ -473,9 +532,9 @@ public class common {
     e.g. Jr. Pac Man to draw the sprites when the background
     has priority over them.
      ***************************************************************************/
-    public static void drawgfx(osd_bitmap dest, GfxElement gfx,
+    public static void drawgfx_core(osd_bitmap dest, GfxElement gfx,
             int code, int color, int flipx, int flipy, int sx, int sy,
-            rectangle clip, int transparency, int transparent_color) {
+            rectangle clip, int transparency, int transparent_color,int dirty) {
         int ox, oy, ex, ey, x, y, start, dy;
         CharPtr sd = new CharPtr();
         CharPtr bm = new CharPtr();
@@ -513,7 +572,6 @@ public class common {
 		{
 			int temp;
 
-
 			temp = clip.min_x;
 			myclip.min_x = dest.width-1 - clip.max_x;
 			myclip.max_x = dest.width-1 - temp;
@@ -524,12 +582,11 @@ public class common {
 	}
 	if ((Machine.orientation & ORIENTATION_FLIP_Y)!=0)
 	{
-		int temp;
-
-
+		
 		sy = dest.height - gfx.height - sy;
 		if (clip!=null)
 		{
+                        int temp;
 			myclip.min_x = clip.min_x;
 			myclip.max_x = clip.max_x;
 			temp = clip.min_y;
@@ -574,6 +631,8 @@ public class common {
             return;
         }
 
+        if (dirty!=0)
+		osd_mark_dirty (sx,sy,ex,ey,0);
         /* start = (code % gfx.total_elements) * gfx.height; */
         if (flipy != 0) /* Y flop */ {
             start = (code % gfx.total_elements) * gfx.height + gfx.height - 1 - (sy - oy);
@@ -1014,6 +1073,12 @@ public class common {
             }
         }
     }
+    /* ASG 971011 - this is the real draw gfx now */
+    public static void drawgfx(osd_bitmap dest, GfxElement gfx,int code, int color, int flipx, int flipy, int sx, int sy,rectangle clip, int transparency, int transparent_color)
+    {
+            drawgfx_core(dest,gfx,code,color,flipx,flipy,sx,sy,clip,transparency,transparent_color,1);
+    }
+
     /***************************************************************************
     
     Use drawgfx() to copy a bitmap onto another at the given position.
@@ -1030,7 +1095,7 @@ public class common {
         mygfx.width = src.width;
         mygfx.height = src.height;
         mygfx.gfxdata = src;
-        drawgfx(dest, mygfx, 0, 0, flipx, flipy, sx, sy, clip, transparency, transparent_color);
+        drawgfx_core(dest, mygfx, 0, 0, flipx, flipy, sx, sy, clip, transparency, transparent_color,0);
     }
 
     /***************************************************************************
@@ -1278,10 +1343,71 @@ public class common {
         }
     }
 
-    public static void clearbitmap(osd_bitmap bitmap) {
-        int i;
-        for (i = 0; i < bitmap.height; i++) {
-            memset(bitmap.line[i], Machine.pens[0], bitmap.width);
-        }
+    /* fill a bitmap using the specified pen */
+    public static void fillbitmap(osd_bitmap dest,int pen,rectangle clip)
+    {
+            int sx,sy,ex,ey,y;
+            rectangle myclip = new rectangle();
+
+
+            if ((Machine.orientation & ORIENTATION_SWAP_XY)!=0)
+            {
+                    if (clip!=null)
+                    {
+                            myclip.min_x = clip.min_y;
+                            myclip.max_x = clip.max_y;
+                            myclip.min_y = clip.min_x;
+                            myclip.max_y = clip.max_x;
+                            clip = myclip;
+                    }
+            }
+            if ((Machine.orientation & ORIENTATION_FLIP_X)!=0)
+            {
+                    if (clip!=null)
+                    {
+                            int temp;
+
+
+                            temp = clip.min_x;
+                            myclip.min_x = dest.width-1 - clip.max_x;
+                            myclip.max_x = dest.width-1 - temp;
+                            myclip.min_y = clip.min_y;
+                            myclip.max_y = clip.max_y;
+                            clip = myclip;
+                    }
+            }
+            if ((Machine.orientation & ORIENTATION_FLIP_Y)!=0)
+            {
+                    if (clip!=null)
+                    {
+                            int temp;
+
+
+                            myclip.min_x = clip.min_x;
+                            myclip.max_x = clip.max_x;
+                            temp = clip.min_y;
+                            myclip.min_y = dest.height-1 - clip.max_y;
+                            myclip.max_y = dest.height-1 - temp;
+                            clip = myclip;
+                    }
+            }
+
+
+            sx = 0;
+            ex = dest.width - 1;
+            sy = 0;
+            ey = dest.height - 1;
+
+            if (clip!=null && sx < clip.min_x) sx = clip.min_x;
+            if (clip!=null && ex > clip.max_x) ex = clip.max_x;
+            if (sx > ex) return;
+            if (clip!=null&& sy < clip.min_y) sy = clip.min_y;
+            if (clip!=null && ey > clip.max_y) ey = clip.max_y;
+            if (sy > ey) return;
+
+            osd_mark_dirty (sx,sy,ex,ey,0);	/* ASG 971011 */
+
+            for (y = sy;y <= ey;y++)
+                    memset(dest.line[y],sx,pen,ex-sx+1);
     }
 }

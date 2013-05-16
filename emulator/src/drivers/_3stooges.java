@@ -38,6 +38,7 @@ import static vidhrdw.generic.*;
 import static vidhrdw.gottlieb.*;
 import static mame.inptport.*;
 import static drivers.qbert.*;
+import static mame.memoryH.*;
 
 public class _3stooges
 {

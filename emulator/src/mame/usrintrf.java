@@ -259,7 +259,7 @@ public class usrintrf
                 Machine.uifont.colortable.write(9,findbestcolor(0x00,0x00,0x00));	/* black */
                 Machine.uifont.colortable.write(10,findbestcolor(0xff,0x00,0x00));	/* red */
        
-		if (erase != 0) clearbitmap(Machine.scrbitmap);
+		if (erase != 0) osd_clearbitmap(Machine.scrbitmap);
 
 		int _ptr = 0;
 		while (dt[_ptr].text != null)
@@ -376,7 +376,7 @@ public class usrintrf
 
 		do
 		{
-		     clearbitmap(Machine.scrbitmap);
+		     osd_clearbitmap(Machine.scrbitmap);
 
                      cpx = Machine.scrbitmap.width / Machine.gfx[bank].width;
 		     cpy = Machine.scrbitmap.height / Machine.gfx[bank].height;
@@ -445,7 +445,7 @@ public class usrintrf
             while (osd_key_pressed(key));	/* wait for key release */
 
             /* clear the screen before returning */
-            clearbitmap(Machine.scrbitmap);
+            osd_clearbitmap(Machine.scrbitmap);
 
             Machine.orientation = trueorientation;
             return 0;
@@ -584,7 +584,7 @@ public class usrintrf
                 }
 
                 /* clear the screen before returning */
-                clearbitmap(Machine.scrbitmap);
+                osd_clearbitmap(Machine.scrbitmap);
 
                 if (done == 2) return 1;
                 else return 0;
@@ -687,7 +687,7 @@ public class usrintrf
                 while (osd_key_pressed(key));	/* wait for key release */
 
                 /* clear the screen before returning */
-                clearbitmap(Machine.scrbitmap);
+                osd_clearbitmap(Machine.scrbitmap);
 
                 if (done == 2) return 1;
                 else return 0;
@@ -968,7 +968,7 @@ public class usrintrf
 
 
                 /* clear the screen before returning */
-                clearbitmap(Machine.scrbitmap);
+                osd_clearbitmap(Machine.scrbitmap);
 
                 if (done == 2) return 1;
                 else return 0;
@@ -1097,7 +1097,7 @@ public class usrintrf
                 while (osd_key_pressed(key));	/* wait for key release */
 
                 /* clear the screen before returning */
-                clearbitmap(Machine.scrbitmap);
+                osd_clearbitmap(Machine.scrbitmap);
 
                 if (done == 2) return 1;
                 else return 0;
@@ -1212,7 +1212,7 @@ public class usrintrf
                 while (osd_key_pressed(key));   /* wait for key release */
 
                 /* clear the screen before returning */
-                clearbitmap(Machine.scrbitmap);
+                osd_clearbitmap(Machine.scrbitmap);
 
                 if (done == 2) return 1;
                 else return 0;
@@ -1326,7 +1326,7 @@ public class usrintrf
                 while (osd_key_pressed(key));	/* wait for key release */
 
                 /* clear the screen before returning */
-                clearbitmap(Machine.scrbitmap);
+                osd_clearbitmap(Machine.scrbitmap);
 
                 if (done == 2) return 1;
                 else return 0;

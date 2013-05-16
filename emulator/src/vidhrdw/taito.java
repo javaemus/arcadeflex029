@@ -372,7 +372,7 @@ public static WriteHandlerPtr taito_colorbank_w = new WriteHandlerPtr() { public
 		if ((taito_video_enable.read() & 0x40)!=0)
 			copyscrollbitmap(bitmap,tmpbitmap3,1,new int[] {scrollx},32,scrolly,Machine.drv.visible_area,TRANSPARENCY_NONE,0);
 		else
-			clearbitmap(bitmap);
+			osd_clearbitmap(bitmap);
 	}
         /* copy the second playfield if it has not priority over sprites */
        // boolean video_enable = ((taito_video_enable.read() & 0x20)!=0) ? true :false;

@@ -36,6 +36,7 @@ import static sndhrdw.btime.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.btime.*;
 import static mame.inptport.*;
+import static mame.memoryH.*;
 
 public class btime
 {

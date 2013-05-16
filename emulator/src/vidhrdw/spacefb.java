@@ -101,7 +101,7 @@ public class spacefb {
 
 
                 /* Clear the bitmap */
-                clearbitmap(bitmap);
+                osd_clearbitmap(bitmap);
 
                 /* Draw the sprite/chars */
                 for (offs = 0,spriteno = spacefb_vref;offs < 128;offs++,spriteno++)

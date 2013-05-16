@@ -37,6 +37,7 @@ import static sndhrdw._8910intf.*;
 import static sndhrdw.bagman.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.bagman.*;
+import static mame.memoryH.*;
 
 public class bagman
 {

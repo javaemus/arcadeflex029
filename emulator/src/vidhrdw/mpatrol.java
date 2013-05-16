@@ -222,7 +222,7 @@ public class mpatrol
 			copybitmap(bitmap, bgbitmap, 0, 0, bg1xpos, bg1ypos, clip, TRANSPARENCY_NONE, 0);
 			copybitmap(bitmap, bgbitmap, 0, 0, bg1xpos - 256, bg1ypos, clip, TRANSPARENCY_NONE, 0);
 		}
-		else clearbitmap(bitmap);
+		else osd_clearbitmap(bitmap);
 
 
 		/* copy the temporary bitmap to the screen */

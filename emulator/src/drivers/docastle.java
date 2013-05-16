@@ -38,6 +38,7 @@ import static mame.osdependH.*;
 import static mame.mame.*;
 import static mame.inptport.*;
 import static sndhrdw.docastle.*;
+import static mame.memoryH.*;
 
 public class docastle
 {

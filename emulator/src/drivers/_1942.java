@@ -16,6 +16,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
+ * ported to v0.29
  * ported to v0.28
  * ported to v0.27
  *
@@ -27,6 +28,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 package drivers;
 
 import static arcadeflex.libc.*;
+import static arcadeflex.osdepend.*;
 import static mame.commonH.*;
 import static mame.cpuintrf.*;
 import static mame.driverH.*;
@@ -39,6 +41,8 @@ import static machine._1942.*;
 import static vidhrdw.generic.*;
 import static vidhrdw._1942.*;
 import static mame.inptport.*;
+import static mame.memoryH.*;
+
 
 public class _1942
 {
@@ -62,7 +66,7 @@ public class _1942
 	static MemoryWriteAddress writemem[] =
 	{
 		new MemoryWriteAddress( 0x0000, 0xbfff, MWA_ROM ),
-		new MemoryWriteAddress( 0xc800, 0xc800, sound_command_w ),
+		new MemoryWriteAddress( 0xc800, 0xc800, soundlatch_w ),
 		new MemoryWriteAddress( 0xc802, 0xc803, MWA_RAM, c1942_scroll ),
 		new MemoryWriteAddress( 0xc804, 0xc804, c1942_flipscreen_w ),
 		new MemoryWriteAddress( 0xc805, 0xc805, c1942_palette_bank_w, c1942_palette_bank ),
@@ -81,7 +85,7 @@ public class _1942
 	{
 		new MemoryReadAddress( 0x0000, 0x3fff, MRA_ROM ),
 		new MemoryReadAddress( 0x4000, 0x47ff, MRA_RAM ),
-		new MemoryReadAddress( 0x6000, 0x6000, sound_command_latch_r ),
+		new MemoryReadAddress( 0x6000, 0x6000, soundlatch_r ),
 		new MemoryReadAddress( -1 )	/* end of table */
 	};
 	
@@ -357,6 +361,7 @@ public class _1942
 			)
 		},
 		60,
+                10,	/* 10 CPU slices per frame - enough for the sound CPU to read all commands */
 		null,
 
 		/* video hardware */
@@ -412,7 +417,7 @@ public class _1942
 	ROM_END(); }}; 
 
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* get RAM pointer (this game is multiCPU, we can't assume the global */
 		/* RAM pointer is pointing to the right place) */
@@ -426,13 +431,13 @@ public class _1942
 			FILE f;
 
 
-			if ((f = fopen(name, "rb")) != null)
+			if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0)) != null)
 			{
 				int i;
 
 
-				fread(RAM, 0xe800, 1, 16*25, f);
-				fread(RAM, 0xe9c0, 1, 1, f);
+				osd_fread(f,RAM, 0xe800,16*25);
+				osd_fread(f,RAM, 0xe9c0,1);
 				/* find the high score */
 				for (i = 0; i < 16*25; i += 16)
 				{
@@ -460,7 +465,7 @@ public class _1942
 
 
 
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 		/* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -468,10 +473,10 @@ public class _1942
 		char []RAM = Machine.memory_region[0];
 
 
-		if ((f = fopen(name, "wb")) != null)
+		if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1)) != null)
 		{
-			fwrite(RAM, 0xe800, 1, 16*25, f);
-			fwrite(RAM, 0xe9c0, 1, 1, f);
+			osd_fwrite(f,RAM, 0xe800,16*25);
+			osd_fwrite(f,RAM, 0xe9c0,1);
 			fclose(f);
 		}
 	} };

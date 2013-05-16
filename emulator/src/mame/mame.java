@@ -489,7 +489,7 @@ public class mame {
      {
         /* read hi scores from disk */
         if ((hiscoreloaded == 0) && (gamedrv.hiscore_load != null)) {
-            hiscoreloaded = gamedrv.hiscore_load.handler(hiscorename);
+            hiscoreloaded = gamedrv.hiscore_load.handler();
         }
 
         /* if the user pressed ESC, stop the emulation */
@@ -563,7 +563,7 @@ public class mame {
 	   {
 			if (osd_key_pressed(OSD_KEY_TAB)) setup_menu();	/* call the configuration menu */
 
-			clearbitmap(Machine.scrbitmap);
+			osd_clearbitmap(Machine.scrbitmap);
                         drv.vh_update.handler(Machine.scrbitmap);/* redraw screen */
 			
 			if (uclock() % UCLOCKS_PER_SEC < UCLOCKS_PER_SEC/2)
@@ -575,7 +575,7 @@ public class mame {
 	   while (osd_key_pressed(OSD_KEY_P));	/* ditto */
 
 			osd_set_mastervolume(CurrentVolume);
-			clearbitmap(Machine.scrbitmap);
+			osd_clearbitmap(Machine.scrbitmap);
         }
 
         /* if the user pressed TAB, go to the setup menu */
@@ -616,7 +616,7 @@ public class mame {
                 if (f11pressed == 0) {
                     showfps ^= 1;
                     if (showfps == 0) {
-                        clearbitmap(Machine.scrbitmap);
+                        osd_clearbitmap(Machine.scrbitmap);
                     }
                 }
                 f11pressed = 1;
@@ -627,14 +627,14 @@ public class mame {
             if (showfpstemp != 0) {
                 showfpstemp--;
                 if ((showfps == 0) && (showfpstemp == 0)) {
-                    clearbitmap(Machine.scrbitmap);
+                    osd_clearbitmap(Machine.scrbitmap);
                 }
             }
 
             if (showvoltemp != 0) {
                 showvoltemp--;
                 if (showvoltemp == 0) {
-                    clearbitmap(Machine.scrbitmap);
+                    osd_clearbitmap(Machine.scrbitmap);
                 }
             }
 
@@ -764,13 +764,13 @@ public class mame {
 
 				showcredits();	/* show the driver credits */
 
-				clearbitmap(Machine.scrbitmap);
+				osd_clearbitmap(Machine.scrbitmap);
 				osd_update_display();
 
                                 cfgname = sprintf("roms/%s/%s.cfg", new Object[]{gamename, gamename});
                                 try {
                                     /* load input ports settings (keys, dip switches, and so on) */
-                                    load_input_port_settings(cfgname);
+                                    load_input_port_settings();
                                 } catch (IOException ex) {
                                     Logger.getLogger(mame.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -792,11 +792,11 @@ public class mame {
 
 				/* write hi scores to disk */
                                 if ((hiscoreloaded != 0) && (gamedrv.hiscore_save != null)) {
-                                    gamedrv.hiscore_save.handler(hiscorename);
+                                    gamedrv.hiscore_save.handler();
                                 }
                                 try {
                                     /* save input ports settings */
-                                    save_input_port_settings(cfgname);
+                                    save_input_port_settings();
                                 } catch (FileNotFoundException ex) {
                                     Logger.getLogger(mame.class.getName()).log(Level.SEVERE, null, ex);
                                 } catch (IOException ex) {

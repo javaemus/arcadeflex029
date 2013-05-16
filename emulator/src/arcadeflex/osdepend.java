@@ -106,7 +106,7 @@ public class osdepend
             for (int i = 0; i < height; i++) {
                 localosd_bitmap.line[i] = new char[width];
             }
-            clearbitmap(localosd_bitmap);
+            osd_clearbitmap(localosd_bitmap);
         }
 
         return localosd_bitmap;
@@ -252,7 +252,16 @@ public class osdepend
         }
         screen.blit();
     }
-
+    public static void osd_mark_dirty(int x1, int y1, int x2, int y2, int ui)
+    {
+        
+    }
+    public static void osd_clearbitmap(osd_bitmap bitmap) {
+        int i;
+        for (i = 0; i < bitmap.height; i++) {
+            memset(bitmap.line[i], 0, bitmap.width);
+        }
+    }
     /*********************
      *
      *
@@ -634,4 +643,79 @@ public class osdepend
 	y1 = temp_y;
 	
     }*/
+            /* file handling routines */
+
+        /* gamename holds the driver name, filename is only used for ROMs and samples. */
+        /* if 'write' is not 0, the file is opened for write. Otherwise it is opened */
+        /* for read. */
+        public static FILE osd_fopen(String gamename,String filename,int filetype,int write)
+        {
+                char[] name=new char[100];
+                FILE f;
+
+
+                switch (filetype)
+                {
+                        case OSD_FILETYPE_ROM:
+                        case OSD_FILETYPE_SAMPLE:
+                                sprintf(name,"%s/%s",new Object[] {gamename,filename});
+                                f = fopen(name,write!=0 ? "wb" : "rb");
+                                if (f == null)
+                                {
+                                        /* try with a .zip directory (if ZipMagic is installed) */
+                                        sprintf(name,"%s.zip/%s",new Object[] {gamename,filename});
+                                        f = fopen(name,write!=0 ? "wb" : "rb");
+                                }
+                                if (f == null)
+                                {
+                                        /* try with a .zif directory (if ZipFolders is installed) */
+                                        sprintf(name,"%s.zif/%s",new Object[] {gamename,filename});
+                                        f = fopen(name,write!=0 ? "wb" : "rb");
+                                }
+                                return f;
+                                //break;
+                        case OSD_FILETYPE_HIGHSCORE:
+                                sprintf(name,"hi/%s.hi",new Object[] {gamename});
+                                return fopen(name,write!=0 ? "wb" : "rb");
+                                //break;
+                        case OSD_FILETYPE_CONFIG:
+                                sprintf(name,"cfg/%s.cfg",new Object[] {gamename});
+                                return fopen(name,write!=0 ? "wb" : "rb");
+                                //break;
+                        default:
+                                return null;
+                                //break;
+                }
+        }
+
+
+
+        public static int osd_fread(FILE file,char[] buffer,int offset,int length)
+        {
+                return fread(buffer,offset,1,length,file);
+        }
+
+
+
+        public static void osd_fwrite(FILE file,char[] buffer,int offset,int length)
+        {
+                fwrite(buffer,offset,1,length,file);
+        }
+
+
+
+        public static void osd_fseek(FILE file,int offset,int whence)
+        {
+            if(whence==SEEK_SET)
+                fseek(file,offset);
+            else
+                System.out.println("ERROR seek command other than SEEK_SET is not supported");
+        }
+
+
+
+        public static void osd_fclose(FILE file)
+        {
+                fclose(file);
+        }
 }

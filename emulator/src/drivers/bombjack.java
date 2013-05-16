@@ -38,6 +38,7 @@ import static sndhrdw.generic.*;
 import static sndhrdw.bombjack.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.bombjack.*;
+import static mame.memoryH.*;
 
 public class bombjack
 {

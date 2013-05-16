@@ -37,7 +37,7 @@ import static sndhrdw.blueprnt.*;
 import static sndhrdw.generic.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.blueprnt.*;
-
+import static mame.memoryH.*;
 
 public class blueprnt {
         public static ReadHandlerPtr pip = new ReadHandlerPtr() { public int handler(int offset)

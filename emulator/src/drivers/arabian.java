@@ -37,6 +37,7 @@ import static sndhrdw._8910intf.*;
 import static sndhrdw.arabian.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.arabian.*;
+import static mame.memoryH.*;
 
 public class arabian
 {

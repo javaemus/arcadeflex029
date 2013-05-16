@@ -316,7 +316,7 @@ public class ccastles {
 
                     if ((RAM[spriteaddr+offs+2] & 0x80)!=0)	/* background can have priority over the sprite */
                     {
-                            clearbitmap(sprite_bm);
+                            osd_clearbitmap(sprite_bm);
                             drawgfx(sprite_bm,Machine.gfx[0],
                                             RAM[spriteaddr+offs],1,
                                             0,0,

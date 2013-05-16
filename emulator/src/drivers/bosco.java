@@ -35,6 +35,7 @@ import static vidhrdw.bosco.*;
 import static sndhrdw.bosco.*;
 import static machine.bosco.*;
 import static sndhrdw.pengo.*;
+import static mame.memoryH.*;
 
 public class bosco {
         static MemoryReadAddress readmem_cpu1[] =

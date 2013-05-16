@@ -32,6 +32,10 @@ import java.util.Random;
  */
 public class libc {
 
+    public static final int SEEK_SET=0;
+    public static final int SEEK_CUR=1;
+    public static final int SEEK_END=2;
+    
     public static int argc;
     public static String[] argv;
     private static Random rand = new Random();
@@ -340,7 +344,10 @@ public class libc {
         public InputStream is;
         public String Name;
     }
-
+    public static FILE fopen(char[] name,String format) {
+        String nameS=new String(name);
+        return fopen(nameS,format);
+    }
     public static FILE fopen(String name, String format) {
         FILE file;
         mame.mame.dlprogress.setFileName("fetching file: "+name);

@@ -16,6 +16,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
+ * ported to v0.29
  * ported to v0.28
  * ported to v0.27
  * 
@@ -70,6 +71,18 @@ public class commonH
         public static void ROM_RELOAD(int offset,int length)
         {
             tempmodule[curpos]=new RomModule( "-1",offset,length);
+            curpos++;
+        }
+        /* load the ROM at even/odd addresses. Useful with 16 bit games */
+        
+        public static void ROM_LOAD_EVEN(String name,int offset,int length,int checksum) 
+        { 
+            tempmodule[curpos]=new RomModule(name, offset & ~1, length | 0x80000000, checksum);
+            curpos++;
+        }
+        public static void ROM_LOAD_ODD(String name,int offset,int length,int checksum) 
+        { 
+            tempmodule[curpos]=new RomModule(name, offset |  1, length | 0x80000000, checksum);
             curpos++;
         }
         /* end of table */

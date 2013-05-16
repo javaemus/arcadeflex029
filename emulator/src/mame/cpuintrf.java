@@ -29,7 +29,6 @@ import M6502.M6502H;
 import static M6502.M6502H.*;
 import static M6502.M6502.*;
 import static I86.I86.*;
-import m6809.M6809H;
 import static m6809.M6809H.*;
 import static m6809.M6809.*;
 import static Z80.Z80H.*;
@@ -40,6 +39,7 @@ import static mame.mame.*;
 import static mame.osdependH.*;
 import static arcadeflex.osdepend.*;
 import static mame.inptport.*;
+import static mame.memoryH.*;
 /***************************************************************************
 
   cpuintrf.c
@@ -587,7 +587,7 @@ public class cpuintrf
           
             /* write hi scores to disk */
             if ((hiscoreloaded != 0) && (Machine.gamedrv.hiscore_save != null)) {
-                Machine.gamedrv.hiscore_save.handler(hiscorename);
+                Machine.gamedrv.hiscore_save.handler();
             }
             hiscoreloaded = 0;
             have_to_reset = 1;

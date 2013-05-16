@@ -36,6 +36,7 @@ import static mame.inptport.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.bankp.*;
 import static sndhrdw.bankp.*;
+import static mame.memoryH.*;
 
 public class bankp {
     

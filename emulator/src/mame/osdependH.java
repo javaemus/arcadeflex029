@@ -142,4 +142,10 @@ public class osdependH
        public static final int X_AXIS = 1;
        public static final int Y_AXIS = 2;
        public static final int NO_TRAK = 1000000;
+       
+       /* file handling routines */
+       public static final int OSD_FILETYPE_ROM= 1;
+       public static final int OSD_FILETYPE_SAMPLE= 2;
+       public static final int OSD_FILETYPE_HIGHSCORE= 3;
+       public static final int OSD_FILETYPE_CONFIG= 4;
 }

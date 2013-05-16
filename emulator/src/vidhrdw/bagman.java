@@ -25,6 +25,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 package vidhrdw;
 
 import static arcadeflex.libc.*;
+import static arcadeflex.osdepend.*;
 import static mame.common.*;
 import static mame.commonH.*;
 import static mame.driverH.*;
@@ -64,7 +65,7 @@ public class bagman
 
 		if (bagman_video_enable.read() == 0)
 		{
-			clearbitmap(bitmap);
+			osd_clearbitmap(bitmap);
 
 			return;
 		}

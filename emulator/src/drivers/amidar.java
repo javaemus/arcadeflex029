@@ -38,6 +38,7 @@ import static sndhrdw.generic.*;
 import static sndhrdw.amidar.*;
 import static vidhrdw.generic.*;
 import static vidhrdw.amidar.*;
+import static mame.memoryH.*;
 
 public class amidar
 {

@@ -222,7 +222,7 @@ public class zaxxon
 				skew -= 2;
 			}
 		}
-		else clearbitmap(bitmap);
+		else osd_clearbitmap(bitmap);
 
 
 		/* Draw the sprites. Note that it is important to draw them exactly in this */
