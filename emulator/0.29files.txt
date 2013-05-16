@@ -41,11 +41,11 @@ amidar.c
 arabian.c      | DONE |
 asteroid.c   
 bagman.c     
-bankp.c      
+bankp.c        | DONE |
 berzerk.c     
 blktiger.c     
-blueprnt.c   
-bombjack.c   
+blueprnt.c     | DONE |
+bombjack.c     | DONE |
 bosco.c      
 btime.c      
 bublbobl.c   

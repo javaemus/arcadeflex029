@@ -16,6 +16,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
+ * ported to v0.29
  * ported to v0.28
  * ported to v0.27
  *
@@ -27,6 +28,7 @@ package drivers;
 
 
 import static arcadeflex.libc.*;
+import static arcadeflex.osdepend.*;
 import static mame.commonH.*;
 import static mame.cpuintrf.*;
 import static mame.driverH.*;
@@ -148,14 +150,18 @@ public class bombjack
 	
 	static DSW dsw[] =
 	{
-		new DSW( 3, 0x30, "LIVES", new String[] { "3", "4", "5", "2" } ),
-		new DSW( 4, 0x18, "DIFFICULTY 1", new String[] { "EASY", "MEDIUM", "HARD", "HARDEST" } ),
-		new DSW( 4, 0x60, "DIFFICULTY 2", new String[] { "MEDIUM", "EASY", "HARD", "HARDEST" } ),
-				/* not a mistake, MEDIUM and EASY are swapped */
-		new DSW( 4, 0x80, "SPECIAL", new String[] { "EASY", "HARD" } ),
-		new DSW( 3, 0x80, "DEMO SOUNDS", new String[] { "OFF", "ON" } ),
-		new DSW( 4, 0x07, "INITIAL HIGH SCORE", new String[] { "10000", "100000", "30000", "50000", "100000", "50000", "100000", "50000" } ),
-		new DSW( -1 )
+                new DSW( 3, 0x30, "LIVES", new String[] { "3", "4", "5", "2" } ),
+                new DSW( 4, 0x18, "DIFFICULTY 1 (BIRD)", new String[] { "EASY", "MEDIUM", "HARD", "HARDEST" } ),
+                new DSW( 4, 0x60, "DIFFICULTY 2", new String[] { "MEDIUM", "EASY", "HARD", "HARDEST" } ),
+                        /* not a mistake, MEDIUM and EASY are swapped */
+                new DSW( 4, 0x80, "SPECIAL", new String[] { "EASY", "HARD" } ),
+                new DSW( 3, 0x40, "CABINET", new String[] { "COCKTAIL", "UPRIGHT" } ),
+                new DSW( 3, 0x80, "DEMO SOUNDS", new String[] { "OFF", "ON" } ),
+                new DSW( 4, 0x07, "INITIAL HIGH SCORE", new String[] { "10000", "100000", "30000", "50000", "100000", "50000", "100000", "50000" } ),
+                new DSW( 3, 0x03, "COIN 1", new String[] { "1/1", "1/2", "1/3", "1/6" } ),
+                new DSW( 3, 0x0c, "COIN 2", new String[] { "1/1", "2/1", "1/2", "1/3" } ),
+
+                new DSW( -1 )
 	};
 	
 	
@@ -247,6 +253,7 @@ public class bombjack
 			)
 		},
 		60,
+                10,	/* 10 CPU slices per frame - enough for the sound CPU to read all commands */
 		null,
 	
 		/* video hardware */
@@ -306,7 +313,7 @@ public class bombjack
 
 
 
-	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler(String name)
+	static HiscoreLoadPtr hiload = new HiscoreLoadPtr() { public int handler()
 	{
 		/* get RAM pointer (this game is multiCPU, we can't assume the global */
 		/* RAM pointer is pointing to the right place) */
@@ -322,13 +329,13 @@ public class bombjack
 			memcmp(RAM,0x8100,new char[] {0x00,0x00,0x10,0x00 },4) == 0))
                       {
 			FILE f;
-			if ((f = fopen(name, "rb")) != null)
+			if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,0)) != null)
 			{
 				String buf;
 				int hi;
 	
 	
-				fread(RAM, 0x8100, 1, 15*10, f);
+				osd_fread(f,RAM, 0x8100,15*10);
 				RAM[0x80e2] = RAM[0x8100];
 				RAM[0x80e3] = RAM[0x8101];
 				RAM[0x80e4] = RAM[0x8102];
@@ -352,7 +359,7 @@ public class bombjack
                                 videoram_w.handler(0x009f,str.charAt(5));
                                 videoram_w.handler(0x007f,str.charAt(6));
                                 videoram_w.handler(0x005f,str.charAt(7));
-				fclose(f);
+				osd_fclose(f);
 			}
 	
 			return 1;
@@ -362,7 +369,7 @@ public class bombjack
 
 
 
-	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler(String name)
+	static HiscoreSavePtr hisave = new HiscoreSavePtr() { public void handler()
 	{
 		FILE f;
 		/* get RAM pointer (this game is multiCPU, we can't assume the global */
@@ -370,10 +377,10 @@ public class bombjack
 		char []RAM = Machine.memory_region[0];
 	
 	
-		if ((f = fopen(name, "wb")) != null)
+		if ((f = osd_fopen(Machine.gamedrv.name,null,OSD_FILETYPE_HIGHSCORE,1)) != null)
 		{
-			fwrite(RAM, 0x8100, 1, 15*10, f);
-			fclose(f);
+			osd_fwrite(f,RAM, 0x8100,15*10);
+			osd_fclose(f);
 		}
 	} };
 
