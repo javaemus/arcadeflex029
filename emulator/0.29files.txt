@@ -35,7 +35,7 @@ usrintrf.h     DONE
 src\drivers
 
 1942.c         | DONE |
-1943.c         
+1943.c         --hacky to be fixed when we have the new memory system
 3stooges.c     | DONE |
 amidar.c
 arabian.c      | DONE |
@@ -73,7 +73,7 @@ galaga.c
 galaxian.c   
 gberet.c     
 gng.c        
-gunsmoke.c    
+gunsmoke.c    | DONE |  
 gyruss.c     
 invaders.c   
 jrcrypt.c    
@@ -84,7 +84,7 @@ krull.c
 kungfum.c    
 ladybug.c    
 locomotn.c   
-lwings.c    
+lwings.c     --hacky to be fixed when we have the new memory system
 mappy.c
 mario.c      
 mcr1.c       
@@ -121,8 +121,8 @@ scobra.c
 scramble.c   
 sega.c       
 seicross.c   
-sidearms.c      
-silkworm.c      
+sidearms.c     | DONE |    
+silkworm.c     | DONE |   
 sonson.c        
 spacefb.c    
 starforc.c   
@@ -204,8 +204,8 @@ m6809.h
              
 src\machine
 
-1942.c            
-1943.c            
+1942.c               --same as 0.28 | DONE | 
+1943.c               | DONE | 
 arabian.c      
 asteroid.c
 atari_vg.c   
@@ -229,11 +229,11 @@ galaga.c
 gberet.c     
 gng.c        
 gottlieb.c   
-gunsmoke.c      
+gunsmoke.c          | DONE |  
 invaders.c   
 jrpacman.c
 kangaroo.c   
-lwings.c         
+lwings.c            --ADDED temp hack until new memory system is done 
 mappy.c      
 mathbox.c    
 mathbox.h    
@@ -251,8 +251,8 @@ qix.c
 scramble.c   
 sega.c
 seicross.c   
-SIDEARMS.C      
-silkworm.c     
+SIDEARMS.C           | DONE | 
+silkworm.c           | DONE |   
 spacefb.c    
 starforc.c   
 starwars.c
@@ -364,7 +364,7 @@ wow.c
 src\vidhrdw
 
 1942.c       
-1943.c       
+1943.c             --hacky to be fixed when we have the new memory system
 amidar.c     
 arabian.c    
 avgdvg.c     
@@ -402,7 +402,7 @@ generic.c       -same as 0.28  | DONE |
 generic.h       -same as 0.28  | DONE |   
 gng.c        
 gottlieb.c   
-gunsmoke.c    
+gunsmoke.c         | DONE |  
 gyruss.c     
 invaders.c   
 jrpacman.c   
@@ -411,7 +411,7 @@ kangaroo.c
 kungfum.c    
 ladybug.c     
 locomotn.c    
-lwings.c      
+lwings.c           | DONE |  
 mappy.c      
 mario.c      
 mcr1.c
@@ -436,8 +436,8 @@ rastan.c
 sbasketb.c   
 sega.c       
 seicross.c   
-sidearms.c      
-silkworm.c      
+sidearms.c      | DONE |      
+silkworm.c      | DONE |   
 sonson.c     
 spacefb.c    
 starforc.c   

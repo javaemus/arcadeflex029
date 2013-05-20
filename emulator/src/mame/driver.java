@@ -125,6 +125,11 @@ import static drivers.bublbobl.*;
 import static drivers.wow.*;
 import static drivers.rastan.*;
 import static drivers.blktiger.*;
+import static drivers.sidearms.*;
+import static drivers.silkworm.*;
+import static drivers.gunsmoke.*;
+import static drivers.lwings.*;
+import static drivers._1943.*;
 
 public class driver {
 	public static GameDriver drivers[] =
@@ -304,7 +309,13 @@ public class driver {
             dkjrjp_driver, /*added to 0.29 */
             dkjrbl_driver, /*added to 0.29 */
             blktiger_driver, /*added to 0.29 */
-            pepper2_driver,  /*fixed in 0.29 */
+            pepper2_driver,  /*fixed in 0.29 */         
+            silkworm_driver, /*added to 0.29 */
+            lwings_driver,
+            sectionz_driver,
+            c1943_driver,
+            
+            
             
             /*PARTIAL WORKING GAMES*/
             
@@ -327,6 +338,9 @@ public class driver {
             //joust_driver,
             //splat_driver,
             //gorf_driver,
+            // sidearms_driver, /*added in 0.29 error in graphics */
+            //gunsmoke_driver, /*added in 0.29 error in graphics */
+            
             
             /*NOT WORKING GAMES*/
             

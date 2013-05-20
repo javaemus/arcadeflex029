@@ -6,6 +6,12 @@
 -Added working black tiger driver to 0.29
 -Update exedexes driver to 0.29 (fixes background )
 -Update pepper2 ,mtrap , venture drivers to 0.29 (pepper2 now works)
+-Added working silkworm driver to 0.29
+-Added partially working sidearms driver to 0.29
+-Added partially working gunsmoke driver to 0.29
+-Added hacked lwing driver to 0.29
+  -lwings and sectionz are playable
+-Added hacked 1943 driver to 0.29 - 1943 is playable
 
 16/05/2013
 ----------
