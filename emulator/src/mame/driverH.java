@@ -223,7 +223,7 @@ public class driverH
             
             
             
-            static int TEMP_INPUTPORT_SIZE=100;//TODO i don't like that but how else?
+            static int TEMP_INPUTPORT_SIZE=200;//TODO i don't like that but how else?
             static NewInputPort[] temp_inputport = new NewInputPort[TEMP_INPUTPORT_SIZE]; 
             static int inputport_curpos=0;
             static NewInputPort[] inputport_macro=null;

@@ -9,3 +9,7 @@
 /emulator/roms/
 *.hi
 *.cfg
+/convertor/c_code/vidhrdw/*.c
+/convertor/c_code/drivers/*.c
+/convertor/java_code/drivers/*.java
+/convertor/java_code/vidhrdw/*.java

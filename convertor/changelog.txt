@@ -13,7 +13,7 @@
 -osd_fread and osd_fwrite conversion for hiscore
 -partially fixed memcmp for hiload
 -v0.04 released!
-
+-fixed crash if "deleteme" file is found
 
 
 16/10/2011

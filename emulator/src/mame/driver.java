@@ -131,6 +131,7 @@ import static drivers.gunsmoke.*;
 import static drivers.lwings.*;
 import static drivers._1943.*;
 import static drivers.system8.*;
+import static drivers.rocnrope.*;
 
 public class driver {
 	public static GameDriver drivers[] =

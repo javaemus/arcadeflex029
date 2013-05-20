@@ -69,6 +69,7 @@ public class Convertor {
                 for(int i=0; i<contents.length; i++)
                 {
                     if(contents[i].getName().startsWith(".")) continue; //if .svn exists ignore it
+                    if(contents[i].getName().startsWith("deleteme")) continue;
                     String drivername=contents[i].getName().substring(0, contents[i].getName().lastIndexOf('.'));
                     System.out.println("Convert driver : " + drivername);
                     if((fInput = fileutil.openReadFile((new StringBuilder()).append("c_code\\drivers\\").append(drivername).append(".c").toString())) == null)
@@ -115,6 +116,7 @@ public class Convertor {
                 for(int i=0; i<contents.length; i++)
                 {
                     if(contents[i].getName().startsWith(".")) continue; //if .svn exists ignore it
+                    if(contents[i].getName().startsWith("deleteme")) continue;
                     String drivername=contents[i].getName().substring(0, contents[i].getName().lastIndexOf('.'));
                     System.out.println("Convert machine : " + drivername);
                     if((fInput = fileutil.openReadFile((new StringBuilder()).append("c_code\\machine\\").append(drivername).append(".c").toString())) == null)
@@ -161,6 +163,7 @@ public class Convertor {
                 for(int i=0; i<contents.length; i++)
                 {
                     if(contents[i].getName().startsWith(".")) continue; //if .svn exists ignore it
+                    if(contents[i].getName().startsWith("deleteme")) continue;
                     String drivername=contents[i].getName().substring(0, contents[i].getName().lastIndexOf('.'));
                     System.out.println("Convert vidhrdw : " + drivername);
                     if((fInput = fileutil.openReadFile((new StringBuilder()).append("c_code\\vidhrdw\\").append(drivername).append(".c").toString())) == null)
@@ -206,6 +209,7 @@ public class Convertor {
                 for(int i=0; i<contents.length; i++)
                 {
                     if(contents[i].getName().startsWith(".")) continue; //if .svn exists ignore it
+                    if(contents[i].getName().startsWith("deleteme")) continue;
                     String drivername=contents[i].getName().substring(0, contents[i].getName().lastIndexOf('.'));
                     System.out.println("Convert sndhrdw : " + drivername);
                     if((fInput = fileutil.openReadFile((new StringBuilder()).append("c_code\\sndhrdw\\").append(drivername).append(".c").toString())) == null)
