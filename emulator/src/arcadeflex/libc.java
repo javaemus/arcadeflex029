@@ -538,6 +538,10 @@ public class libc {
             memory = m;
             base = b;
         }
+        public void set(CharPtr cp, int b)
+        {
+            set(cp.memory, cp.base + b);
+        }
 
         public char read(int offset) {
             return memory[base + offset];

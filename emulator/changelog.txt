@@ -12,6 +12,8 @@
 -Added hacked lwing driver to 0.29
   -lwings and sectionz are playable
 -Added hacked 1943 driver to 0.29 - 1943 is playable
+-Hacked system8 driver (from mame 0.31) wbdeluxe is playable
+
 
 16/05/2013
 ----------

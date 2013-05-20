@@ -23,5 +23,5 @@ package arcadeflex;
  * @author shadow
  */
 public class settings {
-    public static String version = "arcadeflex v0.03";
+    public static String version = "arcadeflex v0.04 ALPHA";
 }

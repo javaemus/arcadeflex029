@@ -130,6 +130,7 @@ import static drivers.silkworm.*;
 import static drivers.gunsmoke.*;
 import static drivers.lwings.*;
 import static drivers._1943.*;
+import static drivers.system8.*;
 
 public class driver {
 	public static GameDriver drivers[] =
@@ -315,7 +316,7 @@ public class driver {
             sectionz_driver,
             c1943_driver,
             
-            
+            wbdeluxe_driver, /* hacky 0.31 driver*/
             
             /*PARTIAL WORKING GAMES*/
             
