@@ -36,9 +36,11 @@ public class driverConvert {
       static final int GFXDECODE = 11;
       static final int HILOAD=12;
       static final int HISAVE=13;
+      
       //type2 fields
       static final int NEWINPUT =12;
       static final int ROMDEF=13;
+      
   
     public static void Convertdriver()
     {
@@ -53,7 +55,7 @@ public class driverConvert {
         int type=0;
         int type2=0;
         int i3=-1;
-        int l=-1;
+
         int[] insideagk = new int[10];//get the { that are inside functions
         int i8=-1; //for checking ) in INPUT PORTS and ROM macros
         do
@@ -216,7 +218,7 @@ public class driverConvert {
                                 Convertor.inpos = i;
                                 break;
                             }
-                            if(sUtil.getToken("const char *name"))//an to soma tis function einai (void)
+                            if(sUtil.getToken("void"))//an to soma tis function einai (void)
                             {
                                     if(sUtil.parseChar() != ')')
                                     {
@@ -225,7 +227,7 @@ public class driverConvert {
                                     }
                                     if(Convertor.token[0].contains("hiload"))
                                     {
-                                        sUtil.putString((new StringBuilder()).append("static HiscoreLoadPtr ").append(Convertor.token[0]).append(" = new HiscoreLoadPtr() { public int handler(String name) ").toString());
+                                        sUtil.putString((new StringBuilder()).append("static HiscoreLoadPtr ").append(Convertor.token[0]).append(" = new HiscoreLoadPtr() { public int handler() ").toString());
                                         type = HILOAD;
                                         i3 = -1;
                                         continue; 
@@ -241,7 +243,7 @@ public class driverConvert {
                                 Convertor.inpos = i;
                                 break;
                             }
-                            if(sUtil.getToken("const char *name"))//an to soma tis function einai (void)
+                            if(sUtil.getToken("void"))//an to soma tis function einai (void)
                             {
                                     if(sUtil.parseChar() != ')')
                                     {
@@ -250,7 +252,7 @@ public class driverConvert {
                                     }
                                     if(Convertor.token[0].contains("hisave"))
                                     {
-                                        sUtil.putString((new StringBuilder()).append("static HiscoreSavePtr ").append(Convertor.token[0]).append(" = new HiscoreSavePtr() { public void handler(String name) ").toString());
+                                        sUtil.putString((new StringBuilder()).append("static HiscoreSavePtr ").append(Convertor.token[0]).append(" = new HiscoreSavePtr() { public void handler() ").toString());
                                         type = HISAVE;
                                         i3 = -1;
                                         continue; 
@@ -621,11 +623,17 @@ public class driverConvert {
                           Convertor.inpos += 1;
                           continue;
                         }
-                        if ((i3 == 1) && (insideagk[0] == 5))
+                        if ((i3 == 1) && (insideagk[0] == 6))
                         {
                           sUtil.putString("new rectangle(");
                           Convertor.inpos += 1;
                           continue;
+                        }
+                        else if ((i3 == 1) && (insideagk[0] == 7))//case of 1 CPU 
+                        {
+                              sUtil.putString("new rectangle(");
+                              Convertor.inpos += 1;
+                              continue;
                         }
                         if ((i3 == 2) && (insideagk[0] == 0))
                         {
@@ -746,7 +754,7 @@ public class driverConvert {
                     }
                   }
                    
-                  else if (type == INPUTPORT) //buggy...
+                  else if (type == INPUTPORT) 
                   {
                     i3++;
                     insideagk[i3] = 0;
@@ -795,7 +803,7 @@ public class driverConvert {
                         {
                           Convertor.outbuf[(Convertor.outpos++)] = 41;
                           Convertor.inpos += 1;
-                          type = -1;
+                          type = -1;      
                           continue;
                         }
                         if ((i3 == 1) && (insideagk[0] == 0))
@@ -804,10 +812,16 @@ public class driverConvert {
                           Convertor.inpos += 1;
                           continue;
                         }
-                        if ((i3 == 0) && (insideagk[0] == 5))
+                        if ((i3 == 0) && (insideagk[0] == 6))
                         {
                           Convertor.outbuf[(Convertor.outpos++)] = 41;
                           Convertor.inpos += 1;
+                          continue;
+                        }
+                        else if((i3 == 0) && (insideagk[0] == 7))//for rectangle defination in single cpu only
+                        {
+                            Convertor.outbuf[(Convertor.outpos++)] = 41;
+                          Convertor.inpos += 1;                     
                           continue;
                         }
                   }
@@ -866,6 +880,11 @@ public class driverConvert {
                   }
                   break;
             case 'e':
+                  if(sUtil.getToken("extern"))//if it starts with extern skip it
+                  {
+                      sUtil.skipLine();
+                      continue;
+                  }
                   i = Convertor.inpos;
                   if (sUtil.getToken("enum"))
                   {
@@ -921,11 +940,18 @@ public class driverConvert {
                         }
                         if (type==MACHINEDRIVER)
                         {
-                          if ((i3 == 0) && ((insideagk[i3] == 2) || (insideagk[i3] == 6) || (insideagk[i3] == 9) || (insideagk[i3] == 11) || (insideagk[i3] == 14) || (insideagk[i3] == 15) || (insideagk[i3] == 16) || (insideagk[i3] == 17) || (insideagk[i3] == 18)))
+                          if ((i3 == 0) && ((insideagk[i3] == 3) || (insideagk[i3] == 6) || (insideagk[i3] == 12) || (insideagk[i3] == 14) || (insideagk[i3] == 15) || (insideagk[i3] == 16) || (insideagk[i3] == 17) || (insideagk[i3] == 18)|| (insideagk[i3] == 19)|| (insideagk[i3] == 20)))
                           {
                             sUtil.putString("null");
                             Convertor.inpos += 1;
                             continue;
+                          }
+                          else if ((i3 == 0) /*&& (type3==1)*/ && ((insideagk[i3] == 4) || (insideagk[i3] == 8) || (insideagk[i3] == 11) || (insideagk[i3] == 13) || (insideagk[i3] == 14) || (insideagk[i3] == 15) || (insideagk[i3] == 16) || (insideagk[i3] == 17) || (insideagk[i3] == 18)|| (insideagk[i3] == 19)|| (insideagk[i3] == 20)|| (insideagk[i3] == 21)))
+                          {
+                              //case for single core cpus
+                              sUtil.putString("null");
+                             Convertor.inpos += 1;
+                             continue;
                           }
                           if ((i3 == 2) && (insideagk[0] == 0) && ((insideagk[i3] == 5) || (insideagk[i3] == 6)))
                           {
@@ -978,7 +1004,268 @@ public class driverConvert {
                              Convertor.inpos += 2;
                           
                           }
-                          break;    
+                          break; 
+                     case 'v':
+                         if(type==HILOAD || type==HISAVE)
+                         {
+                              i = Convertor.inpos;
+                              if (sUtil.getToken("void"))
+                              {
+                                sUtil.skipSpace();
+                                if (sUtil.parseChar() != '*')
+                                {
+                                  Convertor.inpos = i;
+                                }
+                                else {
+                                  sUtil.skipSpace();
+                                  Convertor.token[0] = sUtil.parseToken();
+                                  sUtil.skipSpace();
+                                  sUtil.putString("FILE " + Convertor.token[0]);
+                                }
+                              }
+                         }
+                         break;
+                     case 'u':
+                         if(type==HILOAD || type==HISAVE)
+                         {
+                              i = Convertor.inpos;
+                              if (sUtil.getToken("unsigned char"))
+                              {
+                                sUtil.skipSpace();
+                                if (sUtil.parseChar() != '*')
+                                {
+                                  Convertor.inpos = i;
+                                }
+                                else {
+                                  sUtil.skipSpace();
+                                  Convertor.token[0] = sUtil.parseToken();
+                                  sUtil.skipSpace();
+                                  sUtil.putString("char[] " + Convertor.token[0]);
+                                }
+                              }
+                         }
+                         break;
+                     case 'o':
+                     if(type==HILOAD || type==HISAVE)
+                     {
+                      i=Convertor.inpos;
+                      if (sUtil.getToken("osd_fread(f"))
+                      {
+                        if (sUtil.parseChar() != ',')
+                        {
+                          Convertor.inpos = i;
+                        }
+                        else {
+                            if (sUtil.parseChar() != '&')
+                            {
+                                Convertor.inpos = i;
+                            }
+                            else {
+                            Convertor.token[0] = sUtil.parseToken();
+                            if(Convertor.token[0].contains("+"))//3stooges has RAM+offset ingnore conversion
+                            {
+                                Convertor.inpos=i;
+                                continue;
+                            }
+                            if (sUtil.parseChar() != '[')
+                            {
+                              Convertor.inpos = i;
+                            }
+                            else {
+                              //sUtil.skipSpace();
+                              Convertor.token[1] = sUtil.parseToken();
+                              //sUtil.skipSpace();
+                              if (sUtil.parseChar() != ']')
+                              {
+                                Convertor.inpos = i;
+                              }
+                              else {
+                                sUtil.skipSpace();
+                                sUtil.putString("osd_fread(f," + Convertor.token[0] + ", " + Convertor.token[1]);
+                                continue;
+                              }
+                            }
+                            }
+                          }
+                         }
+                      if (sUtil.getToken("osd_fwrite(f"))
+                      {
+                        if (sUtil.parseChar() != ',')
+                        {
+                          Convertor.inpos = i;
+                        }
+                        else {
+                            if (sUtil.parseChar() != '&')
+                            {
+                                Convertor.inpos = i;
+                            }
+                            else {
+                            Convertor.token[0] = sUtil.parseToken();
+                            if(Convertor.token[0].contains("+"))//3stooges has RAM+offset ingnore conversion
+                            {
+                                Convertor.inpos=i;
+                                continue;
+                            }
+                            if (sUtil.parseChar() != '[')
+                            {
+                              Convertor.inpos = i;
+                            }
+                            else {
+                              //sUtil.skipSpace();
+                              Convertor.token[1] = sUtil.parseToken();
+                              //sUtil.skipSpace();
+                              if (sUtil.parseChar() != ']')
+                              {
+                                Convertor.inpos = i;
+                              }
+                              else {
+                                sUtil.skipSpace();
+                                sUtil.putString("osd_fwrite(f," + Convertor.token[0] + ", " + Convertor.token[1]);
+                                continue;
+                              }
+                            }
+                            }
+                          }
+                         }
+                        }
+                        break;
+                     case 'm':
+                       if(type==HILOAD)
+                       {
+                         i = Convertor.inpos;
+                          if (sUtil.getToken("memcmp"))
+                          {
+                            sUtil.skipSpace();
+                            if (sUtil.parseChar() != '(')
+                            {
+                              Convertor.inpos = i;
+                            }
+                            else {
+                              sUtil.skipSpace();
+                              if (sUtil.parseChar() != '&')
+                              {
+                                Convertor.inpos = i;
+                              }
+                              else {
+                                sUtil.skipSpace();
+                                Convertor.token[0] = sUtil.parseToken();
+                                //sUtil.skipSpace();
+                                if (sUtil.parseChar() != '[')
+                                {
+                                  Convertor.inpos = i;
+                                }
+                                else {
+                                  //sUtil.skipSpace();
+                                  Convertor.token[1] = sUtil.parseToken();
+                                  //sUtil.skipSpace();
+                                  if (sUtil.parseChar() != ']')
+                                  {
+                                    Convertor.inpos = i;
+                                  }
+                                  else {
+                                    //sUtil.skipSpace();
+                                    if (sUtil.parseChar() != ',')
+                                    {
+                                      Convertor.inpos = i;
+                                    }
+                                    else {
+                                      //sUtil.skipSpace();
+                                      if (sUtil.parseChar() != '"')
+                                      {
+                                        Convertor.inpos = i;
+                                      }
+                                      else {
+                                        Convertor.token[2] = sUtil.parseToken();
+                                        
+                                        if (sUtil.parseChar() != '"')
+                                        {
+                                          Convertor.inpos = i;
+                                        }
+                                        else
+                                        {
+                                          //above code has uses so just leave it as it is...
+                                            Convertor.token[3] = Convertor.token[2];//remove it if above works
+                                          /*Convertor.token[3] = null;
+                                          int i5 = 0;
+                                         
+                                          while (i5 < Convertor.token[2].length())
+                                          {
+                                            c = Convertor.token[2].charAt(i5);
+                                            if (c != '\\')
+                                            {
+                                              
+                                              Convertor.token[3] = null;
+                                              
+                                            }
+                                            else {
+                                              i5++;
+                                              c = Convertor.token[2].charAt(i5);
+                                              System.out.println(c);
+                                              if (c == 'x')
+                                              {
+                                                Convertor.token[3] = (Convertor.token[3] + ", ");
+                                                //System.out.println(Convertor.token[3]);
+                                                i5++;
+                                                c = Convertor.token[2].charAt(i5);
+                                                int tmp7254_7253 = 3;
+                                                String[] tmp7254_7250 = Convertor.token; 
+                                                tmp7254_7250[tmp7254_7253] = (tmp7254_7250[tmp7254_7253] + "0x" + c);
+                                                i5++;
+                                                c = Convertor.token[2].charAt(i5);
+                                                if (((c < '0') || (c > '9')) && ((c < 'a') || (c > 'f')))
+                                                  continue;
+                                                int tmp7327_7326 = 3;
+                                                String[] tmp7327_7323 = Convertor.token; 
+                                                tmp7327_7323[tmp7327_7326] = (tmp7327_7323[tmp7327_7326] + "" + c);
+                                                i5++;
+                                                continue;
+                                              }
+                                              if (c == '0')
+                                              {
+                                               
+                                                Convertor.token[3] = (Convertor.token[3] + ", ");
+                                                int tmp7411_7410 = 3;
+                                                String[] tmp7411_7407 = Convertor.token; 
+                                                tmp7411_7407[tmp7411_7410] = (tmp7411_7407[tmp7411_7410] + "0x0");
+                                                i5++;
+                                                continue;
+                                              }
+
+                                              Convertor.token[3] = null;
+                                            }
+
+                                          }*/
+
+                                          //sUtil.skipSpace();
+                                          if (sUtil.parseChar() != ',')
+                                          {
+                                            Convertor.inpos = i;
+                                          }
+                                          else {
+                                           // sUtil.skipSpace();
+                                            Convertor.token[4] = sUtil.parseToken();
+                                            //sUtil.skipSpace();
+                                            if (sUtil.parseChar() != ')')
+                                            {
+                                              Convertor.inpos = i;
+                                            }
+                                            else {
+                                              if (Convertor.token[3] != null) {
+                                                sUtil.putString("memcmp(" + Convertor.token[0] + ", " + Convertor.token[1] + ", new char[] { " + Convertor.token[3] + " }, " + Convertor.token[4] + ")"); continue;
+                                              }
+                                              sUtil.putString("memcmp(" + Convertor.token[0] + ", " + Convertor.token[1] + ", \"" + Convertor.token[2] + "\", " + Convertor.token[4] + ")");
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                       }
+                       break;
                 
             }
             
