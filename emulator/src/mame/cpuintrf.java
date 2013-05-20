@@ -29,6 +29,7 @@ import M6502.M6502H;
 import static M6502.M6502H.*;
 import static M6502.M6502.*;
 import static I86.I86.*;
+import m6809.M6809H;
 import static m6809.M6809H.*;
 import static m6809.M6809.*;
 import static Z80.Z80H.*;
@@ -37,7 +38,6 @@ import static arcadeflex.libc.*;
 import static mame.driverH.*;
 import static mame.mame.*;
 import static arcadeflex.osdepend.*;
-import m6809.M6809H;
 import static mame.inptport.*;
 import static mame.memoryH.*;
 /***************************************************************************

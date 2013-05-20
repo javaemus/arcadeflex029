@@ -124,7 +124,7 @@ import static drivers.qix.*;
 import static drivers.bublbobl.*;
 import static drivers.wow.*;
 import static drivers.rastan.*;
-
+import static drivers.blktiger.*;
 
 public class driver {
 	public static GameDriver drivers[] =
@@ -301,7 +301,10 @@ public class driver {
             spacezap_driver,
             bublbobl_driver,
             boblbobl_driver,
-            
+            dkjrjp_driver, /*added to 0.29 */
+            dkjrbl_driver, /*added to 0.29 */
+            blktiger_driver, /*added to 0.29 */
+            pepper2_driver,  /*fixed in 0.29 */
             
             /*PARTIAL WORKING GAMES*/
             
@@ -332,7 +335,6 @@ public class driver {
             //ckong_driver,
             //ckonga_driver,
             //ckongjeu_driver,
-            //pepper2_driver,
             //scramble_driver,
             //xevious_driver,
             //xeviousa_driver, //xeviousn is xeviousa in 0.36 romset
@@ -351,12 +353,14 @@ public class driver {
             //bubbles_driver,
             //reactor_driver,
             //seawolf2_driver,//seawolf is seawolf2 in v0.36 romset
+            //radarscp_driver, /*new in 0.29 - not working */
+           
+            //hunchy_driver,  /*new in 0.29 - not working */
             
             
             /*NON EXIST GAMES*/
             
             //pengoa_driver,  //we don't support that since it doesn't exist in v0.36 romset
-            //hunchy_driver, /*this romset can't be found and in mame v0.36 has been moved to different driver so it is not supported here
             //galnamco_driver, //that game seems not to exist in 0.36 romset
             //japirem_driver,//that game seems not to exist in 0.36 romset
             //gngcross_driver,//doesn't seem to exist in 0.36 romset

@@ -1,3 +1,12 @@
+20/5/2013
+---------
+-Updated dkong to 0.29
+  -added dkjrjp,djrbl drivers
+  -added non-working radarscp driver
+-Added working black tiger driver to 0.29
+-Update exedexes driver to 0.29 (fixes background )
+-Update pepper2 ,mtrap , venture drivers to 0.29 (pepper2 now works)
+
 16/05/2013
 ----------
 -Update Common.c , common.h to mame 0.29

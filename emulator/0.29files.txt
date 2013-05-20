@@ -43,7 +43,7 @@ asteroid.c
 bagman.c     
 bankp.c        | DONE |
 berzerk.c     
-blktiger.c     
+blktiger.c     | DONE |
 blueprnt.c     | DONE |
 bombjack.c     | DONE |
 bosco.c        | DONE |  -to check the new bosconm game
@@ -62,12 +62,12 @@ cloak.c
 commando.c   
 congo.c      
 digdug.c
-dkong.c        
+dkong.c       | DONE |  
 docastle.c   
 dowild.c     
 eggs.c       
 espial.c     
-exedexes.c     
+exedexes.c    | DONE | 
 frogger.c    
 galaga.c     
 galaxian.c   
@@ -97,7 +97,7 @@ moonqsr.c
 mpatrol.c    
 mplanets.c   
 mrdo.c       
-mtrap.c       
+mtrap.c      | DONE |    
 mystston.c   
 naughtyb.c   
 nibbler.c    
@@ -105,7 +105,7 @@ omegrace.c
 pacman.c     
 panic.c
 pengo.c      
-pepper2.c    
+pepper2.c    | DONE | 
 phoenix.c    
 pooyan.c     
 popeye.c     
@@ -134,7 +134,7 @@ timeplt.c
 tp84.c       
 tutankhm.c   
 vanguard.c
-venture.c     
+venture.c     | DONE | 
 vulgus.c     
 warlord.c    
 warpwarp.c   
@@ -212,7 +212,7 @@ atari_vg.c
 atari_vg.h   
 bagman.c          
 berzerk.c      
-blktiger.c        
+blktiger.c          | DONE | 
 bosco.c
 bublbobl.c   
 bwidow.c     
@@ -308,7 +308,7 @@ carnival.c
 cclimber.c   
 champbas.c   
 congo.c      
-dkong.c        
+dkong.c         | same as in 0.28 |  - sample support missing
 docastle.c   
 eggs.c       
 frogger.c    
@@ -372,7 +372,7 @@ avgdvg.h
 bagman.c     
 bankp.c      
 berzerk.c    
-blktiger.c    
+blktiger.c         | DONE |
 blueprnt.c    
 bombjack.c   
 bosco.c      
@@ -388,18 +388,18 @@ cloak.c
 commando.c   
 congo.c      
 digdug.c     
-dkong.c             
+dkong.c            | DONE |          
 docastle.c   
 eggs.c
 espial.c     
-exedexes.c    
-exidy.c       
+exedexes.c         | DONE | 
+exidy.c            | DONE |
 frogger.c     
 galaga.c     
 galaxian.c
 gberet.c       
-generic.c     
-generic.h     
+generic.c       -same as 0.28  | DONE |    
+generic.h       -same as 0.28  | DONE |   
 gng.c        
 gottlieb.c   
 gunsmoke.c    

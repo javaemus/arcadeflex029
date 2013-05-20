@@ -7,3 +7,5 @@
 /convertor/dist/
 /frontend/build/
 /emulator/roms/
+*.hi
+*.cfg
