@@ -1,19 +1,4 @@
-/*
-This file is part of Arcadeflex.
 
-Arcadeflex is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Arcadeflex is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
- */
 
 package m6809;
 
@@ -29,11 +14,11 @@ import static arcadeflex.libc.*;
 public class M6809 {
   static int iccreg;
   static int idpreg;
-  static int ixreg;
-  static int iyreg;
-  static int iureg;
-  static int isreg;
-  static int ipcreg;
+  static int xreg;
+  static int yreg;
+  static int ureg;
+  static int sreg;
+  static int pcreg;
   static int iareg;
   static int ibreg;
   static int eaddr;
@@ -124,16 +109,16 @@ public class M6809 {
     M_WRMEM_WORD(paramInt1, paramInt2);
   }
   static final int IMMBYTE() {
-    int i = rd_op_handler.handler(ipcreg); ipcreg = ipcreg + 1 & 0xFFFF; return i; }
-  static final int IMMWORD() { int i = rd_op_handler_wd.handler(ipcreg); ipcreg = ipcreg + 2 & 0xFFFF; return i; }
-  static final void PUSHBYTE(int paramInt) { isreg = isreg - 1 & 0xFFFF; wr_s_handler.handler(isreg, paramInt); }
-  static final void PUSHWORD(int paramInt) { isreg = isreg - 2 & 0xFFFF; wr_s_handler_wd.handler(isreg, paramInt); }
-  static final int PULLBYTE() { int i = rd_s_handler.handler(isreg); isreg = isreg + 1 & 0xFFFF; return i; }
-  static final int PULLWORD() { int i = rd_s_handler_wd.handler(isreg); isreg = isreg + 2 & 0xFFFF; return i; }
-  static final void PSHUBYTE(int paramInt) { iureg = iureg - 1 & 0xFFFF; wr_u_handler.handler(iureg, paramInt); }
-  static final void PSHUWORD(int paramInt) { iureg = iureg - 2 & 0xFFFF; wr_u_handler_wd.handler(iureg, paramInt); }
-  static final int PULUBYTE() { int i = rd_u_handler.handler(iureg); iureg = iureg + 1 & 0xFFFF; return i; }
-  static final int PULUWORD() { int i = rd_u_handler_wd.handler(iureg); iureg = iureg + 2 & 0xFFFF; return i;
+    int i = rd_op_handler.handler(pcreg); pcreg = pcreg + 1 & 0xFFFF; return i; }
+  static final int IMMWORD() { int i = rd_op_handler_wd.handler(pcreg); pcreg = pcreg + 2 & 0xFFFF; return i; }
+  static final void PUSHBYTE(int paramInt) { sreg = sreg - 1 & 0xFFFF; wr_s_handler.handler(sreg, paramInt); }
+  static final void PUSHWORD(int paramInt) { sreg = sreg - 2 & 0xFFFF; wr_s_handler_wd.handler(sreg, paramInt); }
+  static final int PULLBYTE() { int i = rd_s_handler.handler(sreg); sreg = sreg + 1 & 0xFFFF; return i; }
+  static final int PULLWORD() { int i = rd_s_handler_wd.handler(sreg); sreg = sreg + 2 & 0xFFFF; return i; }
+  static final void PSHUBYTE(int paramInt) { ureg = ureg - 1 & 0xFFFF; wr_u_handler.handler(ureg, paramInt); }
+  static final void PSHUWORD(int paramInt) { ureg = ureg - 2 & 0xFFFF; wr_u_handler_wd.handler(ureg, paramInt); }
+  static final int PULUBYTE() { int i = rd_u_handler.handler(ureg); ureg = ureg + 1 & 0xFFFF; return i; }
+  static final int PULUWORD() { int i = rd_u_handler_wd.handler(ureg); ureg = ureg + 2 & 0xFFFF; return i;
   }
 
   static final int GETDREG()
@@ -143,8 +128,8 @@ public class M6809 {
 
   static final void DIRECT() {
     eaddr = IMMBYTE(); eaddr |= idpreg << 8; }
-  static final void IMM8() { eaddr = ipcreg; ipcreg = ipcreg + 1 & 0xFFFF; }
-  static final void IMM16() { eaddr = ipcreg; ipcreg = ipcreg + 2 & 0xFFFF; }
+  static final void IMM8() { eaddr = pcreg; pcreg = pcreg + 1 & 0xFFFF; }
+  static final void IMM16() { eaddr = pcreg; pcreg = pcreg + 2 & 0xFFFF; }
   static final void EXTENDED() { eaddr = IMMWORD(); }
 
   static final void SEC() {
@@ -182,8 +167,8 @@ public class M6809 {
   static final void BRANCH(int paramInt)
   {
     int i;
-    if (iflag == 0) { i = IMMBYTE(); if (paramInt != 0) ipcreg = ipcreg + (byte)i & 0xFFFF;  } else {
-      i = IMMWORD(); if (paramInt != 0) ipcreg = ipcreg + i & 0xFFFF; m6809_ICount -= 2; }
+    if (iflag == 0) { i = IMMBYTE(); if (paramInt != 0) pcreg = pcreg + (byte)i & 0xFFFF;  } else {
+      i = IMMWORD(); if (paramInt != 0) pcreg = pcreg + i & 0xFFFF; m6809_ICount -= 2; }
   }
   static final int NXORV() { return iccreg & 0x8 ^ (iccreg & 0x2) << 2;
   }
@@ -194,15 +179,15 @@ public class M6809 {
     case 0:
       return GETDREG();
     case 1:
-      return ixreg;
+      return xreg;
     case 2:
-      return iyreg;
+      return yreg;
     case 3:
-      return iureg;
+      return ureg;
     case 4:
-      return isreg;
+      return sreg;
     case 5:
-      return ipcreg;
+      return pcreg;
     case 8:
       return iareg;
     case 9:
@@ -221,15 +206,15 @@ public class M6809 {
     case 0:
       SETDREG(paramInt1); break;
     case 1:
-      ixreg = paramInt1; break;
+      xreg = paramInt1; break;
     case 2:
-      iyreg = paramInt1; break;
+      yreg = paramInt1; break;
     case 3:
-      iureg = paramInt1; break;
+      ureg = paramInt1; break;
     case 4:
-      isreg = paramInt1; break;
+      sreg = paramInt1; break;
     case 5:
-      ipcreg = paramInt1; break;
+      pcreg = paramInt1; break;
     case 8:
       iareg = paramInt1; break;
     case 9:
@@ -263,11 +248,11 @@ public class M6809 {
 
   public static void m6809_SetRegs(M6809H.m6809_Regs paramm6809_Regs)
   {
-    ipcreg = paramm6809_Regs.pc;
-    iureg = paramm6809_Regs.u;
-    isreg = paramm6809_Regs.s;
-    ixreg = paramm6809_Regs.x;
-    iyreg = paramm6809_Regs.y;
+    pcreg = paramm6809_Regs.pc;
+    ureg = paramm6809_Regs.u;
+    sreg = paramm6809_Regs.s;
+    xreg = paramm6809_Regs.x;
+    yreg = paramm6809_Regs.y;
     idpreg = paramm6809_Regs.dp;
     iareg = paramm6809_Regs.a;
     ibreg = paramm6809_Regs.b;
@@ -276,11 +261,11 @@ public class M6809 {
 
   public static void m6809_GetRegs(M6809H.m6809_Regs paramm6809_Regs)
   {
-    paramm6809_Regs.pc = ipcreg;
-    paramm6809_Regs.u = iureg;
-    paramm6809_Regs.s = isreg;
-    paramm6809_Regs.x = ixreg;
-    paramm6809_Regs.y = iyreg;
+    paramm6809_Regs.pc = pcreg;
+    paramm6809_Regs.u = ureg;
+    paramm6809_Regs.s = sreg;
+    paramm6809_Regs.x = xreg;
+    paramm6809_Regs.y = yreg;
     paramm6809_Regs.dp = idpreg;
     paramm6809_Regs.a = iareg;
     paramm6809_Regs.b = ibreg;
@@ -289,23 +274,23 @@ public class M6809 {
 
   public static int m6809_GetPC()
   {
-    return ipcreg;
+    return pcreg;
   }
 
   static void m6809_Interrupt()
   {
     if ((iccreg & 0x10) == 0)
     {
-      PUSHWORD(ipcreg);
-      PUSHWORD(iureg);
-      PUSHWORD(iyreg);
-      PUSHWORD(ixreg);
+      PUSHWORD(pcreg);
+      PUSHWORD(ureg);
+      PUSHWORD(yreg);
+      PUSHWORD(xreg);
       PUSHBYTE(idpreg);
       PUSHBYTE(ibreg);
       PUSHBYTE(iareg);
       PUSHBYTE(iccreg);
       iccreg |= 144;
-      ipcreg = GETWORD(65528);
+      pcreg = GETWORD(65528);
       m6809_ICount -= 19;
     }
     else {
@@ -317,18 +302,18 @@ public class M6809 {
   {
     if ((iccreg & 0x40) == 0)
     {
-      PUSHWORD(ipcreg);
+      PUSHWORD(pcreg);
       PUSHBYTE(iccreg);
       iccreg &= 127;
       iccreg |= 80;
-      ipcreg = GETWORD(65526);
+      pcreg = GETWORD(65526);
       m6809_ICount -= 10;
     }
   }
 
   public static void m6809_reset()
   {
-    ipcreg = M_RDMEM_WORD(65534);
+    pcreg = M_RDMEM_WORD(65534);
 
     idpreg = 0;
     iccreg = 0;
@@ -375,9 +360,9 @@ public class M6809 {
       iflag = 0;
       while (true)
       {
-        if (fastopcodes != 0) ireg = M_RDOP(ipcreg); else
-          ireg = M_RDMEM(ipcreg);
-        ipcreg = ipcreg + 1 & 0xFFFF;
+        if (fastopcodes != 0) ireg = M_RDOP(pcreg); else
+          ireg = M_RDMEM(pcreg);
+        pcreg = pcreg + 1 & 0xFFFF;
 
         if (haspostbyte[ireg] != 0) fetch_effective_address();
         if (ireg == 16)
@@ -443,367 +428,253 @@ public class M6809 {
 
   static final void fetch_effective_address()
   {
-    int i;
-    if (fastopcodes != 0) i = M_RDOP(ipcreg); else
-      i = M_RDMEM(ipcreg);
-    ipcreg = ipcreg + 1 & 0xFFFF;
+    int postbyte;
+    postbyte = M_RDOP(pcreg); 
+    pcreg = pcreg + 1 & 0xFFFF; /*convert result to word */
 
-    switch (i) {
-    case 0:
-      eaddr = ixreg; break;
-    case 1:
-      eaddr = ixreg + 1 & 0xFFFF; break;
-    case 2:
-      eaddr = ixreg + 2 & 0xFFFF; break;
-    case 3:
-      eaddr = ixreg + 3 & 0xFFFF; break;
-    case 4:
-      eaddr = ixreg + 4 & 0xFFFF; break;
-    case 5:
-      eaddr = ixreg + 5 & 0xFFFF; break;
-    case 6:
-      eaddr = ixreg + 6 & 0xFFFF; break;
-    case 7:
-      eaddr = ixreg + 7 & 0xFFFF; break;
-    case 8:
-      eaddr = ixreg + 8 & 0xFFFF; break;
-    case 9:
-      eaddr = ixreg + 9 & 0xFFFF; break;
-    case 10:
-      eaddr = ixreg + 10 & 0xFFFF; break;
-    case 11:
-      eaddr = ixreg + 11 & 0xFFFF; break;
-    case 12:
-      eaddr = ixreg + 12 & 0xFFFF; break;
-    case 13:
-      eaddr = ixreg + 13 & 0xFFFF; break;
-    case 14:
-      eaddr = ixreg + 14 & 0xFFFF; break;
-    case 15:
-      eaddr = ixreg + 15 & 0xFFFF; break;
-    case 16:
-      eaddr = ixreg - 16 & 0xFFFF; break;
-    case 17:
-      eaddr = ixreg - 15 & 0xFFFF; break;
-    case 18:
-      eaddr = ixreg - 14 & 0xFFFF; break;
-    case 19:
-      eaddr = ixreg - 13 & 0xFFFF; break;
-    case 20:
-      eaddr = ixreg - 12 & 0xFFFF; break;
-    case 21:
-      eaddr = ixreg - 11 & 0xFFFF; break;
-    case 22:
-      eaddr = ixreg - 10 & 0xFFFF; break;
-    case 23:
-      eaddr = ixreg - 9 & 0xFFFF; break;
-    case 24:
-      eaddr = ixreg - 8 & 0xFFFF; break;
-    case 25:
-      eaddr = ixreg - 7 & 0xFFFF; break;
-    case 26:
-      eaddr = ixreg - 6 & 0xFFFF; break;
-    case 27:
-      eaddr = ixreg - 5 & 0xFFFF; break;
-    case 28:
-      eaddr = ixreg - 4 & 0xFFFF; break;
-    case 29:
-      eaddr = ixreg - 3 & 0xFFFF; break;
-    case 30:
-      eaddr = ixreg - 2 & 0xFFFF; break;
-    case 31:
-      eaddr = ixreg - 1 & 0xFFFF; break;
-    case 33:
-      eaddr = iyreg + 1 & 0xFFFF; break;
-    case 34:
-      eaddr = iyreg + 2 & 0xFFFF; break;
-    case 35:
-      eaddr = iyreg + 3 & 0xFFFF; break;
-    case 36:
-      eaddr = iyreg + 4 & 0xFFFF; break;
-    case 37:
-      eaddr = iyreg + 5 & 0xFFFF; break;
-    case 38:
-      eaddr = iyreg + 6 & 0xFFFF; break;
-    case 39:
-      eaddr = iyreg + 7 & 0xFFFF; break;
-    case 40:
-      eaddr = iyreg + 8 & 0xFFFF; break;
-    case 41:
-      eaddr = iyreg + 9 & 0xFFFF; break;
-    case 42:
-      eaddr = iyreg + 10 & 0xFFFF; break;
-    case 43:
-      eaddr = iyreg + 11 & 0xFFFF; break;
-    case 44:
-      eaddr = iyreg + 12 & 0xFFFF; break;
-    case 45:
-      eaddr = iyreg + 13 & 0xFFFF; break;
-    case 46:
-      eaddr = iyreg + 14 & 0xFFFF; break;
-    case 47:
-      eaddr = iyreg + 15 & 0xFFFF; break;
-    case 48:
-      eaddr = iyreg - 16 & 0xFFFF; break;
-    case 49:
-      eaddr = iyreg - 15 & 0xFFFF; break;
-    case 50:
-      eaddr = iyreg - 14 & 0xFFFF; break;
-    case 51:
-      eaddr = iyreg - 13 & 0xFFFF; break;
-    case 52:
-      eaddr = iyreg - 12 & 0xFFFF; break;
-    case 53:
-      eaddr = iyreg - 11 & 0xFFFF; break;
-    case 54:
-      eaddr = iyreg - 10 & 0xFFFF; break;
-    case 55:
-      eaddr = iyreg - 9 & 0xFFFF; break;
-    case 56:
-      eaddr = iyreg - 8 & 0xFFFF; break;
-    case 57:
-      eaddr = iyreg - 7 & 0xFFFF; break;
-    case 58:
-      eaddr = iyreg - 6 & 0xFFFF; break;
-    case 59:
-      eaddr = iyreg - 5 & 0xFFFF; break;
-    case 60:
-      eaddr = iyreg - 4 & 0xFFFF; break;
-    case 61:
-      eaddr = iyreg - 3 & 0xFFFF; break;
-    case 62:
-      eaddr = iyreg - 2 & 0xFFFF; break;
-    case 63:
-      eaddr = iyreg - 1 & 0xFFFF; break;
-    case 65:
-      eaddr = iureg + 1 & 0xFFFF; break;
-    case 66:
-      eaddr = iureg + 2 & 0xFFFF; break;
-    case 67:
-      eaddr = iureg + 3 & 0xFFFF; break;
-    case 68:
-      eaddr = iureg + 4 & 0xFFFF; break;
-    case 69:
-      eaddr = iureg + 5 & 0xFFFF; break;
-    case 70:
-      eaddr = iureg + 6 & 0xFFFF; break;
-    case 71:
-      eaddr = iureg + 7 & 0xFFFF; break;
-    case 72:
-      eaddr = iureg + 8 & 0xFFFF; break;
-    case 73:
-      eaddr = iureg + 9 & 0xFFFF; break;
-    case 74:
-      eaddr = iureg + 10 & 0xFFFF; break;
-    case 75:
-      eaddr = iureg + 11 & 0xFFFF; break;
-    case 76:
-      eaddr = iureg + 12 & 0xFFFF; break;
-    case 77:
-      eaddr = iureg + 13 & 0xFFFF; break;
-    case 78:
-      eaddr = iureg + 14 & 0xFFFF; break;
-    case 79:
-      eaddr = iureg + 15 & 0xFFFF; break;
-    case 80:
-      eaddr = iureg - 16 & 0xFFFF; break;
-    case 81:
-      eaddr = iureg - 15 & 0xFFFF; break;
-    case 82:
-      eaddr = iureg - 14 & 0xFFFF; break;
-    case 83:
-      eaddr = iureg - 13 & 0xFFFF; break;
-    case 84:
-      eaddr = iureg - 12 & 0xFFFF; break;
-    case 85:
-      eaddr = iureg - 11 & 0xFFFF; break;
-    case 86:
-      eaddr = iureg - 10 & 0xFFFF; break;
-    case 87:
-      eaddr = iureg - 9 & 0xFFFF; break;
-    case 88:
-      eaddr = iureg - 8 & 0xFFFF; break;
-    case 89:
-      eaddr = iureg - 7 & 0xFFFF; break;
-    case 90:
-      eaddr = iureg - 6 & 0xFFFF; break;
-    case 91:
-      eaddr = iureg - 5 & 0xFFFF; break;
-    case 92:
-      eaddr = iureg - 4 & 0xFFFF; break;
-    case 93:
-      eaddr = iureg - 3 & 0xFFFF; break;
-    case 94:
-      eaddr = iureg - 2 & 0xFFFF; break;
-    case 95:
-      eaddr = iureg - 1 & 0xFFFF; break;
-    case 97:
-      eaddr = isreg + 1 & 0xFFFF; break;
-    case 98:
-      eaddr = isreg + 2 & 0xFFFF; break;
-    case 99:
-      eaddr = isreg + 3 & 0xFFFF; break;
-    case 100:
-      eaddr = isreg + 4 & 0xFFFF; break;
-    case 101:
-      eaddr = isreg + 5 & 0xFFFF; break;
-    case 102:
-      eaddr = isreg + 6 & 0xFFFF; break;
-    case 104:
-      eaddr = isreg + 8 & 0xFFFF; break;
-    case 105:
-      eaddr = isreg + 9 & 0xFFFF; break;
-    case 107:
-      eaddr = isreg + 11 & 0xFFFF; break;
-    case 108:
-      eaddr = isreg + 12 & 0xFFFF; break;
-    case 110:
-      eaddr = isreg + 14 & 0xFFFF; break;
-    case 120:
-      eaddr = isreg - 8 & 0xFFFF; break;
-    case 122:
-      eaddr = isreg - 6 & 0xFFFF; break;
-    case 123:
-      eaddr = isreg - 5 & 0xFFFF; break;
-    case 125:
-      eaddr = isreg - 3 & 0xFFFF; break;
-    case 126:
-      eaddr = isreg - 2 & 0xFFFF; break;
-    case 127:
-      eaddr = isreg - 1 & 0xFFFF; break;
-    case 128:
-      eaddr = ixreg; ixreg = ixreg + 1 & 0xFFFF; break;
-    case 129:
-      eaddr = ixreg; ixreg = ixreg + 2 & 0xFFFF; break;
-    case 130:
-      ixreg = ixreg - 1 & 0xFFFF; eaddr = ixreg; break;
-    case 131:
-      ixreg = ixreg - 2 & 0xFFFF; eaddr = ixreg; break;
-    case 132:
-      eaddr = ixreg; break;
+    switch (postbyte) 
+    {
+            case 0x00: eaddr=xreg;break;
+	    case 0x01: eaddr=xreg+1 & 0xFFFF;break;
+	    case 0x02: eaddr=xreg+2 & 0xFFFF;break;
+	    case 0x03: eaddr=xreg+3 & 0xFFFF;break;
+	    case 0x04: eaddr=xreg+4 & 0xFFFF;break;
+	    case 0x05: eaddr=xreg+5 & 0xFFFF;break;
+	    case 0x06: eaddr=xreg+6 & 0xFFFF;break;
+	    case 0x07: eaddr=xreg+7 & 0xFFFF;break;
+	    case 0x08: eaddr=xreg+8 & 0xFFFF;break;
+	    case 0x09: eaddr=xreg+9 & 0xFFFF;break;
+	    case 0x0A: eaddr=xreg+10 & 0xFFFF;break;
+	    case 0x0B: eaddr=xreg+11 & 0xFFFF;break;
+	    case 0x0C: eaddr=xreg+12 & 0xFFFF;break;
+	    case 0x0D: eaddr=xreg+13 & 0xFFFF;break;
+	    case 0x0E: eaddr=xreg+14 & 0xFFFF;break;
+	    case 0x0F: eaddr=xreg+15 & 0xFFFF;break;
+	    case 0x10: eaddr=xreg-16 & 0xFFFF;break;
+	    case 0x11: eaddr=xreg-15 & 0xFFFF;break;
+	    case 0x12: eaddr=xreg-14 & 0xFFFF;break;
+	    case 0x13: eaddr=xreg-13 & 0xFFFF;break;
+	    case 0x14: eaddr=xreg-12 & 0xFFFF;break;
+	    case 0x15: eaddr=xreg-11 & 0xFFFF;break;
+	    case 0x16: eaddr=xreg-10 & 0xFFFF;break;
+	    case 0x17: eaddr=xreg-9 & 0xFFFF;break;
+	    case 0x18: eaddr=xreg-8 & 0xFFFF;break;
+	    case 0x19: eaddr=xreg-7 & 0xFFFF;break;
+	    case 0x1A: eaddr=xreg-6 & 0xFFFF;break;
+	    case 0x1B: eaddr=xreg-5 & 0xFFFF;break;
+	    case 0x1C: eaddr=xreg-4 & 0xFFFF;break;
+	    case 0x1D: eaddr=xreg-3 & 0xFFFF;break;
+	    case 0x1E: eaddr=xreg-2 & 0xFFFF;break;
+	    case 0x1F: eaddr=xreg-1 & 0xFFFF;break;
+ 	    case 0x20: eaddr=yreg;break;
+	    case 0x21: eaddr=yreg+1 & 0xFFFF; break;
+	    case 0x22: eaddr=yreg+2 & 0xFFFF;break;
+	    case 0x23: eaddr=yreg+3 & 0xFFFF;break;
+	    case 0x24: eaddr=yreg+4 & 0xFFFF;break;
+	    case 0x25: eaddr=yreg+5 & 0xFFFF;break;
+	    case 0x26: eaddr=yreg+6 & 0xFFFF;break;
+	    case 0x27: eaddr=yreg+7 & 0xFFFF;break;
+	    case 0x28: eaddr=yreg+8 & 0xFFFF;break;
+	    case 0x29: eaddr=yreg+9 & 0xFFFF;break;
+	    case 0x2A: eaddr=yreg+10 & 0xFFFF;break;
+	    case 0x2B: eaddr=yreg+11 & 0xFFFF;break;
+	    case 0x2C: eaddr=yreg+12 & 0xFFFF;break;
+	    case 0x2D: eaddr=yreg+13 & 0xFFFF;break;
+	    case 0x2E: eaddr=yreg+14 & 0xFFFF;break;
+	    case 0x2F: eaddr=yreg+15 & 0xFFFF;break;
+	    case 0x30: eaddr=yreg-16 & 0xFFFF;break;
+	    case 0x31: eaddr=yreg-15 & 0xFFFF;break;
+	    case 0x32: eaddr=yreg-14 & 0xFFFF;break;
+	    case 0x33: eaddr=yreg-13 & 0xFFFF;break;
+	    case 0x34: eaddr=yreg-12 & 0xFFFF;break;
+	    case 0x35: eaddr=yreg-11 & 0xFFFF;break;
+	    case 0x36: eaddr=yreg-10 & 0xFFFF;break;
+	    case 0x37: eaddr=yreg-9 & 0xFFFF;break;
+	    case 0x38: eaddr=yreg-8 & 0xFFFF;break;
+	    case 0x39: eaddr=yreg-7 & 0xFFFF;break;
+	    case 0x3A: eaddr=yreg-6 & 0xFFFF;break;
+	    case 0x3B: eaddr=yreg-5 & 0xFFFF;break;
+	    case 0x3C: eaddr=yreg-4 & 0xFFFF;break;
+	    case 0x3D: eaddr=yreg-3 & 0xFFFF;break;
+	    case 0x3E: eaddr=yreg-2 & 0xFFFF;break;
+	    case 0x3F: eaddr=yreg-1 & 0xFFFF;break;         
+	    case 0x40: eaddr=ureg;break;
+	    case 0x41: eaddr=ureg+1 & 0xFFFF;break;
+	    case 0x42: eaddr=ureg+2 & 0xFFFF;break;
+	    case 0x43: eaddr=ureg+3 & 0xFFFF;break;
+	    case 0x44: eaddr=ureg+4 & 0xFFFF;break;
+	    case 0x45: eaddr=ureg+5 & 0xFFFF;break;
+	    case 0x46: eaddr=ureg+6 & 0xFFFF;break;
+	    case 0x47: eaddr=ureg+7 & 0xFFFF;break;
+	    case 0x48: eaddr=ureg+8 & 0xFFFF;break;
+	    case 0x49: eaddr=ureg+9 & 0xFFFF;break;
+	    case 0x4A: eaddr=ureg+10 & 0xFFFF;break;
+	    case 0x4B: eaddr=ureg+11 & 0xFFFF;break;
+	    case 0x4C: eaddr=ureg+12 & 0xFFFF;break;
+	    case 0x4D: eaddr=ureg+13 & 0xFFFF;break;
+	    case 0x4E: eaddr=ureg+14 & 0xFFFF;break;
+	    case 0x4F: eaddr=ureg+15 & 0xFFFF;break;
+	    case 0x50: eaddr=ureg-16 & 0xFFFF;break;
+	    case 0x51: eaddr=ureg-15 & 0xFFFF;break;
+	    case 0x52: eaddr=ureg-14 & 0xFFFF;break;
+	    case 0x53: eaddr=ureg-13 & 0xFFFF;break;
+	    case 0x54: eaddr=ureg-12 & 0xFFFF;break;
+	    case 0x55: eaddr=ureg-11 & 0xFFFF;break;
+	    case 0x56: eaddr=ureg-10 & 0xFFFF;break;
+	    case 0x57: eaddr=ureg-9 & 0xFFFF;break;
+	    case 0x58: eaddr=ureg-8 & 0xFFFF;break;
+	    case 0x59: eaddr=ureg-7 & 0xFFFF;break;
+	    case 0x5A: eaddr=ureg-6 & 0xFFFF;break;
+	    case 0x5B: eaddr=ureg-5 & 0xFFFF;break;
+	    case 0x5C: eaddr=ureg-4 & 0xFFFF;break;
+	    case 0x5D: eaddr=ureg-3 & 0xFFFF;break;
+	    case 0x5E: eaddr=ureg-2 & 0xFFFF;break;
+	    case 0x5F: eaddr=ureg-1 & 0xFFFF;break;
+	    case 0x60: eaddr=sreg;break;
+	    case 0x61: eaddr=sreg+1 & 0xFFFF;break;
+	    case 0x62: eaddr=sreg+2 & 0xFFFF;break;
+	    case 0x63: eaddr=sreg+3 & 0xFFFF;break;
+	    case 0x64: eaddr=sreg+4 & 0xFFFF;break;
+	    case 0x65: eaddr=sreg+5 & 0xFFFF;break;
+	    case 0x66: eaddr=sreg+6 & 0xFFFF;break;
+	    case 0x67: eaddr=sreg+7 & 0xFFFF;break;
+	    case 0x68: eaddr=sreg+8 & 0xFFFF;break;
+	    case 0x69: eaddr=sreg+9 & 0xFFFF;break;
+	    case 0x6A: eaddr=sreg+10 & 0xFFFF;break;
+	    case 0x6B: eaddr=sreg+11 & 0xFFFF;break;
+	    case 0x6C: eaddr=sreg+12 & 0xFFFF;break;
+	    case 0x6D: eaddr=sreg+13 & 0xFFFF;break;
+	    case 0x6E: eaddr=sreg+14 & 0xFFFF;break;
+	    case 0x6F: eaddr=sreg+15 & 0xFFFF;break;
+	    case 0x70: eaddr=sreg-16 & 0xFFFF;break;
+	    case 0x71: eaddr=sreg-15 & 0xFFFF;break;
+	    case 0x72: eaddr=sreg-14 & 0xFFFF;break;
+	    case 0x73: eaddr=sreg-13 & 0xFFFF;break;
+	    case 0x74: eaddr=sreg-12 & 0xFFFF;break;
+	    case 0x75: eaddr=sreg-11 & 0xFFFF;break;
+	    case 0x76: eaddr=sreg-10 & 0xFFFF;break;
+	    case 0x77: eaddr=sreg-9 & 0xFFFF;break;
+	    case 0x78: eaddr=sreg-8 & 0xFFFF;break;
+	    case 0x79: eaddr=sreg-7 & 0xFFFF;break;
+	    case 0x7A: eaddr=sreg-6 & 0xFFFF;break;
+	    case 0x7B: eaddr=sreg-5 & 0xFFFF;break;
+	    case 0x7C: eaddr=sreg-4 & 0xFFFF;break;
+	    case 0x7D: eaddr=sreg-3 & 0xFFFF;break;
+	    case 0x7E: eaddr=sreg-2 & 0xFFFF;break;
+	    case 0x7F: eaddr=sreg-1 & 0xFFFF;break;
+   	    case 0x80: eaddr=xreg; xreg = xreg + 1 & 0xFFFF;  break;
+	    case 0x81: eaddr=xreg; xreg = xreg + 2 & 0xFFFF;break;
+	    case 0x82: xreg = xreg - 1 & 0xFFFF; eaddr=xreg;break;
+	    case 0x83: xreg = xreg - 2 & 0xFFFF; eaddr=xreg;break;
+            case 0x84: eaddr=xreg;break;
+
+         
     case 133:
-      eaddr = ixreg + (byte)ibreg & 0xFFFF; break;
+      eaddr = xreg + (byte)ibreg & 0xFFFF; break;
     case 134:
-      eaddr = ixreg + (byte)iareg & 0xFFFF; break;
+      eaddr = xreg + (byte)iareg & 0xFFFF; break;
     case 136:
-      eaddr = IMMBYTE(); eaddr = ixreg + (byte)eaddr & 0xFFFF; break;
+      eaddr = IMMBYTE(); eaddr = xreg + (byte)eaddr & 0xFFFF; break;
     case 137:
-      eaddr = IMMWORD(); eaddr = eaddr + ixreg & 0xFFFF; break;
+      eaddr = IMMWORD(); eaddr = eaddr + xreg & 0xFFFF; break;
     case 139:
-      eaddr = ixreg + GETDREG() & 0xFFFF; break;
+      eaddr = xreg + GETDREG() & 0xFFFF; break;
     case 145:
-      eaddr = ixreg; ixreg = ixreg + 2 & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = xreg; xreg = xreg + 2 & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 148:
-      eaddr = ixreg; eaddr = GETWORD(eaddr); break;
+      eaddr = xreg; eaddr = GETWORD(eaddr); break;
     case 149:
-      eaddr = ixreg + (byte)ibreg & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = xreg + (byte)ibreg & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 150:
-      eaddr = ixreg + (byte)iareg & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = xreg + (byte)iareg & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 152:
-      eaddr = IMMBYTE(); eaddr = ixreg + (byte)eaddr & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = IMMBYTE(); eaddr = xreg + (byte)eaddr & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 155:
-      eaddr = ixreg + GETDREG() & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = xreg + GETDREG() & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 159:
       eaddr = IMMWORD(); eaddr = GETWORD(eaddr); break;
     case 160:
-      eaddr = iyreg; iyreg = iyreg + 1 & 0xFFFF; break;
+      eaddr = yreg; yreg = yreg + 1 & 0xFFFF; break;
     case 161:
-      eaddr = iyreg; iyreg = iyreg + 2 & 0xFFFF; break;
+      eaddr = yreg; yreg = yreg + 2 & 0xFFFF; break;
     case 162:
-      iyreg = iyreg - 1 & 0xFFFF; eaddr = iyreg; break;
+      yreg = yreg - 1 & 0xFFFF; eaddr = yreg; break;
     case 163:
-      iyreg = iyreg - 2 & 0xFFFF; eaddr = iyreg; break;
+      yreg = yreg - 2 & 0xFFFF; eaddr = yreg; break;
     case 164:
-      eaddr = iyreg; break;
+      eaddr = yreg; break;
     case 165:
-      eaddr = iyreg + (byte)ibreg & 0xFFFF; break;
+      eaddr = yreg + (byte)ibreg & 0xFFFF; break;
     case 166:
-      eaddr = iyreg + (byte)iareg & 0xFFFF; break;
+      eaddr = yreg + (byte)iareg & 0xFFFF; break;
     case 168:
-      eaddr = IMMBYTE(); eaddr = iyreg + (byte)eaddr & 0xFFFF; break;
+      eaddr = IMMBYTE(); eaddr = yreg + (byte)eaddr & 0xFFFF; break;
     case 169:
-      eaddr = IMMWORD(); eaddr = eaddr + iyreg & 0xFFFF; break;
+      eaddr = IMMWORD(); eaddr = eaddr + yreg & 0xFFFF; break;
     case 170:
       eaddr = 0; break;
     case 171:
-      eaddr = iyreg + GETDREG() & 0xFFFF; break;
+      eaddr = yreg + GETDREG() & 0xFFFF; break;
     case 177:
-      eaddr = iyreg; iyreg = iyreg + 2 & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = yreg; yreg = yreg + 2 & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 180:
-      eaddr = iyreg; eaddr = GETWORD(eaddr); break;
+      eaddr = yreg; eaddr = GETWORD(eaddr); break;
     case 181:
-      eaddr = iyreg + (byte)ibreg & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = yreg + (byte)ibreg & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 182:
-      eaddr = iyreg + (byte)iareg & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = yreg + (byte)iareg & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 184:
-      eaddr = IMMBYTE(); eaddr = iyreg + (byte)eaddr & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = IMMBYTE(); eaddr = yreg + (byte)eaddr & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 192:
-      eaddr = iureg; iureg = iureg + 1 & 0xFFFF; break;
+      eaddr = ureg; ureg = ureg + 1 & 0xFFFF; break;
     case 193:
-      eaddr = iureg; iureg = iureg + 2 & 0xFFFF; break;
+      eaddr = ureg; ureg = ureg + 2 & 0xFFFF; break;
     case 194:
-      iureg = iureg - 1 & 0xFFFF; eaddr = iureg; break;
+      ureg = ureg - 1 & 0xFFFF; eaddr = ureg; break;
     case 195:
-      iureg = iureg - 2 & 0xFFFF; eaddr = iureg; break;
+      ureg = ureg - 2 & 0xFFFF; eaddr = ureg; break;
     case 196:
-      eaddr = iureg; break;
+      eaddr = ureg; break;
     case 197:
-      eaddr = iureg + (byte)ibreg & 0xFFFF; break;
+      eaddr = ureg + (byte)ibreg & 0xFFFF; break;
     case 198:
-      eaddr = iureg + (byte)iareg & 0xFFFF; break;
+      eaddr = ureg + (byte)iareg & 0xFFFF; break;
     case 200:
-      eaddr = IMMBYTE(); eaddr = iureg + (byte)eaddr & 0xFFFF; break;
+      eaddr = IMMBYTE(); eaddr = ureg + (byte)eaddr & 0xFFFF; break;
     case 201:
-      eaddr = IMMWORD(); eaddr = eaddr + iureg & 0xFFFF; break;
+      eaddr = IMMWORD(); eaddr = eaddr + ureg & 0xFFFF; break;
     case 203:
-      eaddr = iureg + GETDREG() & 0xFFFF; break;
+      eaddr = ureg + GETDREG() & 0xFFFF; break;
     case 209:
-      eaddr = iureg; iureg = iureg + 2 & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = ureg; ureg = ureg + 2 & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 212:
-      eaddr = iureg; eaddr = GETWORD(eaddr); break;
+      eaddr = ureg; eaddr = GETWORD(eaddr); break;
     case 213:
-      eaddr = iureg + (byte)ibreg & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = ureg + (byte)ibreg & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 214:
-      eaddr = iureg + (byte)iareg & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = ureg + (byte)iareg & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 216:
-      eaddr = IMMBYTE(); eaddr = iureg + (byte)eaddr & 0xFFFF; eaddr = GETWORD(eaddr); break;
+      eaddr = IMMBYTE(); eaddr = ureg + (byte)eaddr & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 224:
-      eaddr = isreg; isreg = isreg + 1 & 0xFFFF; break;
+      eaddr = sreg; sreg = sreg + 1 & 0xFFFF; break;
     case 225:
-      eaddr = isreg; isreg = isreg + 2 & 0xFFFF; break;
+      eaddr = sreg; sreg = sreg + 2 & 0xFFFF; break;
     case 226:
-      isreg = isreg - 1 & 0xFFFF; eaddr = isreg; break;
+      sreg = sreg - 1 & 0xFFFF; eaddr = sreg; break;
     case 227:
-      isreg = isreg - 2 & 0xFFFF; eaddr = isreg; break;
+      sreg = sreg - 2 & 0xFFFF; eaddr = sreg; break;
     case 228:
-      eaddr = isreg; break;
+      eaddr = sreg; break;
     case 232:
-      eaddr = IMMBYTE(); eaddr = isreg + (byte)eaddr & 0xFFFF; break;
+      eaddr = IMMBYTE(); eaddr = sreg + (byte)eaddr & 0xFFFF; break;
     case 233:
-      eaddr = IMMWORD(); eaddr = eaddr + isreg & 0xFFFF; break;
+      eaddr = IMMWORD(); eaddr = eaddr + sreg & 0xFFFF; break;
     case 238:
       eaddr = 0; break;
     case 244:
-      eaddr = isreg; eaddr = GETWORD(eaddr); break;
+      eaddr = sreg; eaddr = GETWORD(eaddr); break;
     case 248:
-      eaddr = IMMBYTE(); eaddr = isreg + (byte)eaddr & 0xFFFF; eaddr = GETWORD(eaddr); break;
-    case 32:
-    case 64:
-    case 96:
-    case 103:
-    case 106:
-    case 109:
-    case 111:
-    case 112:
-    case 113:
-    case 114:
-    case 115:
-    case 116:
-    case 117:
-    case 118:
-    case 119:
-    case 121:
-    case 124:
+      eaddr = IMMBYTE(); eaddr = sreg + (byte)eaddr & 0xFFFF; eaddr = GETWORD(eaddr); break;
     case 135:
     case 138:
     case 140:
@@ -868,7 +739,7 @@ public class M6809 {
     case 246:
     case 247:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = FEA " + Integer.toHexString(i));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = FEA " + Integer.toHexString(i));
       break;
     }
   }
@@ -917,14 +788,14 @@ public class M6809 {
     case 13:
       DIRECT(); k = M_RDMEM(eaddr); SETNZ8(k); break;
     case 14:
-      DIRECT(); ipcreg = eaddr; break;
+      DIRECT(); pcreg = eaddr; break;
     case 15:
       DIRECT(); SETBYTE(eaddr, 0); CLN(); CLV(); SEZ(); CLC(); break;
     case 5:
     case 7:
     case 11:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = 0X " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = 0X " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -941,9 +812,9 @@ public class M6809 {
     case 21:
       break;
     case 22:
-      eaddr = IMMWORD(); ipcreg = ipcreg + eaddr & 0xFFFF; break;
+      eaddr = IMMWORD(); pcreg = pcreg + eaddr & 0xFFFF; break;
     case 23:
-      eaddr = IMMWORD(); PUSHWORD(ipcreg); ipcreg = ipcreg + eaddr & 0xFFFF; break;
+      eaddr = IMMWORD(); PUSHWORD(pcreg); pcreg = pcreg + eaddr & 0xFFFF; break;
     case 25:
       i = iareg;
       if ((iccreg & 0x20) != 0) i += 6;
@@ -974,7 +845,7 @@ public class M6809 {
     case 24:
     case 27:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = 1X " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = 1X " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1014,7 +885,7 @@ public class M6809 {
       BRANCH(BOOL((NXORV() != 0) || ((iccreg & 0x4) != 0))); break;
     case 33:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = 2X " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = 2X " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1024,19 +895,19 @@ public class M6809 {
     int j;
     switch (ireg) {
     case 48:
-      ixreg = eaddr; if (ixreg != 0) CLZ(); else SEZ(); break;
+      xreg = eaddr; if (xreg != 0) CLZ(); else SEZ(); break;
     case 49:
-      iyreg = eaddr; if (iyreg != 0) CLZ(); else SEZ(); break;
+      yreg = eaddr; if (yreg != 0) CLZ(); else SEZ(); break;
     case 50:
-      isreg = eaddr; break;
+      sreg = eaddr; break;
     case 51:
-      iureg = eaddr; break;
+      ureg = eaddr; break;
     case 52:
       j = IMMBYTE();
-      if ((j & 0x80) != 0) PUSHWORD(ipcreg);
-      if ((j & 0x40) != 0) PUSHWORD(iureg);
-      if ((j & 0x20) != 0) PUSHWORD(iyreg);
-      if ((j & 0x10) != 0) PUSHWORD(ixreg);
+      if ((j & 0x80) != 0) PUSHWORD(pcreg);
+      if ((j & 0x40) != 0) PUSHWORD(ureg);
+      if ((j & 0x20) != 0) PUSHWORD(yreg);
+      if ((j & 0x10) != 0) PUSHWORD(xreg);
       if ((j & 0x8) != 0) PUSHBYTE(idpreg);
       if ((j & 0x4) != 0) PUSHBYTE(ibreg);
       if ((j & 0x2) != 0) PUSHBYTE(iareg);
@@ -1047,16 +918,16 @@ public class M6809 {
       if ((j & 0x2) != 0) iareg = PULLBYTE();
       if ((j & 0x4) != 0) ibreg = PULLBYTE();
       if ((j & 0x8) != 0) idpreg = PULLBYTE();
-      if ((j & 0x10) != 0) ixreg = PULLWORD();
-      if ((j & 0x20) != 0) iyreg = PULLWORD();
-      if ((j & 0x40) != 0) iureg = PULLWORD();
-      if ((j & 0x80) == 0) break; ipcreg = PULLWORD(); break;
+      if ((j & 0x10) != 0) xreg = PULLWORD();
+      if ((j & 0x20) != 0) yreg = PULLWORD();
+      if ((j & 0x40) != 0) ureg = PULLWORD();
+      if ((j & 0x80) == 0) break; pcreg = PULLWORD(); break;
     case 54:
       j = IMMBYTE();
-      if ((j & 0x80) != 0) PSHUWORD(ipcreg);
-      if ((j & 0x40) != 0) PSHUWORD(isreg);
-      if ((j & 0x20) != 0) PSHUWORD(iyreg);
-      if ((j & 0x10) != 0) PSHUWORD(ixreg);
+      if ((j & 0x80) != 0) PSHUWORD(pcreg);
+      if ((j & 0x40) != 0) PSHUWORD(sreg);
+      if ((j & 0x20) != 0) PSHUWORD(yreg);
+      if ((j & 0x10) != 0) PSHUWORD(xreg);
       if ((j & 0x8) != 0) PSHUBYTE(idpreg);
       if ((j & 0x4) != 0) PSHUBYTE(ibreg);
       if ((j & 0x2) != 0) PSHUBYTE(iareg);
@@ -1067,14 +938,14 @@ public class M6809 {
       if ((j & 0x2) != 0) iareg = PULUBYTE();
       if ((j & 0x4) != 0) ibreg = PULUBYTE();
       if ((j & 0x8) != 0) idpreg = PULUBYTE();
-      if ((j & 0x10) != 0) ixreg = PULUWORD();
-      if ((j & 0x20) != 0) iyreg = PULUWORD();
-      if ((j & 0x40) != 0) isreg = PULUWORD();
-      if ((j & 0x80) == 0) break; ipcreg = PULUWORD(); break;
+      if ((j & 0x10) != 0) xreg = PULUWORD();
+      if ((j & 0x20) != 0) yreg = PULUWORD();
+      if ((j & 0x40) != 0) sreg = PULUWORD();
+      if ((j & 0x80) == 0) break; pcreg = PULUWORD(); break;
     case 57:
-      ipcreg = PULLWORD(); break;
+      pcreg = PULLWORD(); break;
     case 58:
-      ixreg = ixreg + ibreg & 0xFFFF; break;
+      xreg = xreg + ibreg & 0xFFFF; break;
     case 59:
       j = iccreg & 0x80;
       iccreg = PULLBYTE();
@@ -1084,18 +955,18 @@ public class M6809 {
         iareg = PULLBYTE();
         ibreg = PULLBYTE();
         idpreg = PULLBYTE();
-        ixreg = PULLWORD();
-        iyreg = PULLWORD();
-        iureg = PULLWORD();
+        xreg = PULLWORD();
+        yreg = PULLWORD();
+        ureg = PULLWORD();
       }
-      ipcreg = PULLWORD();
+      pcreg = PULLWORD();
       break;
     case 61:
       int i = iareg * ibreg & 0xFFFF; if (i != 0) CLZ(); else SEZ(); if ((i & 0x80) != 0) SEC(); else CLC(); SETDREG(i); break;
     case 56:
     case 60:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = 3X " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = 3X " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1134,7 +1005,7 @@ public class M6809 {
     case 75:
     case 78:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = 4X " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = 4X " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1179,7 +1050,7 @@ public class M6809 {
     case 91:
     case 94:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = 5X " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = 5X " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1224,7 +1095,7 @@ public class M6809 {
     case 109:
       m = M_RDMEM(eaddr); SETNZ8(m); break;
     case 110:
-      ipcreg = eaddr; break;
+      pcreg = eaddr; break;
     case 111:
       SETBYTE(eaddr, 0); CLN(); CLV(); SEZ(); CLC(); break;
     case 97:
@@ -1232,7 +1103,7 @@ public class M6809 {
     case 101:
     case 107:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = 6X " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = 6X " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1259,14 +1130,14 @@ public class M6809 {
     case 125:
       EXTENDED(); m = M_RDMEM(eaddr); SETNZ8(m); break;
     case 126:
-      EXTENDED(); ipcreg = eaddr; break;
+      EXTENDED(); pcreg = eaddr; break;
     case 127:
       EXTENDED(); SETBYTE(eaddr, 0); CLN(); CLV(); SEZ(); CLC(); break;
     case 117:
     case 119:
     case 123:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = 7X " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = 7X " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1289,7 +1160,7 @@ public class M6809 {
     case 131:
       IMM16();
 
-      if (iflag == 2) n = iureg; else n = GETDREG();
+      if (iflag == 2) n = ureg; else n = GETDREG();
       i1 = GETWORD(eaddr);
       m = n - i1;
       SETSTATUSD(n, i1, m);
@@ -1313,21 +1184,21 @@ public class M6809 {
     case 140:
       IMM16();
 
-      if (iflag == 0) m = ixreg;
-      else if (iflag == 1) m = iyreg; else
-        m = isreg;
+      if (iflag == 0) m = xreg;
+      else if (iflag == 1) m = yreg; else
+        m = sreg;
       n = GETWORD(eaddr);
       i1 = m - n;
       SETSTATUSD(m, n, i1);
 
       break;
     case 141:
-      k = IMMBYTE(); PUSHWORD(ipcreg); ipcreg = ipcreg + (byte)k & 0xFFFF; break;
+      k = IMMBYTE(); PUSHWORD(pcreg); pcreg = pcreg + (byte)k & 0xFFFF; break;
     case 142:
-      IMM16(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) ixreg = j; else iyreg = j; break;
+      IMM16(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) xreg = j; else yreg = j; break;
     case 135:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = 8X " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = 8X " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1347,7 +1218,7 @@ public class M6809 {
     case 147:
       DIRECT();
 
-      if (iflag == 2) n = iureg; else
+      if (iflag == 2) n = ureg; else
         n = GETDREG();
       i1 = GETWORD(eaddr);
       m = n - i1;
@@ -1374,22 +1245,22 @@ public class M6809 {
     case 156:
       DIRECT();
 
-      if (iflag == 0) m = ixreg;
-      else if (iflag == 1) m = iyreg; else
-        m = isreg;
+      if (iflag == 0) m = xreg;
+      else if (iflag == 1) m = yreg; else
+        m = sreg;
       n = GETWORD(eaddr);
       i1 = m - n;
       SETSTATUSD(m, n, i1);
 
       break;
     case 158:
-      DIRECT(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) ixreg = j; else iyreg = j; break;
+      DIRECT(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) xreg = j; else yreg = j; break;
     case 159:
-      DIRECT(); if (iflag == 0) j = ixreg; else j = iyreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
+      DIRECT(); if (iflag == 0) j = xreg; else j = yreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
     case 146:
     case 157:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = 9X " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = 9X " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1409,7 +1280,7 @@ public class M6809 {
     case 162:
       i = M_RDMEM(eaddr); j = iareg - i - (iccreg & 0x1) & 0xFFFF; SETSTATUS(iareg, i, j); iareg = j & 0xFF; break;
     case 163:
-      if (iflag == 2) m = iureg; else
+      if (iflag == 2) m = ureg; else
         m = GETDREG();
       n = GETWORD(eaddr);
       k = m - n;
@@ -1432,23 +1303,23 @@ public class M6809 {
     case 171:
       i = M_RDMEM(eaddr); j = iareg + i & 0xFFFF; SETSTATUS(iareg, i, j); iareg = j & 0xFF; break;
     case 172:
-      if (iflag == 0) k = ixreg;
-      else if (iflag == 1) k = iyreg; else
-        k = isreg;
+      if (iflag == 0) k = xreg;
+      else if (iflag == 1) k = yreg; else
+        k = sreg;
       m = GETWORD(eaddr);
       n = k - m;
       SETSTATUSD(k, m, n);
 
       break;
     case 173:
-      PUSHWORD(ipcreg); ipcreg = eaddr; break;
+      PUSHWORD(pcreg); pcreg = eaddr; break;
     case 174:
-      j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) ixreg = j; else iyreg = j; break;
+      j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) xreg = j; else yreg = j; break;
     case 175:
-      if (iflag == 0) j = ixreg; else j = iyreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
+      if (iflag == 0) j = xreg; else j = yreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
     case 165:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = AX " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = AX " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1468,7 +1339,7 @@ public class M6809 {
     case 179:
       EXTENDED();
 
-      if (iflag == 2) n = iureg; else
+      if (iflag == 2) n = ureg; else
         n = GETDREG();
       i1 = GETWORD(eaddr);
       m = n - i1;
@@ -1493,25 +1364,25 @@ public class M6809 {
     case 187:
       EXTENDED(); i = M_RDMEM(eaddr); j = iareg + i & 0xFFFF; SETSTATUS(iareg, i, j); iareg = j & 0xFF; break;
     case 189:
-      EXTENDED(); PUSHWORD(ipcreg); ipcreg = eaddr; break;
+      EXTENDED(); PUSHWORD(pcreg); pcreg = eaddr; break;
     case 188:
       EXTENDED();
 
-      if (iflag == 0) m = ixreg;
-      else if (iflag == 1) m = iyreg; else
-        m = isreg;
+      if (iflag == 0) m = xreg;
+      else if (iflag == 1) m = yreg; else
+        m = sreg;
       n = GETWORD(eaddr);
       i1 = m - n;
       SETSTATUSD(m, n, i1);
 
       break;
     case 190:
-      EXTENDED(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) ixreg = j; else iyreg = j; break;
+      EXTENDED(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) xreg = j; else yreg = j; break;
     case 191:
-      EXTENDED(); if (iflag == 0) j = ixreg; else j = iyreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
+      EXTENDED(); if (iflag == 0) j = xreg; else j = yreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
     case 178:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = BX " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = BX " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1554,11 +1425,11 @@ public class M6809 {
     case 204:
       IMM16(); j = GETWORD(eaddr); SETNZ16(j); CLV(); SETDREG(j); break;
     case 206:
-      IMM16(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) iureg = j; else isreg = j; break;
+      IMM16(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) ureg = j; else sreg = j; break;
     case 199:
     case 205:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = CX " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = CX " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1605,11 +1476,11 @@ public class M6809 {
     case 221:
       DIRECT(); j = GETDREG(); SETNZ16(j); CLV(); SETWORD(eaddr, j); break;
     case 222:
-      DIRECT(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) iureg = j; else isreg = j; break;
+      DIRECT(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) ureg = j; else sreg = j; break;
     case 223:
-      DIRECT(); if (iflag == 0) j = iureg; else j = isreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
+      DIRECT(); if (iflag == 0) j = ureg; else j = sreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = DX " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = DX " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1654,11 +1525,11 @@ public class M6809 {
     case 237:
       j = GETDREG(); SETNZ16(j); CLV(); SETWORD(eaddr, j); break;
     case 238:
-      j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) iureg = j; else isreg = j; break;
+      j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) ureg = j; else sreg = j; break;
     case 239:
-      if (iflag == 0) j = iureg; else j = isreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
+      if (iflag == 0) j = ureg; else j = sreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = EX " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = EX " + Integer.toHexString(ireg));
       break;
     }
   }
@@ -1703,12 +1574,12 @@ public class M6809 {
     case 253:
       EXTENDED(); j = GETDREG(); SETNZ16(j); CLV(); SETWORD(eaddr, j); break;
     case 254:
-      EXTENDED(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) iureg = j; else isreg = j; break;
+      EXTENDED(); j = GETWORD(eaddr); CLV(); SETNZ16(j); if (iflag == 0) ureg = j; else sreg = j; break;
     case 255:
-      EXTENDED(); if (iflag == 0) j = iureg; else j = isreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
+      EXTENDED(); if (iflag == 0) j = ureg; else j = sreg; CLV(); SETNZ16(j); SETWORD(eaddr, j); break;
     case 248:
     default:
-      System.out.println("MAIN PC = " + Integer.toHexString(ipcreg) + " OPCODE = FX " + Integer.toHexString(ireg));
+      System.out.println("MAIN PC = " + Integer.toHexString(pcreg) + " OPCODE = FX " + Integer.toHexString(ireg));
       break;
     }
   }
