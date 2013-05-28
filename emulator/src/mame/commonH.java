@@ -26,6 +26,7 @@ along with Arcadeflex.  If not, see <http://www.gnu.org/licenses/>.
 package mame;
 
 import static arcadeflex.libc.*;
+import java.util.ArrayList;
 import static mame.osdependH.*;
 public class commonH
 {
@@ -44,58 +45,46 @@ public class commonH
         /* that marks the start of a new memory region. Confused? Well, don't worry, just use */
         /* the macros below. */
         
-        static int TEMP_MODULE_SIZE=50;//TODO i don't like that but how else?
-        static RomModule[] tempmodule = new RomModule[TEMP_MODULE_SIZE]; 
-        static int curpos=0;
         static RomModule[] rommodule_macro=null;
         /* start of memory region */
+        
+        static ArrayList<RomModule> arload = new ArrayList<RomModule>();
         public static void ROM_REGION(int offset)
         {
-           tempmodule[curpos]=new RomModule( null, offset, 0 );
-           curpos++;
+            arload.add(new RomModule( null, offset, 0 ));
         }
         /* ROM to load */
         public static void ROM_LOAD(String name,int offset,int size,int crc)
         {
-            tempmodule[curpos]=new RomModule( name,offset,size,crc);
-            curpos++;
+           arload.add(new RomModule( name,offset,size,crc));
         }
 
         /* continue loading the previous ROM to a new address */
         public static void ROM_CONTINUE(int offset,int length)
         {
-             tempmodule[curpos]=new RomModule( null,offset,length);
-             curpos++;
+            arload.add(new RomModule( null,offset,length));
         }
         /* restart loading the previous ROM to a new address */
         public static void ROM_RELOAD(int offset,int length)
         {
-            tempmodule[curpos]=new RomModule( "-1",offset,length);
-            curpos++;
+           arload.add(new RomModule( "-1",offset,length));
         }
         /* load the ROM at even/odd addresses. Useful with 16 bit games */
         
         public static void ROM_LOAD_EVEN(String name,int offset,int length,int checksum) 
         { 
-            tempmodule[curpos]=new RomModule(name, offset & ~1, length | 0x80000000, checksum);
-            curpos++;
+            arload.add(new RomModule(name, offset & ~1, length | 0x80000000, checksum));
         }
         public static void ROM_LOAD_ODD(String name,int offset,int length,int checksum) 
         { 
-            tempmodule[curpos]=new RomModule(name, offset |  1, length | 0x80000000, checksum);
-            curpos++;
+             arload.add(new RomModule(name, offset |  1, length | 0x80000000, checksum));
         }
         /* end of table */
         public static void ROM_END()
         {
-            tempmodule[curpos]=new RomModule( null, 0, 0 );
-            curpos++;
-            rommodule_macro=null;
-            rommodule_macro=new RomModule[curpos];
-            System.arraycopy(tempmodule, 0, rommodule_macro, 0, curpos);
-            curpos=0;//reset curpos
-            tempmodule=null;
-            tempmodule=new RomModule[TEMP_MODULE_SIZE];//reset tempmodule
+            arload.add(new RomModule( null, 0, 0 ));
+            rommodule_macro = arload.toArray(new RomModule[arload.size()]);
+            arload.clear();
         }
         public static class GameSample
 	{

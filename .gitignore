@@ -13,3 +13,4 @@
 /convertor/c_code/drivers/*.c
 /convertor/java_code/drivers/*.java
 /convertor/java_code/vidhrdw/*.java
+/emulator/error.log
